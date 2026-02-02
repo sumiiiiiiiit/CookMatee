@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f3f4f6;
+  overflow-x: hidden;
+}
+
+@layer components {
+
+  /* Common Buttons */
+  .btn-primary {
+    @apply bg-primary hover:bg-secondary text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 shadow-md active:scale-[0.98] disabled:opacity-50;
+  }
+
+  .btn-dark {
+    @apply bg-gray-900 hover:bg-black text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 shadow-md active:scale-[0.98] disabled:opacity-50;
+  }
+
+  /* Common Inputs */
+  .input-field {
+    @apply w-full px-5 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-[#fcfcfd] transition-all duration-200 font-medium;
+  }
+
+  /* SaaS Common Elements */
+  .saas-card {
+    @apply bg-white border border-gray-100 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+
+  .saas-dropdown {
+    @apply absolute mt-4 bg-[#1b2a1b] text-white rounded-2xl shadow-2xl border border-gray-700/50 py-3 px-2 z-[110] transition-all duration-200 transform;
+  }
+
+  .dropdown-item {
+    @apply w-full text-left px-4 py-3 hover:bg-white/10 rounded-xl transition flex items-center justify-between font-medium;
+  }
+
+  /* Typography */
+  .saas-h1 {
+    @apply text-3xl font-extrabold text-gray-900 tracking-tight;
+  }
+}
