@@ -281,7 +281,7 @@ exports.updateProfile = async (req, res) => {
         );
       } catch (syncError) {
         console.error('Error syncing name change to recipes:', syncError);
-        // We don't necessarily want to fail the profile update if sync fails, but we log it
+       
       }
     }
 

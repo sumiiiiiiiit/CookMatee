@@ -23,6 +23,34 @@ router.get('/', async (req, res) => {
     }
 });
 
+// @desc    Get top chefs leaderboard
+// @route   GET /api/recipes/leaderboard
+// @access  Public
+router.get('/leaderboard', async (req, res) => {
+    try {
+        // console.log('Fetching leaderboard...'); // Optional debug
+        const leaderboard = await Recipe.aggregate([
+            { $match: { status: { $regex: /^approved$/i } } },
+            { $addFields: { likesCount: { $size: { $ifNull: ["$likes", []] } } } },
+            { $sort: { likesCount: -1, createdAt: -1 } },
+            { $limit: 10 },
+            {
+                $project: {
+                    title: 1,
+                    chefName: 1,
+                    likesCount: 1,
+                    category: 1,
+                    _id: 1
+                }
+            }
+        ]);
+
+        res.status(200).json({ success: true, leaderboard });
+    } catch (error) {
+        console.error('Leaderboard error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
 // @desc    Get user's saved recipes
 // @route   GET /api/recipes/saved
 // @access  Private
@@ -229,47 +257,7 @@ router.post('/:id/save', protect, async (req, res) => {
     }
 });
 
-// @desc    Get top chefs leaderboard
-// @route   GET /api/recipes/leaderboard
-// @access  Public
-router.get('/leaderboard', async (req, res) => {
-    try {
-        console.log('Fetching leaderboard...');
-        const leaderboard = await Recipe.aggregate([
-            {
-                $match: {
-                    status: { $regex: /^approved$/i }
-                }
-            },
-            {
-                $addFields: {
-                    likesCount: { $size: { $ifNull: ["$likes", []] } }
-                }
-            },
-            {
-                $sort: { likesCount: -1, createdAt: -1 }
-            },
-            {
-                $limit: 10
-            },
-            {
-                $project: {
-                    title: 1,
-                    chefName: 1,
-                    likesCount: 1,
-                    category: 1,
-                    _id: 1
-                }
-            }
-        ]);
 
-        console.log(`Found ${leaderboard.length} recipes for leaderboard`);
-        res.status(200).json({ success: true, leaderboard });
-    } catch (error) {
-        console.error('Leaderboard error:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
-});
 
 // @desc    Purchase/Unlock recipe
 // @route   POST /api/recipes/:id/purchase

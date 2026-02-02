@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 
                 setCurrentUser(response.data.user);
             } catch (error) {
-                // Token likely invalid or expired
+
                 setCurrentUser(null);
             } finally {
                 setIsLoading(false);
