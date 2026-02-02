@@ -5,9 +5,7 @@ const User = require('../models/User');
 const { protect } = require('../middleware/auth');
 const upload = require('../middleware/upload');
 
-// @desc    Get all approved recipes
-// @route   GET /api/recipes
-// @access  Public
+// Get all approved recipes
 router.get('/', async (req, res) => {
     try {
         const recipes = await Recipe.find({ status: 'approved' })
@@ -23,9 +21,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// @desc    Get top chefs leaderboard
-// @route   GET /api/recipes/leaderboard
-// @access  Public
+// Aggregation pipeline to rank chefs by total likes
 router.get('/leaderboard', async (req, res) => {
     try {
         // console.log('Fetching leaderboard...'); // Optional debug
@@ -51,9 +47,6 @@ router.get('/leaderboard', async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 });
-// @desc    Get user's saved recipes
-// @route   GET /api/recipes/saved
-// @access  Private
 router.get('/saved', protect, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).populate('savedRecipes');
@@ -63,9 +56,7 @@ router.get('/saved', protect, async (req, res) => {
     }
 });
 
-// @desc    Get current user's recipes
-// @route   GET /api/recipes/my-recipes
-// @access  Private
+// Get recipes created by the current user
 router.get('/my-recipes', protect, async (req, res) => {
     try {
         const recipes = await Recipe.find({ user: req.user.id }).sort({ createdAt: -1 });
@@ -75,9 +66,6 @@ router.get('/my-recipes', protect, async (req, res) => {
     }
 });
 
-// @desc    Get single recipe
-// @route   GET /api/recipes/:id
-// @access  Public
 router.get('/:id', async (req, res) => {
     try {
         const recipe = await Recipe.findById(req.params.id)
@@ -94,9 +82,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// @desc    Create new recipe with image upload
-// @route   POST /api/recipes
-// @access  Private
 router.post('/', protect, upload.single('image'), async (req, res) => {
     try {
         let { title, category, ingredients, steps, difficulty, cookingTime } = req.body;
@@ -136,9 +121,7 @@ router.post('/', protect, upload.single('image'), async (req, res) => {
     }
 });
 
-// @desc    Update recipe
-// @route   PUT /api/recipes/:id
-// @access  Private
+// Update recipe (owner or admin only)
 router.put('/:id', protect, upload.single('image'), async (req, res) => {
     try {
         let recipe = await Recipe.findById(req.params.id);

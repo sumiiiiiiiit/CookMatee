@@ -5,9 +5,6 @@ const Recipe = require('../models/Recipe');
 const { sendVerificationEmail } = require('../utils/sendEmail');
 const oAuth2Client = require('../utils/oauth'); // Import OAuth client
 
-// @desc    Register new user
-// @route   POST /api/auth/register
-// @access  Public
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -123,9 +120,6 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-// @desc    Login user
-// @route   POST /api/auth/login
-// @access  Public
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -211,9 +205,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// @desc    Get current user profile
-// @route   GET /api/auth/me
-// @access  Private
 exports.getProfile = async (req, res) => {
   try {
     console.log('Fetching profile for user ID:', req.user.id);
@@ -239,9 +230,6 @@ exports.getProfile = async (req, res) => {
   }
 };
 
-// @desc    Update user profile
-// @route   PUT /api/auth/profile
-// @access  Private
 exports.updateProfile = async (req, res) => {
   try {
     const { name, bio, profilePicture } = req.body;
@@ -281,7 +269,7 @@ exports.updateProfile = async (req, res) => {
         );
       } catch (syncError) {
         console.error('Error syncing name change to recipes:', syncError);
-       
+
       }
     }
 
@@ -306,9 +294,6 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-// @desc    Logout user / clear cookie
-// @route   GET /api/auth/logout
-// @access  Public
 exports.logoutUser = async (req, res) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
@@ -321,9 +306,7 @@ exports.logoutUser = async (req, res) => {
   });
 };
 
-// @desc    Handle Google OAuth callback
-// @route   GET /oauth2callback
-// @access  Public
+// Google OAuth callback to exchange code for tokens
 exports.handleOAuthCallback = async (req, res) => {
   const { code, error } = req.query;
 
