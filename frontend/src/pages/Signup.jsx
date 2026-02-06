@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 import logo from '../assets/logo.png';
 
 export default function Signup() {

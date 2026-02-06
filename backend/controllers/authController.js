@@ -133,22 +133,19 @@ exports.loginUser = async (req, res) => {
     }
 
     // Find user and include password
-    console.log('--- Login Debug Start ---');
-    console.log('Login attempt for email:', email);
+    // Find user and include password
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-      console.log('Login failed: User not found');
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials',
       });
     }
-    console.log('User found:', user.email, 'Verified:', user.isVerified);
+
 
     // Check if email is verified
     if (!user.isVerified) {
-      console.log('Login failed: User not verified');
       return res.status(403).json({
         success: false,
         message: 'Please verify your email before logging in. Check your inbox (or request resend).',
@@ -156,12 +153,9 @@ exports.loginUser = async (req, res) => {
     }
 
     // Verify password
-    console.log('Comparing passwords...');
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    console.log('Password valid:', isPasswordValid);
 
     if (!isPasswordValid) {
-      console.log('Login failed: Invalid password');
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials',
@@ -169,13 +163,11 @@ exports.loginUser = async (req, res) => {
     }
 
     // Generate JWT token
-    console.log('Generating token...');
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '30d',
     });
 
     // Set cookie
-    console.log('Setting cookie and sending response...');
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -183,8 +175,7 @@ exports.loginUser = async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
-    console.log('Login successful for:', user.email);
-    console.log('--- Login Debug End ---');
+
     res.status(200).json({
       success: true,
       message: 'Login successful',
@@ -207,7 +198,7 @@ exports.loginUser = async (req, res) => {
 
 exports.getProfile = async (req, res) => {
   try {
-    console.log('Fetching profile for user ID:', req.user.id);
+
     const user = await User.findById(req.user.id).select('-password');
 
     if (!user) {
@@ -232,7 +223,7 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { name, bio, profilePicture } = req.body;
+    const { name } = req.body;
 
     const user = await User.findById(req.user.id);
 
@@ -247,31 +238,8 @@ exports.updateProfile = async (req, res) => {
 
     // Update only provided fields
     if (name) user.name = name;
-    if (bio !== undefined) user.bio = bio;
-    if (profilePicture !== undefined) user.profilePicture = profilePicture;
 
     await user.save();
-
-    // If name changed, sync with all recipes
-    if (nameChanged) {
-      try {
-        // 1. Update chefName in all recipes created by this user
-        await Recipe.updateMany(
-          { user: user._id },
-          { chefName: name }
-        );
-        // 2. Update userName in all comments made by this user
-        // Using arrayFilters to match only the comments of this specific user
-        await Recipe.updateMany(
-          { "comments.user": user._id },
-          { $set: { "comments.$[elem].userName": name } },
-          { arrayFilters: [{ "elem.user": user._id }] }
-        );
-      } catch (syncError) {
-        console.error('Error syncing name change to recipes:', syncError);
-
-      }
-    }
 
     res.status(200).json({
       success: true,
@@ -280,8 +248,6 @@ exports.updateProfile = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        bio: user.bio,
-        profilePicture: user.profilePicture,
         role: user.role,
       },
     });

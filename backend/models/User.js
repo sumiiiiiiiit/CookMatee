@@ -4,25 +4,22 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'Please add a name'],
+      required: true,
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'Please add an email'],
+      required: true,
       unique: true,
       lowercase: true,
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Please add a valid email',
-      ],
+      match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
     },
     otp: String,
     otpExpires: Date,
     password: {
       type: String,
-      required: [true, 'Please add a password'],
-      minlength: [8, 'Password must be at least 8 characters'],
+      required: true,
+      minlength: 8,
       select: false,
     },
     role: {
@@ -30,48 +27,19 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
-    profilePicture: {
-      type: String,
-      default: '',
-    },
-    bio: {
-      type: String,
-      default: '',
-    },
-    favorites: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recipe',
-      },
-    ],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-    followers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
+
     isVerified: {
       type: Boolean,
       default: false,
     },
-    savedRecipes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recipe',
-      }
-    ],
-    purchasedRecipes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recipe',
-      }
-    ],
+    savedRecipes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+    }],
+    purchasedRecipes: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Recipe',
+    }],
   },
   {
     timestamps: true,

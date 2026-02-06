@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 import Navbar from '../components/Navbar';
 
 export default function Dashboard() {
@@ -67,7 +67,7 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
-            <Navbar activePage="profile" />
+            <Navbar activePage="profile" user={user} />
 
             <main className="flex-grow flex items-center justify-center p-6">
                 <div className="max-w-2xl w-full bg-white rounded-[40px] shadow-xl overflow-hidden border border-gray-100 transition-all hover:shadow-2xl">

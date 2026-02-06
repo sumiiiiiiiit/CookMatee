@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { recipeAPI, getImageUrl } from '@/lib/api';
+import { recipeAPI, getImageUrl } from 'lib/api';
 
 export default function UploadRecipeModal({ onClose, onSuccess, initialData = null }) {
     const [view, setView] = useState(initialData ? 'form' : 'select');
@@ -36,7 +36,7 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
             }
         } catch (err) {
             console.error('Failed to fetch recipes:', err);
-            setView('form'); // Fallback to form if fetch fails
+            setView('form');
         } finally {
             setLoadingRecipes(false);
         }
@@ -60,7 +60,7 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
 
     const handleEditExisting = (recipe) => {
         setFormData({
-            _id: recipe._id, // Set the ID here
+            _id: recipe._id,
             title: recipe.title,
             category: recipe.category,
             ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients.join('\n') : recipe.ingredients,
@@ -89,7 +89,6 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
             data.append('isPremium', formData.isPremium);
             data.append('price', formData.isPremium ? formData.price : 0);
 
-            // Handle ingredients (array or string)
             const ingredientsArray = typeof formData.ingredients === 'string'
                 ? formData.ingredients.split(/[,\n]/).map(i => i.trim()).filter(i => i)
                 : formData.ingredients;
@@ -122,7 +121,6 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
             <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
 
             <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-2xl relative z-10 overflow-hidden transform transition-all animate-in fade-in zoom-in duration-300">
-                {/* Header */}
                 <div className="px-10 py-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                     <div>
                         <h2 className="text-3xl font-extrabold text-[#1a1a1a]">
@@ -187,7 +185,6 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
                         <form onSubmit={handleSubmit} className="space-y-8">
                             {error && <div className="bg-red-50 text-red-600 p-5 rounded-2xl text-sm border border-red-100 font-medium">⚠️ {error}</div>}
 
-                            {/* Image Upload Area */}
                             <div className="relative group">
                                 <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Recipe Image</label>
                                 <div className="relative h-64 bg-gray-50 rounded-[32px] border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden transition-all group-hover:border-primary/50">

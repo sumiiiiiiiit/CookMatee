@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 import logo from '../assets/logo.png';
 
 export default function Login() {
@@ -12,6 +12,13 @@ export default function Login() {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const token = Cookies.get('token');
+        if (token) {
+            navigate('/home');
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         setFormData({

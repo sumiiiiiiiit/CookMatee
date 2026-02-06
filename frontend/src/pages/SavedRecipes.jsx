@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authAPI, recipeAPI, getImageUrl } from '@/lib/api';
+import { authAPI, recipeAPI, getImageUrl } from 'lib/api';
+import Cookies from 'js-cookie';
 import Navbar from '../components/Navbar';
 
 export default function SavedRecipes() {
@@ -13,13 +14,19 @@ export default function SavedRecipes() {
         const fetchData = async () => {
             try {
                 const profileRes = await authAPI.getProfile();
-                setUser(profileRes.data.user || profileRes.data);
+                const userData = profileRes.data.user || profileRes.data;
+                setUser(userData);
 
                 const savedRes = await recipeAPI.getSaved();
-                setSavedRecipes(savedRes.data.savedRecipes);
+                // Check multiple potential keys for backwards compatibility or variations
+                const recipesToShow = savedRes.data.savedRecipes || savedRes.data.recipes || [];
+                setSavedRecipes(recipesToShow);
             } catch (error) {
                 console.error('Error fetching saved recipes:', error);
-                navigate('/login');
+                if (error.response?.status === 401) {
+                    Cookies.remove('token');
+                    navigate('/login');
+                }
             } finally {
                 setLoading(false);
             }
@@ -38,7 +45,7 @@ export default function SavedRecipes() {
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
-            <Navbar activePage="recipes" />
+            <Navbar activePage="recipes" user={user} />
 
             <main className="flex-grow p-10 md:p-20">
                 <h2 className="text-4xl font-extrabold text-[#1a2e1a] mb-12">My Cookbook (Saved)</h2>

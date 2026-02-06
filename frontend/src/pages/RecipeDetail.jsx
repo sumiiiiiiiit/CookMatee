@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { authAPI, recipeAPI, getImageUrl } from '@/lib/api';
+import { authAPI, recipeAPI, getImageUrl } from 'lib/api';
+import { exportRecipeToPDF } from 'lib/pdfExport';
 import Navbar from '../components/Navbar';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 export default function RecipeDetail() {
     const { id } = useParams();
@@ -30,8 +29,8 @@ export default function RecipeDetail() {
                 setUser(currentUser);
 
                 if (currentUser) {
-                    setIsLiked(fetchedRecipe.likes?.some(uid => uid === currentUser._id || uid._id === currentUser._id));
-                    setIsSaved(currentUser.savedRecipes?.some(sid => sid === id || sid._id === id));
+                    setIsLiked(fetchedRecipe.likes?.some(uid => (uid._id || uid).toString() === currentUser._id.toString()));
+                    setIsSaved(currentUser.savedRecipes?.some(sid => (sid._id || sid).toString() === id));
                 }
             } catch (error) {
                 console.error('Error fetching recipe:', error);
@@ -47,7 +46,6 @@ export default function RecipeDetail() {
         try {
             const res = await recipeAPI.like(id);
             setIsLiked(res.data.isLiked);
-            // Locally update likes count
             setRecipe(prev => ({
                 ...prev,
                 likes: res.data.isLiked
@@ -87,7 +85,6 @@ export default function RecipeDetail() {
         if (!user) return navigate('/login');
         try {
             await recipeAPI.purchase(id);
-            // Re-fetch profile to update purchasedRecipes
             const profileRes = await authAPI.getProfile();
             const updatedUser = profileRes.data.user || profileRes.data;
             setUser(updatedUser);
@@ -99,61 +96,10 @@ export default function RecipeDetail() {
     };
 
     const handleExportPDF = async () => {
-        const element = document.getElementById('recipe-content');
-        if (!element) {
-            alert('Recipe content not found');
-            return;
-        }
-
         try {
-            // Use JPEG for smaller size, scale 2 is sufficient for print quality
-            const canvas = await html2canvas(element, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                windowWidth: element.scrollWidth,
-                windowHeight: element.scrollHeight
-            });
-
-            // Standardize filename
-            const fileName = `${recipe.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
-
-            const imgData = canvas.toDataURL('image/jpeg', 0.85);
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-            // Scale to fit page width
-            pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-
-            // Try to use File System Access API for "Save As" dialog
-            if ('showSaveFilePicker' in window) {
-                try {
-                    const handle = await window.showSaveFilePicker({
-                        suggestedName: fileName,
-                        types: [{
-                            description: 'PDF Document',
-                            accept: { 'application/pdf': ['.pdf'] },
-                        }],
-                    });
-                    const writable = await handle.createWritable();
-                    const pdfBlob = pdf.output('blob');
-                    await writable.write(pdfBlob);
-                    await writable.close();
-                    return;
-                } catch (err) {
-                    // User cancelled the picker
-                    if (err.name === 'AbortError') return;
-                    console.warn('File system access denied or failed, falling back to direct download.', err);
-                }
-            }
-
-            // Fallback: browser default download
-            pdf.save(fileName);
+            await exportRecipeToPDF(recipe);
         } catch (error) {
-            console.error('PDF Export error:', error);
-            alert('Failed to export PDF');
+            alert(error.message || 'Failed to export PDF');
         }
     };
 
@@ -171,7 +117,7 @@ export default function RecipeDetail() {
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
-            <Navbar activePage="recipes" />
+            <Navbar activePage="recipes" user={user} />
 
             <main className="flex-grow max-w-6xl mx-auto w-full p-6 md:p-10">
                 <button
@@ -182,28 +128,47 @@ export default function RecipeDetail() {
                     Back to Recipes
                 </button>
 
-                <div className="bg-white rounded-[40px] shadow-xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
-                    {/* Image Section */}
-                    <div className="md:w-1/2 h-[400px] md:h-auto relative bg-gray-100 flex items-center justify-center overflow-hidden">
-                        {recipe.image ? (
-                            <img src={getImageUrl(recipe.image)} alt={recipe.title} className="w-full h-full object-cover" />
-                        ) : (
-                            <div className="flex items-center justify-center w-full h-full">
-                                <svg className="w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                        )}
-                        {recipe.isPremium && (
-                            <div className="absolute top-6 left-6 bg-amber-500 text-white px-4 py-2 rounded-full font-bold shadow-lg flex items-center space-x-2 z-10">
-                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                <span>Premium Content</span>
+                <div className="bg-white rounded-[40px] shadow-xl overflow-hidden flex flex-col md:flex-row">
+                    {/* Left Column: Image + Ingredients */}
+                    <div className="md:w-1/2 flex flex-col">
+                        {/* Image Section */}
+                        <div className="h-[400px] md:h-[400px] relative bg-gray-100 flex items-center justify-center overflow-hidden">
+                            {recipe.image ? (
+                                <img src={getImageUrl(recipe.image)} alt={recipe.title} className="w-full h-full object-cover" />
+                            ) : (
+                                <div className="flex items-center justify-center w-full h-full">
+                                    <svg className="w-24 h-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                            )}
+                            {recipe.isPremium && (
+                                <div className="absolute top-6 left-6 bg-amber-500 text-white px-4 py-2 rounded-full font-bold shadow-lg flex items-center space-x-2 z-10">
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    <span>Premium Content</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Ingredients Section - Below Image */}
+                        {!showLocked && (
+                            <div className="p-8 md:p-10">
+                                <section>
+                                    <h3 className="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-primary/20 inline-block">Ingredients</h3>
+                                    <ul className="space-y-3 mt-4">
+                                        {recipe.ingredients?.map((ing, i) => (
+                                            <li key={i} className="flex items-start text-gray-600">
+                                                <span className="mr-3 text-primary">•</span> {ing}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </section>
                             </div>
                         )}
                     </div>
 
-                    {/* Details/Locked Section */}
-                    <div className="md:w-1/2 p-8 md:p-12 overflow-y-auto overflow-x-hidden custom-scrollbar">
+                    {/* Right Column: Details + Steps */}
+                    <div className="md:w-1/2 p-8 md:p-12">
                         {showLocked ? (
                             <div className="h-full flex flex-col justify-center items-center text-center">
                                 <div className="mb-6">
@@ -277,34 +242,22 @@ export default function RecipeDetail() {
                                         </div>
                                     </div>
 
-                                    <div className="space-y-10">
-                                        <section>
-                                            <h3 className="text-2xl font-bold text-gray-800 mb-4 pb-2 border-b-2 border-primary/20 inline-block">Ingredients</h3>
-                                            <ul className="space-y-3">
-                                                {recipe.ingredients?.map((ing, i) => (
-                                                    <li key={i} className="flex items-start text-gray-600">
-                                                        <span className="mr-3 text-primary">•</span> {ing}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </section>
-
-                                        <section>
-                                            <h3 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-primary/20 inline-block">Steps</h3>
-                                            <div className="space-y-8">
-                                                {recipe.steps?.split('\n').filter(s => s.trim()).map((step, i) => (
-                                                    <div key={i} className="flex gap-6">
-                                                        <div className="flex-shrink-0 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-sm">
-                                                            {i + 1}
-                                                        </div>
-                                                        <p className="text-gray-600 leading-relaxed pt-1">
-                                                            {step}
-                                                        </p>
+                                    {/* Steps Section */}
+                                    <section>
+                                        <h3 className="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-primary/20 inline-block">Steps</h3>
+                                        <div className="space-y-8 mt-6">
+                                            {recipe.steps?.split('\n').filter(s => s.trim()).map((step, i) => (
+                                                <div key={i} className="flex gap-6">
+                                                    <div className="flex-shrink-0 w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                                                        {i + 1}
                                                     </div>
-                                                ))}
-                                            </div>
-                                        </section>
-                                    </div>
+                                                    <p className="text-gray-600 leading-relaxed pt-1">
+                                                        {step}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </section>
 
                                     {/* Comments Section */}
                                     <section className="mt-16 pt-10 border-t border-gray-100">

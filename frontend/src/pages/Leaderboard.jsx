@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { recipeAPI } from '@/lib/api';
+import { recipeAPI } from 'lib/api';
 import Navbar from '../components/Navbar';
 
 export default function Leaderboard() {
@@ -23,15 +23,15 @@ export default function Leaderboard() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[#fcfcfd] flex flex-col">
+        <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
             <Navbar activePage="recipes" />
 
-            <main className="flex-grow flex flex-col items-center pt-24 pb-20 px-4">
-                <div className="text-center mb-16 max-w-2xl">
-                    <h1 className="text-[44px] font-extrabold text-[#1a1a1a] mb-4 tracking-tight">
+            <main className="flex-grow flex flex-col items-center pt-12 pb-20 px-4">
+                <div className="text-center mb-8 max-w-2xl">
+                    <h1 className="text-[32px] font-extrabold text-[#1a1a1a] mb-2 tracking-tight">
                         Most Liked Recipe Leaderboard
                     </h1>
-                    <p className="text-gray-500 text-lg">
+                    <p className="text-gray-500 text-base">
                         Discover the most popular recipes making waves in the culinary world, ranked by the number of likes from our community.
                     </p>
                 </div>

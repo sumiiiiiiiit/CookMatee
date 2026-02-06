@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
     const [currentUser, setCurrentUser] = useState(null);
@@ -11,8 +11,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
         const fetchUser = async () => {
             try {
                 const response = await authAPI.getProfile();
-
-                setCurrentUser(response.data.user);
+                setCurrentUser(response.data.user || response.data);
             } catch (error) {
 
                 setCurrentUser(null);

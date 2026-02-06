@@ -6,8 +6,8 @@ const BASE_URL = 'http://localhost:5001';
 
 export const getImageUrl = (path) => {
     if (!path) return null;
-    if (path.startsWith('http')) return path;
-    return `${BASE_URL}${path}`;
+    // Cloudinary URLs are already complete, just return them
+    return path;
 };
 
 const api = axios.create({
@@ -17,6 +17,20 @@ const api = axios.create({
         'Content-Type': 'application/json',
     },
 });
+
+// Add a request interceptor to add the token to headers
+api.interceptors.request.use(
+    (config) => {
+        const token = Cookies.get('token');
+        if (token && token !== 'none') {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 export const authAPI = {
     register: (data) => api.post('/auth/register', data),

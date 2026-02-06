@@ -8,7 +8,7 @@ export default function About() {
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
             <Navbar activePage="about" />
 
-            {/* About Content (Image 3 style) */}
+            {/* About Content*/}
             <main className="flex-grow flex items-center justify-center p-6 bg-[#f0f2f9]">
                 <div className="bg-white rounded-[40px] shadow-xl p-12 max-w-5xl w-full border border-gray-100">
                     <h1 className="text-[42px] font-extrabold text-[#1a1a1a] text-center mb-6">About CookMate</h1>
@@ -42,7 +42,7 @@ export default function About() {
                             </p>
                         </div>
 
-                        {/* Smart Assistance Card */}
+
                         <div className="bg-[#fff9f4] p-8 rounded-[32px] border border-orange-50 flex flex-col items-center text-center">
                             <div className="w-12 h-12 flex items-center justify-center mb-4 text-blue-500">
                                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 import Navbar from '../components/Navbar';
 import logo from '../assets/logo.png';
 import UploadRecipeModal from '../components/UploadRecipeModal';
@@ -19,6 +19,8 @@ export default function Home() {
                 setUser(response.data.user || response.data);
             } catch (error) {
                 console.error('Failed to fetch profile:', error);
+                Cookies.remove('token');
+                setUser(null);
                 navigate('/login');
             } finally {
                 setLoading(false);
@@ -38,7 +40,7 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
-            <Navbar activePage="home" />
+            <Navbar activePage="home" user={user} />
 
             {/* Hero Section */}
             <main className="flex-grow flex flex-col items-center justify-center text-center px-4 -mt-20">

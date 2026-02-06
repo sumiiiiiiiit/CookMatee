@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { adminAPI } from '@/lib/api';
+import { adminAPI } from 'lib/api';
 import logo from '../assets/logo.png';
 
 export default function AdminDashboard() {

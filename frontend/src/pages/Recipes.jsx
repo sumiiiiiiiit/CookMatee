@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { authAPI, recipeAPI, getImageUrl } from '@/lib/api';
+import { authAPI, recipeAPI, getImageUrl } from 'lib/api';
 import Navbar from '../components/Navbar';
 
 export default function Recipes() {
@@ -55,7 +55,7 @@ export default function Recipes() {
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
             <Navbar activePage="recipes" user={user} />
 
-            {/* Main Content */}
+
             <div className="flex-grow flex p-8 gap-8 bg-[#f5f6ff]">
                 {/* Sidebar */}
                 <aside className="w-64 flex flex-col gap-6">

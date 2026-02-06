@@ -1,29 +1,33 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 import logo from '../assets/logo.png';
 
-export default function Navbar({ activePage }) {
+export default function Navbar({ activePage, user: propUser }) {
     const navigate = useNavigate();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(propUser || null);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showChatMenu, setShowChatMenu] = useState(false);
     const menuRef = useRef(null);
     const chatMenuRef = useRef(null);
 
     useEffect(() => {
+        if (propUser) {
+            setUser(propUser);
+            return;
+        }
+
         const fetchProfile = async () => {
             try {
                 const response = await authAPI.getProfile();
                 setUser(response.data.user || response.data);
             } catch (error) {
-                // If 401, user is not logged in or token expired
                 setUser(null);
             }
         };
         fetchProfile();
-    }, []);
+    }, [propUser]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -41,6 +45,7 @@ export default function Navbar({ activePage }) {
     const handleLogout = async () => {
         try {
             await authAPI.logout();
+            Cookies.remove('token');
             setUser(null);
             navigate('/login');
         } catch (error) {

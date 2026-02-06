@@ -23,10 +23,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static folder for uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// OAuth client
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/recipes', require('./routes/recipes'));
@@ -36,10 +33,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'CookMate API is running!' });
 });
 
-// Note: OAuth callback handled here to match Google Console redirect URI
 app.get('/oauth2callback', require('./controllers/authController').handleOAuthCallback);
 
-const PORT = process.env.PORT || 5001; // Port 5001 matches your .env and redirect URI
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

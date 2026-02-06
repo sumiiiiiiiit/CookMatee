@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { authAPI } from '@/lib/api';
+import { authAPI } from 'lib/api';
 import logo from '../assets/logo.png';
 
 export default function VerifyEmail() {

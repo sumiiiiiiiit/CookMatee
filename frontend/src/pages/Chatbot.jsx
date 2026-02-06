@@ -32,18 +32,17 @@ export default function Chatbot() {
     };
 
     const suggestedQuestions = [
-        "Vegan Substitutes?",
         "Pasta cooking time?",
         "Chicken MoMo ingredients?"
     ];
 
     return (
-        <div className="min-h-screen bg-white flex flex-col font-sans">
+        <div className="min-h-screen bg-[#f8f9ff] flex flex-col font-sans">
             <Navbar activePage="chat" />
 
             <div className="flex-grow flex">
                 {/* Sidebar */}
-                <aside className="w-80 border-r border-gray-100 bg-[#fcfcfd] p-8 flex flex-col space-y-4">
+                <aside className="w-80 border-r border-gray-100 bg-[#f5f6ff] p-8 flex flex-col space-y-4">
                     <div className="mb-6">
                         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Quick Help</h2>
                         <div className="space-y-3">
@@ -66,12 +65,9 @@ export default function Chatbot() {
                     <div className="px-10 py-6 border-b border-gray-100 flex items-center justify-between">
                         <div>
                             <h1 className="saas-h1 uppercase !text-xl">ChefBot AI</h1>
-                            <p className="text-xs text-gray-500 font-medium">Your personal culinary assistant</p>
+                            <p className="text-xs text-gray-500 font-medium">Your personal  assistant</p>
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">Active</span>
-                        </div>
+
                     </div>
 
                     {/* Messages */}
