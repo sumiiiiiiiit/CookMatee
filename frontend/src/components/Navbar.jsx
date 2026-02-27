@@ -56,7 +56,7 @@ export default function Navbar({ activePage, user: propUser }) {
     const navItems = [
         { name: 'Home', path: '/home' },
         { name: 'Recipes', path: '/recipes' },
-        { name: 'Chat', path: '#' },
+        { name: 'Chat', path: '/chatbot' },
         { name: 'About us', path: '/about' },
     ];
 
@@ -69,50 +69,16 @@ export default function Navbar({ activePage, user: propUser }) {
 
             <div className="flex items-center space-x-8 text-sm font-medium text-gray-700">
                 {navItems.map((item) => (
-                    <div key={item.name} className="relative" ref={item.name === 'Chat' ? chatMenuRef : null}>
+                    <div key={item.name} className="relative">
                         <button
-                            onClick={() => {
-                                if (item.name === 'Chat') {
-                                    setShowChatMenu(!showChatMenu);
-                                    setShowProfileMenu(false);
-                                } else if (item.path !== '#') {
-                                    navigate(item.path);
-                                }
-                            }}
+                            onClick={() => navigate(item.path)}
                             className={`${activePage === item.name.toLowerCase() || (activePage === 'about' && item.name === 'About us')
                                 ? 'text-primary font-bold'
                                 : 'hover:text-primary'
                                 } transition flex items-center gap-1`}
                         >
                             {item.name}
-                            {item.name === 'Chat' && (
-                                <svg className={`w-4 h-4 transition-transform ${showChatMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            )}
                         </button>
-
-                        {item.name === 'Chat' && showChatMenu && (
-                            <div className="saas-dropdown left-1/2 -translate-x-1/2 w-56">
-                                <div className="space-y-1">
-                                    <button
-                                        onClick={() => { setShowChatMenu(false); navigate('/chatbot'); }}
-                                        className="dropdown-item group"
-                                    >
-                                        <span>Chatbot</span>
-                                        <svg className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
-                                    </button>
-
-                                    <button
-                                        onClick={() => { setShowChatMenu(false); alert('Messages feature coming soon!'); }}
-                                        className="dropdown-item group"
-                                    >
-                                        <span>Messages</span>
-                                        <svg className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" /></svg>
-                                    </button>
-                                </div>
-                            </div>
-                        )}
                     </div>
                 ))}
 

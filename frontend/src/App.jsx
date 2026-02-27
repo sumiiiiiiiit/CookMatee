@@ -11,7 +11,9 @@ import SavedRecipes from './pages/SavedRecipes';
 import AdminDashboard from './pages/AdminDashboard';
 import Leaderboard from './pages/Leaderboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
 import Chatbot from './pages/Chatbot';
+import Messages from './pages/Messages';
 
 function App() {
     return (
@@ -29,6 +31,11 @@ function App() {
                 <Route path="/chatbot" element={
                     <ProtectedRoute>
                         <Chatbot />
+                    </ProtectedRoute>
+                } />
+                <Route path="/messages" element={
+                    <ProtectedRoute>
+                        <Messages />
                     </ProtectedRoute>
                 } />
                 <Route path="/recipes/:id" element={<RecipeDetail />} />

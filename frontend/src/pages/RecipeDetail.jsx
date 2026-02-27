@@ -223,14 +223,25 @@ export default function RecipeDetail() {
                                     </div>
 
                                     <div className="mb-10">
-                                        <div className="flex gap-4 mb-8">
+                                        <div className="flex gap-4 mb-8 flex-wrap">
                                             <button
                                                 onClick={handleSave}
-                                                className={`flex-1 ${isSaved ? 'bg-amber-600' : 'bg-amber-500'} hover:bg-amber-600 text-white py-4 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-lg shadow-amber-100`}
+                                                className={`flex-1 min-w-[150px] ${isSaved ? 'bg-amber-600' : 'bg-amber-500'} hover:bg-amber-600 text-white py-4 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-lg shadow-amber-100`}
                                             >
                                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
                                                 <span>{isSaved ? 'Saved to Cookbook' : 'Save Recipe'}</span>
                                             </button>
+
+                                            {recipe.isPremium && !showLocked && (
+                                                <button
+                                                    onClick={() => navigate('/messages')}
+                                                    className="flex-1 min-w-[150px] bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-lg shadow-indigo-100"
+                                                >
+                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                                                    <span>Message</span>
+                                                </button>
+                                            )}
+
                                             <button
                                                 onClick={handleExportPDF}
                                                 className="px-6 bg-white border-2 border-gray-100 text-gray-600 hover:bg-gray-50 hover:border-gray-200 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-sm"

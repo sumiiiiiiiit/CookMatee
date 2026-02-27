@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import axios from 'axios';
 
 export default function Chatbot() {
     const [messages, setMessages] = useState([
         { role: 'bot', text: 'Hi! I\'m ChefBot AI. Ask me anything about ingredients or cooking!' }
     ]);
     const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -16,19 +18,35 @@ export default function Chatbot() {
         scrollToBottom();
     }, [messages]);
 
-    const handleSend = (e) => {
+    const handleSend = async (e) => {
         e.preventDefault();
-        if (!input.trim()) return;
+        const messageToSend = input.trim();
+        if (!messageToSend) return;
 
-        const userMessage = { role: 'user', text: input };
+        const userMessage = { role: 'user', text: messageToSend };
         setMessages(prev => [...prev, userMessage]);
         setInput('');
+        setIsLoading(true);
 
-        // Simulating bot response for now
-        setTimeout(() => {
-            const botMessage = { role: 'bot', text: 'AI not trained yet' };
-            setMessages(prev => [...prev, botMessage]);
-        }, 1000);
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/ai/chat`, {
+                message: messageToSend
+            }, {
+                withCredentials: true
+            });
+
+            if (response.data.success) {
+                setMessages(prev => [...prev, { role: 'bot', text: response.data.message }]);
+            } else {
+                setMessages(prev => [...prev, { role: 'bot', text: response.data.message || 'Something went wrong.' }]);
+            }
+        } catch (error) {
+            console.error('Chat error:', error);
+            const errorMsg = error.response?.data?.message || 'Error connecting to the AI service. Please ensure Ollama is running.';
+            setMessages(prev => [...prev, { role: 'bot', text: errorMsg }]);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const suggestedQuestions = [
@@ -87,6 +105,13 @@ export default function Chatbot() {
                                 </div>
                             </div>
                         ))}
+                        {isLoading && (
+                            <div className="flex justify-start">
+                                <div className="max-w-[65%] p-5 rounded-2xl leading-relaxed shadow-sm bg-gray-50 border border-gray-100 text-gray-800 rounded-tl-none italic animate-pulse">
+                                    ChefBot is thinking...
+                                </div>
+                            </div>
+                        )}
                         <div ref={messagesEndRef} />
                     </div>
 
@@ -99,13 +124,14 @@ export default function Chatbot() {
                                 onChange={(e) => setInput(e.target.value)}
                                 placeholder="Ask about recipes, ingredients, or techniques..."
                                 className="input-field"
+                                disabled={isLoading}
                             />
                             <button
                                 type="submit"
                                 className="btn-dark !w-auto px-10"
-                                disabled={!input.trim()}
+                                disabled={!input.trim() || isLoading}
                             >
-                                Send
+                                {isLoading ? 'Sending...' : 'Send'}
                             </button>
                         </form>
                     </div>
