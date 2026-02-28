@@ -1,3 +1,5 @@
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
 exports.chatWithAI = async (req, res) => {
     try {
         const { message } = req.body;
@@ -6,49 +8,49 @@ exports.chatWithAI = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Message is required' });
         }
 
-        // Updated for "short and sweet" output as requested
-        const systemPrompt = "You are CookMate AI. Provide extremely brief, clear, and helpful cooking advice. Use bullet points if needed. No long introductions. Keep it short and sweet.";
-
-        const response = await fetch('http://localhost:11434/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                model: 'llama3',
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: message }
-                ],
-                stream: false,
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`Ollama responded with status: ${response.status}`);
+        if (!process.env.GEMINI_API_KEY) {
+            return res.status(500).json({
+                success: false,
+                message: 'Gemini API Key is missing. Please add it to your .env file.'
+            });
         }
 
-        const data = await response.json();
-        const aiMessage = data.message.content;
+        console.log(`[AI Chat] Request: "${message.substring(0, 50)}..."`);
+
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+        // Using gemini-flash-latest for best availability and speed
+        const model = genAI.getGenerativeModel({
+            model: "gemini-flash-latest",
+            systemInstruction: "You are CookMate AI. Provide extremely brief cooking advice using only '*' as bullet points. Do not use bold headings if it makes it longer. Focus on speed and clarity. One or two lines max if possible."
+        });
+
+        const result = await model.generateContent(message);
+        const aiMessage = result.response.text();
+        console.log("[AI Chat] Success: Response generated");
 
         res.status(200).json({
             success: true,
             message: aiMessage
         });
     } catch (error) {
-        console.error('Ollama Error:', error.message);
+        console.error('[AI Chat] Error Detail:', error);
 
-        // Check if error is because Ollama is not running
-        if (error.cause && error.cause.code === 'ECONNREFUSED' || error.message.includes('fetch failed')) {
-            return res.status(503).json({
-                success: false,
-                message: 'AI service is currently unavailable. Please ensure Ollama is running locally.'
-            });
+        // Robust error mapping
+        let status = 500;
+        let errMsg = 'Failed to get response from AI';
+
+        if (error.status === 429 || error.response?.status === 429) {
+            status = 429;
+            errMsg = 'Daily AI quota reached. Please wait 1 minute.';
+        } else if (error.message) {
+            errMsg = error.message;
         }
 
-        res.status(500).json({
+        res.status(status).json({
             success: false,
-            message: 'Failed to get response from AI assistant'
+            message: errMsg
         });
     }
 };
+

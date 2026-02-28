@@ -13,24 +13,31 @@ export default function Recipes() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = Cookies.get('token');
-            if (token) {
-                try {
-                    const response = await authAPI.getProfile();
-                    setUser(response.data.user || response.data);
-                } catch (error) {
-                    console.error('Failed to fetch profile:', error);
-                    // Optionally handle token expiration or invalid token here
-                    Cookies.remove('token');
+            // Fetch profile and recipes in parallel for speed
+            try {
+                const [profileRes, recipeRes] = await Promise.allSettled([
+                    authAPI.getProfile(),
+                    recipeAPI.getAll()
+                ]);
+
+                // Handle profile results
+                if (profileRes.status === 'fulfilled') {
+                    const userData = profileRes.value.data.user || profileRes.value.data;
+                    console.log('[DEBUG FETCH] User Profile successfully loaded:', userData.name);
+                    setUser(userData);
+                } else {
+                    console.log('[DEBUG FETCH] User not logged in or profile fetch failed.');
                     setUser(null);
                 }
-            }
 
-            try {
-                const response = await recipeAPI.getAll();
-                setRecipes(response.data.recipes);
+                // Handle recipe results
+                if (recipeRes.status === 'fulfilled') {
+                    setRecipes(recipeRes.value.data.recipes);
+                } else {
+                    console.error('Failed to fetch recipes:', recipeRes.reason);
+                }
             } catch (error) {
-                console.error('Failed to fetch recipes:', error);
+                console.error('Unexpected error in fetchData:', error);
             } finally {
                 setLoading(false);
             }
@@ -134,49 +141,76 @@ export default function Recipes() {
                                     </div>
 
                                     {/* Card Content */}
-                                    <div className={`p-5 ${recipe.isPremium && !(user?._id === (recipe.user?._id || recipe.user) || user?.purchasedRecipes?.some(id => (id._id || id) === recipe._id)) ? 'bg-amber-50' : ''}`}>
-                                        <div className="flex justify-between items-start mb-2">
-                                            <h4 className={`text-lg font-bold line-clamp-1 flex-grow ${recipe.isPremium && !(user?._id === (recipe.user?._id || recipe.user) || user?.purchasedRecipes?.some(id => (id._id || id) === recipe._id)) ? 'text-amber-900' : 'text-gray-800'}`}>
-                                                {recipe.title}
-                                            </h4>
-                                            <div className="flex text-amber-400 text-xs ml-2">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <span key={i}>{i < recipe.difficulty ? '★' : '☆'}</span>
-                                                ))}
+                                    {(() => {
+                                        const currentUserId = (user?._id || user?.id || '').toString().toLowerCase();
+                                        const recipeOwnerId = (recipe.user?._id || recipe.user || '').toString().toLowerCase();
+                                        const isOwned = currentUserId && recipeOwnerId && currentUserId === recipeOwnerId;
+
+                                        const currentRecipeId = (recipe._id || recipe.id || '').toString().toLowerCase();
+                                        const isPurchased = (user?.purchasedRecipes || []).some(pr => {
+                                            const prId = (pr?._id || pr || '').toString().toLowerCase();
+                                            return prId === currentRecipeId;
+                                        });
+
+                                        const locked = recipe.isPremium && !isOwned && !isPurchased;
+                                        const recentlyUnlocked = recipe.isPremium && !isOwned && isPurchased;
+
+                                        return (
+                                            <div className={`p-5 ${locked ? 'bg-amber-50' : recentlyUnlocked ? 'bg-emerald-50' : ''}`}>
+                                                <div className="flex justify-between items-start mb-2">
+                                                    <h4 className={`text-lg font-bold line-clamp-1 flex-grow ${locked ? 'text-amber-900' : 'text-gray-800'}`}>
+                                                        {recipe.title}
+                                                    </h4>
+                                                    <div className="flex text-amber-400 text-xs ml-2">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <span key={i}>{i < recipe.difficulty ? '★' : '☆'}</span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex items-center text-[11px] text-gray-500 mb-4 space-x-4">
+                                                    <span className="flex items-center gap-1.5">
+                                                        <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                        {recipe.cookingTime}
+                                                    </span>
+                                                    <span className="flex items-center gap-1.5">
+                                                        <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                                        {recipe.user?.name || recipe.chefName}
+                                                    </span>
+                                                    {recipe.isPremium && (
+                                                        <span className={`${recentlyUnlocked ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'} px-2 py-0.5 rounded-full font-bold uppercase text-[8px]`}>
+                                                            {recentlyUnlocked ? 'Unlocked' : 'Premium'}
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {locked ? (
+                                                    <button
+                                                        onClick={() => navigate(`/recipes/${recipe._id}`)}
+                                                        className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold text-sm transition flex items-center justify-center space-x-2 shadow-sm shadow-amber-200"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                                        <span>Unlock</span>
+                                                    </button>
+                                                ) : recentlyUnlocked ? (
+                                                    <button
+                                                        onClick={() => navigate(`/recipes/${recipe._id}`)}
+                                                        className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-bold text-sm transition flex items-center justify-center space-x-2 shadow-sm shadow-emerald-200"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" /></svg>
+                                                        <span>Unlocked</span>
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        onClick={() => navigate(`/recipes/${recipe._id}`)}
+                                                        className="w-full py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-100 rounded-lg font-medium text-sm transition"
+                                                    >
+                                                        View Recipe
+                                                    </button>
+                                                )}
                                             </div>
-                                        </div>
-
-                                        <div className="flex items-center text-[11px] text-gray-500 mb-4 space-x-4">
-                                            <span className="flex items-center gap-1.5">
-                                                <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                {recipe.cookingTime}
-                                            </span>
-                                            <span className="flex items-center gap-1.5">
-                                                <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                                                {recipe.user?.name || recipe.chefName}
-                                            </span>
-                                            {recipe.isPremium && (
-                                                <span className="bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full font-bold uppercase text-[8px]">Premium</span>
-                                            )}
-                                        </div>
-
-                                        {recipe.isPremium && !(user?._id === (recipe.user?._id || recipe.user) || user?.purchasedRecipes?.some(id => (id._id || id) === recipe._id)) ? (
-                                            <button
-                                                onClick={() => navigate(`/recipes/${recipe._id}`)}
-                                                className="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg font-bold text-sm transition flex items-center justify-center space-x-2"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                                                <span>Unlock</span>
-                                            </button>
-                                        ) : (
-                                            <button
-                                                onClick={() => navigate(`/recipes/${recipe._id}`)}
-                                                className="w-full py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-100 rounded-lg font-medium text-sm transition"
-                                            >
-                                                View Recipe
-                                            </button>
-                                        )}
-                                    </div>
+                                        );
+                                    })()}
                                 </div>
                             )) : (
                                 <div className="col-span-full py-20 text-center">

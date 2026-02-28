@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { authAPI, recipeAPI, getImageUrl } from 'lib/api';
+import { authAPI, recipeAPI, paymentAPI, getImageUrl } from 'lib/api';
 import { exportRecipeToPDF } from 'lib/pdfExport';
 import Navbar from '../components/Navbar';
 
@@ -17,6 +17,7 @@ export default function RecipeDetail() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // Fetch fresh profile always on mount for this page to ensure purchase state is current
                 const [recipeRes, profileRes] = await Promise.allSettled([
                     recipeAPI.getById(id),
                     authAPI.getProfile()
@@ -28,9 +29,11 @@ export default function RecipeDetail() {
                 setRecipe(fetchedRecipe);
                 setUser(currentUser);
 
-                if (currentUser) {
-                    setIsLiked(fetchedRecipe.likes?.some(uid => (uid._id || uid).toString() === currentUser._id.toString()));
-                    setIsSaved(currentUser.savedRecipes?.some(sid => (sid._id || sid).toString() === id));
+                if (currentUser && fetchedRecipe) {
+                    const liked = fetchedRecipe.likes?.some(uid => uid && (uid._id || uid).toString() === currentUser._id.toString());
+                    const saved = currentUser.savedRecipes?.some(sid => sid && (sid._id || sid).toString() === id);
+                    setIsLiked(liked);
+                    setIsSaved(saved);
                 }
             } catch (error) {
                 console.error('Error fetching recipe:', error);
@@ -84,14 +87,20 @@ export default function RecipeDetail() {
     const handlePurchase = async () => {
         if (!user) return navigate('/login');
         try {
-            await recipeAPI.purchase(id);
-            const profileRes = await authAPI.getProfile();
-            const updatedUser = profileRes.data.user || profileRes.data;
-            setUser(updatedUser);
-            alert('Recipe unlocked successfully!');
+            const res = await paymentAPI.initiate(id);
+            if (res.data.success && res.data.payment_url) {
+                // Save both pidx and recipeId to handle Khalti redirect flakiness
+                if (res.data.pidx) localStorage.setItem('khalti_pidx', res.data.pidx);
+                localStorage.setItem('khalti_recipeId', id);
+
+                // Redirect to Khalti checkout
+                window.location.href = res.data.payment_url;
+            } else {
+                alert('Failed to initiate payment');
+            }
         } catch (error) {
             console.error('Purchase error:', error);
-            alert('Failed to unlock recipe');
+            alert(error.response?.data?.message || 'Failed to initiate payment');
         }
     };
 
@@ -111,9 +120,20 @@ export default function RecipeDetail() {
 
     if (!recipe) return <div className="p-20 text-center">Recipe not found</div>;
 
-    const isOwned = user && (user._id === recipe.user?._id || user._id === recipe.user);
-    const isPurchased = user && user.purchasedRecipes?.some(sid => sid === id || sid._id === id);
-    const showLocked = recipe.isPremium && !isOwned && !isPurchased;
+    const currentUserId = (user?._id || user?.id || '').toString().toLowerCase();
+    const recipeOwnerId = (recipe.user?._id || recipe.user || '').toString().toLowerCase();
+    const isOwned = currentUserId && recipeOwnerId && currentUserId === recipeOwnerId;
+
+    const currentId = (id || '').toString().toLowerCase();
+    const isPurchased = (user?.purchasedRecipes || []).some(pr => {
+        const prId = (pr?._id || pr || '').toString().toLowerCase();
+        return prId === currentId;
+    });
+
+    const isLocked = recipe.isPremium && !isOwned && !isPurchased;
+    const isRecentlyUnlocked = recipe.isPremium && !isOwned && isPurchased;
+
+    const showLocked = isLocked;
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
@@ -143,9 +163,15 @@ export default function RecipeDetail() {
                                 </div>
                             )}
                             {recipe.isPremium && (
-                                <div className="absolute top-6 left-6 bg-amber-500 text-white px-4 py-2 rounded-full font-bold shadow-lg flex items-center space-x-2 z-10">
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                                    <span>Premium Content</span>
+                                <div className={`absolute top-6 left-6 ${isRecentlyUnlocked || isOwned ? 'bg-emerald-500' : 'bg-amber-500'} text-white px-4 py-2 rounded-full font-bold shadow-lg flex items-center space-x-2 z-10`}>
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        {isRecentlyUnlocked || isOwned ? (
+                                            <path d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                        ) : (
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        )}
+                                    </svg>
+                                    <span>{isRecentlyUnlocked || isOwned ? 'Unlocked' : 'Premium Content'}</span>
                                 </div>
                             )}
                         </div>
@@ -181,12 +207,26 @@ export default function RecipeDetail() {
                                             Premium
                                         </span>
                                     </div>
-                                    <button
-                                        onClick={() => navigate(-1)}
-                                        className="w-full py-4 text-gray-400 font-bold hover:text-gray-600 transition-colors"
-                                    >
-                                        Cancel
-                                    </button>
+                                    <div className="bg-amber-50 border border-amber-100 p-8 rounded-[32px] w-full mt-6">
+                                        <div className="text-amber-800 font-medium mb-4">Unlock this premium recipe to see ingredients and step-by-step instructions.</div>
+                                        <div className="text-3xl font-black text-amber-900 mb-6 flex items-baseline justify-center">
+                                            <span className="text-lg mr-1">Rs.</span>
+                                            {recipe.price || 0}
+                                        </div>
+                                        <button
+                                            onClick={handlePurchase}
+                                            className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-bold text-lg transition shadow-lg shadow-amber-200 flex items-center justify-center space-x-3 mb-4"
+                                        >
+                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                            <span>Pay with Khalti</span>
+                                        </button>
+                                        <button
+                                            onClick={() => navigate(-1)}
+                                            className="w-full py-2 text-gray-400 font-bold hover:text-gray-600 transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ) : (

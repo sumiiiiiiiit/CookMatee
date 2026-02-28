@@ -59,40 +59,42 @@ export default function SavedRecipes() {
                 ) : savedRecipes.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {savedRecipes.map((recipe) => (
-                            <div
-                                key={recipe._id}
-                                onClick={() => navigate(`/recipes/${recipe._id}`)}
-                                className="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 flex items-center space-x-6 hover:shadow-xl transition-all cursor-pointer group"
-                            >
-                                <div className="w-32 h-32 bg-[#f3f4f6] rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-100 group-hover:scale-105 transition-transform">
-                                    {recipe.image ? (
-                                        <img src={getImageUrl(recipe.image)} alt={recipe.title} className="w-full h-full object-cover" />
-                                    ) : (
-                                        <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    )}
-                                </div>
-                                <div className="flex-grow">
-                                    <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-primary transition-colors">{recipe.title}</h3>
-                                    <p className="text-xs text-gray-400 mb-6 font-medium">Saved on {new Date(recipe.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                            recipe && (
+                                <div
+                                    key={recipe._id}
+                                    onClick={() => navigate(`/recipes/${recipe._id}`)}
+                                    className="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 flex items-center space-x-6 hover:shadow-xl transition-all cursor-pointer group"
+                                >
+                                    <div className="w-32 h-32 bg-[#f3f4f6] rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-100 group-hover:scale-105 transition-transform">
+                                        {recipe.image ? (
+                                            <img src={getImageUrl(recipe.image)} alt={recipe.title} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <svg className="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        )}
+                                    </div>
+                                    <div className="flex-grow">
+                                        <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-primary transition-colors">{recipe.title}</h3>
+                                        <p className="text-xs text-gray-400 mb-6 font-medium">Saved on {recipe.createdAt ? new Date(recipe.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'N/A'}</p>
 
-                                    <div className="flex space-x-3">
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); navigate(`/recipes/${recipe._id}`); }}
-                                            className="px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-xs transition-all flex items-center shadow-md shadow-indigo-100 hover:scale-105"
-                                        >
-                                            Cook Now
-                                        </button>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); handleRemove(recipe._id); }}
-                                            className="px-6 py-2.5 bg-white hover:bg-red-50 text-red-500 border border-red-100 rounded-xl font-bold text-xs transition-all"
-                                        >
-                                            Remove
-                                        </button>
+                                        <div className="flex space-x-3">
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); navigate(`/recipes/${recipe._id}`); }}
+                                                className="px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-xs transition-all flex items-center shadow-md shadow-indigo-100 hover:scale-105"
+                                            >
+                                                Cook Now
+                                            </button>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleRemove(recipe._id); }}
+                                                className="px-6 py-2.5 bg-white hover:bg-red-50 text-red-500 border border-red-100 rounded-xl font-bold text-xs transition-all"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )
                         ))}
                     </div>
                 ) : (

@@ -61,38 +61,40 @@ export default function Leaderboard() {
                                     ))
                                 ) : leaderboard.length > 0 ? (
                                     leaderboard.map((entry, index) => (
-                                        <tr
-                                            key={entry._id}
-                                            onClick={() => navigate(`/recipes/${entry._id}`)}
-                                            className={`${index % 2 === 1 ? 'bg-gray-50/30' : 'bg-white'} hover:bg-gray-50 transition-colors group cursor-pointer`}
-                                        >
-                                            <td className="px-6 py-8 font-bold text-[#1a1a1a]">
-                                                {index + 1}
-                                            </td>
-                                            <td className="px-6 py-8">
-                                                <div className="flex flex-col">
-                                                    <span className="font-bold text-[#1a1a1a] group-hover:text-primary transition-colors text-base">
-                                                        {entry.title}
+                                        entry && (
+                                            <tr
+                                                key={entry._id}
+                                                onClick={() => navigate(`/recipes/${entry._id}`)}
+                                                className={`${index % 2 === 1 ? 'bg-gray-50/30' : 'bg-white'} hover:bg-gray-50 transition-colors group cursor-pointer`}
+                                            >
+                                                <td className="px-6 py-8 font-bold text-[#1a1a1a]">
+                                                    {index + 1}
+                                                </td>
+                                                <td className="px-6 py-8">
+                                                    <div className="flex flex-col">
+                                                        <span className="font-bold text-[#1a1a1a] group-hover:text-primary transition-colors text-base">
+                                                            {entry.title}
+                                                        </span>
+                                                        <span className="text-xs text-gray-500">
+                                                            by {entry.chefName}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-8 text-center">
+                                                    <div className="flex items-center justify-center gap-2 text-primary">
+                                                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                                        </svg>
+                                                        <span className="font-bold">{entry.likesCount}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-8 text-right">
+                                                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase tracking-wider">
+                                                        {entry.category}
                                                     </span>
-                                                    <span className="text-xs text-gray-500">
-                                                        by {entry.chefName}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-8 text-center">
-                                                <div className="flex items-center justify-center gap-2 text-primary">
-                                                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                                        <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                                    </svg>
-                                                    <span className="font-bold">{entry.likesCount}</span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-8 text-right">
-                                                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase tracking-wider">
-                                                    {entry.category}
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        )
                                     ))
                                 ) : (
                                     <tr>

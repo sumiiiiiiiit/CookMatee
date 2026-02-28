@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Chatbot from './pages/Chatbot';
 import Messages from './pages/Messages';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 function App() {
     return (
@@ -57,6 +58,11 @@ function App() {
                     </ProtectedRoute>
                 } />
                 <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/payment-success" element={
+                    <ProtectedRoute>
+                        <PaymentSuccess />
+                    </ProtectedRoute>
+                } />
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
         </Router>

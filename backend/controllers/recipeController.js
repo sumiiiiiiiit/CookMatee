@@ -167,7 +167,7 @@ exports.likeRecipe = async (req, res) => {
         const isLiked = recipe.likes.includes(req.user.id);
 
         if (isLiked) {
-            recipe.likes = recipe.likes.filter(id => id.toString() !== req.user.id.toString());
+            recipe.likes = recipe.likes.filter(id => id && id.toString() !== req.user.id.toString());
         } else {
             recipe.likes.push(req.user.id);
         }
@@ -205,10 +205,9 @@ exports.saveRecipe = async (req, res) => {
         const user = await User.findById(req.user.id);
         const recipeId = req.params.id;
 
-        const isSaved = user.savedRecipes.some(id => id.toString() === recipeId.toString());
-
+        const isSaved = user.savedRecipes.some(id => id && id.toString() === recipeId.toString());
         if (isSaved) {
-            user.savedRecipes = user.savedRecipes.filter(id => id.toString() !== recipeId.toString());
+            user.savedRecipes = user.savedRecipes.filter(id => id && id.toString() !== recipeId.toString());
         } else {
             user.savedRecipes.push(recipeId);
         }
@@ -252,7 +251,7 @@ exports.purchaseRecipe = async (req, res) => {
         const user = await User.findById(req.user.id);
         const recipeId = req.params.id;
 
-        if (user.purchasedRecipes.some(id => id.toString() === recipeId)) {
+        if (user.purchasedRecipes.some(id => id && id.toString() === recipeId)) {
             return res.status(200).json({ success: true, message: 'Already purchased' });
         }
 

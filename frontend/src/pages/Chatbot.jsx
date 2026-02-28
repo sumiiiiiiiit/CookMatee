@@ -41,9 +41,16 @@ export default function Chatbot() {
                 setMessages(prev => [...prev, { role: 'bot', text: response.data.message || 'Something went wrong.' }]);
             }
         } catch (error) {
-            console.error('Chat error:', error);
-            const errorMsg = error.response?.data?.message || 'Error connecting to the AI service. Please ensure Ollama is running.';
-            setMessages(prev => [...prev, { role: 'bot', text: errorMsg }]);
+            console.error('Chatbot Error:', error);
+            let displayMsg = 'Error connecting to the AI service. Please try again later.';
+
+            if (error.response?.data?.message) {
+                displayMsg = error.response.data.message;
+            } else if (error.message) {
+                displayMsg = error.message;
+            }
+
+            setMessages(prev => [...prev, { role: 'bot', text: displayMsg }]);
         } finally {
             setIsLoading(false);
         }
@@ -96,7 +103,7 @@ export default function Chatbot() {
                                 className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
                             >
                                 <div
-                                    className={`max-w-[65%] p-5 rounded-2xl leading-relaxed shadow-sm ${m.role === 'user'
+                                    className={`max-w-[65%] p-5 rounded-2xl leading-relaxed shadow-sm whitespace-pre-wrap ${m.role === 'user'
                                         ? 'bg-gray-900 text-white rounded-tr-none'
                                         : 'bg-gray-50 border border-gray-100 text-gray-800 rounded-tl-none'
                                         }`}

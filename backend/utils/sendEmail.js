@@ -49,7 +49,8 @@ const sendVerificationEmail = async (user) => {
   } catch (err) {
     console.error('Gmail API send error:', err.message);
     if (err.message.includes('invalid_grant')) {
-      console.error('CRITICAL: Refresh token is invalid or expired. Please visit /api/auth/get-new-token to re-authenticate.');
+      console.error('CRITICAL: Refresh token is invalid or expired.');
+      console.error('Please visit http://localhost:5001/api/auth/google-setup in your browser to re-authenticate.');
     }
     if (err.response?.data) {
       console.error('Full Google error:', JSON.stringify(err.response.data, null, 2));

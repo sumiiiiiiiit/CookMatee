@@ -67,4 +67,9 @@ export const adminAPI = {
     deleteRecipe: (id) => api.delete(`/admin/recipes/${id}`),
 };
 
+export const paymentAPI = {
+    initiate: (recipeId) => api.post('/payment/initiate', { recipeId }),
+    verify: (pidx, recipeId) => api.post('/payment/verify', { pidx, recipeId }),
+};
+
 export default api;
