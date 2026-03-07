@@ -50,6 +50,30 @@ exports.updateRecipeStatus = async (req, res) => {
 };
 
 
+const { sendEmail } = require('../utils/sendEmail');
+
+exports.notifyUser = async (req, res) => {
+    try {
+        const { recipeId, message } = req.body;
+        const recipe = await Recipe.findById(recipeId).populate('user');
+
+        if (!recipe || !recipe.user) {
+            return res.status(404).json({ success: false, message: 'Recipe or user not found' });
+        }
+
+        await sendEmail({
+            to: recipe.user.email,
+            subject: `Update on your recipe: ${recipe.title}`,
+            body: `Hello Chef ${recipe.user.name},\n\nOur admin has a message for you regarding your recipe "${recipe.title}":\n\n${message}\n\nBest regards,\nCookMate Team`
+        });
+
+        res.status(200).json({ success: true, message: 'Notification sent' });
+    } catch (error) {
+        console.error('Notify Error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
 exports.deleteRecipeAdmin = async (req, res) => {
     try {
         await Recipe.findByIdAndDelete(req.params.id);

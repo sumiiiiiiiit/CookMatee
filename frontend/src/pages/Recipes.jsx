@@ -10,31 +10,24 @@ export default function Recipes() {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
-            // Fetch profile and recipes in parallel for speed
             try {
                 const [profileRes, recipeRes] = await Promise.allSettled([
                     authAPI.getProfile(),
                     recipeAPI.getAll()
                 ]);
 
-                // Handle profile results
                 if (profileRes.status === 'fulfilled') {
-                    const userData = profileRes.value.data.user || profileRes.value.data;
-                    console.log('[DEBUG FETCH] User Profile successfully loaded:', userData.name);
-                    setUser(userData);
+                    setUser(profileRes.value.data.user || profileRes.value.data);
                 } else {
-                    console.log('[DEBUG FETCH] User not logged in or profile fetch failed.');
                     setUser(null);
                 }
 
-                // Handle recipe results
                 if (recipeRes.status === 'fulfilled') {
                     setRecipes(recipeRes.value.data.recipes);
-                } else {
-                    console.error('Failed to fetch recipes:', recipeRes.reason);
                 }
             } catch (error) {
                 console.error('Unexpected error in fetchData:', error);
@@ -54,9 +47,12 @@ export default function Recipes() {
         );
     }
 
-    const filteredRecipes = selectedCategory === 'All'
-        ? recipes
-        : recipes.filter(r => r.category === selectedCategory);
+    const filteredRecipes = recipes.filter(r => {
+        const matchesCategory = selectedCategory === 'All' || r.category === selectedCategory;
+        const matchesSearch = r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (r.ingredients && r.ingredients.some(i => i.toLowerCase().includes(searchTerm.toLowerCase())));
+        return matchesCategory && matchesSearch;
+    });
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
@@ -66,7 +62,7 @@ export default function Recipes() {
             <div className="flex-grow flex p-8 gap-8 bg-[#f5f6ff]">
                 {/* Sidebar */}
                 <aside className="w-64 flex flex-col gap-6">
-                    <h2 className="text-xl font-bold text-gray-800 mb-2">Filters</h2>
+
 
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <h3 className="font-bold text-gray-800 mb-4 text-base">Category</h3>
@@ -105,10 +101,30 @@ export default function Recipes() {
 
                 {/* Recipe Grid Area */}
                 <main className="flex-grow">
-                    <div className="flex justify-between items-center mb-8">
-                        <h2 className="text-2xl font-bold text-gray-800">
-                            Category: {selectedCategory === 'All' ? 'Latest Recipes' : selectedCategory}
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                        <h2 className="text-2xl font-extrabold text-[#1a1a1a] tracking-tight">
+                            {selectedCategory === 'All' ? 'Latest Recipes' : selectedCategory}
+                            {searchTerm && <span className="text-gray-400 font-medium text-lg ml-3">/ Results for "{searchTerm}"</span>}
                         </h2>
+
+                        <div className="relative w-full md:w-80 group">
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder="Search recipes or ingredients..."
+                                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 placeholder:text-gray-400"
+                            />
+                            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            {searchTerm && (
+                                <button
+                                    onClick={() => setSearchTerm('')}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
+                                >
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 0114.14 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     {loading ? (

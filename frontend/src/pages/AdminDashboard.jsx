@@ -9,6 +9,9 @@ export default function AdminDashboard() {
     const [recipes, setRecipes] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [deletingRecipe, setDeletingRecipe] = useState(null);
+    const [deleteReason, setDeleteReason] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -44,15 +47,7 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleDeleteRecipe = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this recipe?')) return;
-        try {
-            await adminAPI.deleteRecipe(id);
-            fetchData();
-        } catch (error) {
-            alert('Failed to delete recipe');
-        }
-    };
+
 
     const handleDeleteUser = async (id) => {
         if (!window.confirm('Are you sure you want to delete this user?')) return;
@@ -61,6 +56,29 @@ export default function AdminDashboard() {
             fetchData();
         } catch (error) {
             alert('Failed to delete user');
+        }
+    };
+
+    const handleDeleteWithReason = async (e) => {
+        e.preventDefault();
+        if (!deleteReason.trim()) return;
+        setIsDeleting(true);
+        try {
+            // 1. Notify the user first
+            await adminAPI.notifyUser(deletingRecipe._id, `This recipe has been deleted. Reason: ${deleteReason}`);
+
+            // 2. Delete the recipe
+            await adminAPI.deleteRecipe(deletingRecipe._id);
+
+            alert('Recipe deleted and author notified.');
+            setDeletingRecipe(null);
+            setDeleteReason('');
+            fetchData();
+        } catch (error) {
+            console.error('Delete/Notify error:', error);
+            alert('Failed to delete recipe. Please try again.');
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -159,7 +177,7 @@ export default function AdminDashboard() {
                                                 )}
 
                                                 <button
-                                                    onClick={() => handleDeleteRecipe(recipe._id)}
+                                                    onClick={() => setDeletingRecipe(recipe)}
                                                     className="bg-red-50 hover:bg-red-100 text-red-500 px-3 py-1.5 rounded-lg text-xs font-bold transition"
                                                 >
                                                     Delete
@@ -213,6 +231,66 @@ export default function AdminDashboard() {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation & Reason Modal */}
+            {deletingRecipe && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => !isDeleting && setDeletingRecipe(null)}></div>
+                    <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-xl relative z-10 overflow-hidden transform transition-all animate-in fade-in zoom-in duration-300">
+                        <div className="px-10 py-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                            <div>
+                                <h2 className="text-2xl font-extrabold text-[#1a1a1a]">Delete Recipe</h2>
+                                <p className="text-gray-400 text-sm font-medium mt-1">Please provide a reason to notify Chef {deletingRecipe.chefName}</p>
+                            </div>
+                            <button onClick={() => setDeletingRecipe(null)} className="text-gray-400 hover:text-gray-600 transition p-2 hover:bg-white rounded-full shadow-sm">✕</button>
+                        </div>
+
+                        <form onSubmit={handleDeleteWithReason} className="p-10 space-y-6">
+                            <div className="bg-red-50 border border-red-100 p-4 rounded-2xl">
+                                <span className="text-red-600 text-xs font-bold uppercase tracking-wider block mb-1">Deleting:</span>
+                                <span className="font-bold text-red-900">{deletingRecipe.title}</span>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-3 uppercase tracking-wider">Reason for Deletion</label>
+                                <textarea
+                                    required
+                                    rows="5"
+                                    value={deleteReason}
+                                    onChange={(e) => setDeleteReason(e.target.value)}
+                                    placeholder="Explain why this recipe is being removed (e.g. inappropriate content, duplicate, etc.)..."
+                                    className="w-full px-6 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none transition-all resize-none font-medium text-gray-900"
+                                ></textarea>
+                            </div>
+
+                            <div className="flex space-x-4 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setDeletingRecipe(null)}
+                                    className="flex-1 py-4 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-[24px] font-bold transition-all"
+                                    disabled={isDeleting}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isDeleting || !deleteReason.trim()}
+                                    className="flex-[2] py-4 bg-red-600 hover:bg-red-700 text-white rounded-[24px] font-bold shadow-xl shadow-red-100 transition-all flex items-center justify-center space-x-3 disabled:opacity-50"
+                                >
+                                    {isDeleting ? (
+                                        <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>Deleting...</span></>
+                                    ) : (
+                                        <>
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                            <span>Delete & Notify</span>
+                                        </>
+                                    )}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

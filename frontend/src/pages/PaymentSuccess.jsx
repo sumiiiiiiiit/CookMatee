@@ -10,21 +10,17 @@ export default function PaymentSuccess() {
     const [error, setError] = useState('');
 
     const verify = useCallback(async () => {
-        setStatus('verifying'); // Show loading state on manual retry
+        setStatus('verifying');
         setError('');
 
         let pidx = searchParams.get('pidx');
 
-        // Recovery: Check localStorage if pidx missing or if URL has 'idx' (which is often different)
-        // Khalti sometimes returns 'idx' instead of 'pidx' or misses 'pidx' in certain bank flows.
-        // We save 'pidx' to localStorage before redirecting to Khalti to handle these cases.
-        if (!pidx || searchParams.get('idx')) { // If pidx is missing OR idx is present (indicating a Khalti redirect)
+        if (!pidx || searchParams.get('idx')) {
             const savedPidx = localStorage.getItem('khalti_pidx');
             if (savedPidx) pidx = savedPidx;
         }
 
         const khaltiStatus = searchParams.get('status');
-        // Recover recipeId from URL or localStorage backup
         const recipeIdFromUrl = searchParams.get('id') || localStorage.getItem('khalti_recipeId');
 
         if (!pidx) {
@@ -43,17 +39,13 @@ export default function PaymentSuccess() {
             const response = await paymentAPI.verify(pidx, recipeIdFromUrl);
             if (response.data.success) {
                 setStatus('success');
-                // Success! Clean up recovery
                 localStorage.removeItem('khalti_pidx');
                 localStorage.removeItem('khalti_recipeId');
 
-                // Use recipeId from verification response if available, or from local recovery
                 const recipeId = response.data.data?.purchase_order_id || recipeIdFromUrl;
 
-                // Automatically redirect to the recipe after 3 seconds
                 setTimeout(() => {
                     if (recipeId) {
-                        // Strip timestamp if present for redirect
                         const cleanId = recipeId.includes('_') ? recipeId.split('_')[0] : recipeId;
                         navigate(`/recipes/${cleanId}`);
                     } else {
@@ -65,15 +57,14 @@ export default function PaymentSuccess() {
                 setError(response.data.message || 'Verification failed');
             }
         } catch (err) {
-            console.error('Verification error:', err);
             setStatus('error');
             setError(err.response?.data?.message || 'Verification failed. Try re-verifying.');
         }
-    }, [searchParams, navigate, setStatus, setError]); // Add all dependencies
+    }, [searchParams, navigate]);
 
     useEffect(() => {
         verify();
-    }, [verify]); // Depend on the memoized verify function
+    }, [verify]);
 
     return (
         <div className="min-h-screen bg-[#f8f9ff] flex flex-col">

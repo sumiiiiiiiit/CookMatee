@@ -6,7 +6,8 @@ const {
     deleteUser,
     getAllRecipesAdmin,
     updateRecipeStatus,
-    deleteRecipeAdmin
+    deleteRecipeAdmin,
+    notifyUser
 } = require('../controllers/adminController');
 
 // Apply protection to all admin routes
@@ -20,6 +21,7 @@ router.delete('/users/:id', deleteUser);
 // Recipe management
 router.get('/recipes', getAllRecipesAdmin);
 router.put('/recipes/:id/status', updateRecipeStatus);
+router.post('/recipes/notify-user', notifyUser);
 router.delete('/recipes/:id', deleteRecipeAdmin);
 
 module.exports = router;

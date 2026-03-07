@@ -13,25 +13,20 @@ exports.initiatePayment = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Recipe not found' });
         }
 
-        // Check if already purchased
         if (user.purchasedRecipes.some(id => id && id.toString() === recipeId)) {
             return res.status(400).json({ success: false, message: 'Recipe already purchased' });
         }
 
         const amount = Math.round((recipe.price || 1) * 100);
-
-        // Minimalist order ID for maximum compatibility
         const txnId = `ORD${Date.now()}`;
 
         const payload = {
             return_url: `${process.env.FRONTEND_URL}/payment-success`,
             website_url: process.env.FRONTEND_URL,
-            amount: amount,
+            amount,
             purchase_order_id: txnId,
             purchase_order_name: "Recipe"
         };
-
-        console.log('[KHALTI INIT] Payload:', JSON.stringify(payload));
 
         const response = await axios.post(process.env.KHALTI_GATEWAY_URL, payload, {
             headers: {
@@ -39,8 +34,6 @@ exports.initiatePayment = async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
-
-        console.log('[KHALTI INIT] Success. pidx:', response.data.pidx);
 
         res.status(200).json({
             success: true,
@@ -66,9 +59,6 @@ exports.verifyPayment = async (req, res) => {
             return res.status(400).json({ success: false, message: 'pidx is required' });
         }
 
-        console.log(`[KHALTI VERIFY] Requesting lookup for pidx: ${pidx}`);
-
-        // Add a small initial delay to allow Khalti's database to sync
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         let response;
@@ -85,14 +75,12 @@ exports.verifyPayment = async (req, res) => {
             });
 
             const currentStatus = (response.data.status || '').toLowerCase();
-            console.log(`[KHALTI VERIFY] Attempt ${attempts}: Status is ${response.data.status}`);
 
             if (currentStatus === 'completed' || currentStatus === 'success') {
-                break; // Payment successful!
+                break;
             }
 
             if (attempts < maxAttempts) {
-                console.log(`[KHALTI VERIFY] Status is ${response.data.status}, retrying in 2s...`);
                 await new Promise(resolve => setTimeout(resolve, 2000));
             }
         }
@@ -102,7 +90,6 @@ exports.verifyPayment = async (req, res) => {
         if (finalStatus === 'completed' || finalStatus === 'success') {
             let recipeId = recipeIdFallback;
 
-            // If fallback fails, search the Khalti purchase_order_id for a 24-char segment
             if (!recipeId || recipeId.length !== 24) {
                 const khaltiOrderId = response.data.purchase_order_id || '';
                 const match = khaltiOrderId.match(/[0-9a-fA-F]{24}/);
@@ -110,23 +97,18 @@ exports.verifyPayment = async (req, res) => {
             }
 
             if (!recipeId || recipeId.length !== 24) {
-                console.error(`[VERIFY ERROR] No valid 24-char recipeId found. Body: ${recipeIdFallback}, Khalti: ${response.data.purchase_order_id}`);
                 return res.status(400).json({ success: false, message: 'Invalid recipe identifier' });
             }
 
-            // Step 1: Unlock the recipe
             await User.findByIdAndUpdate(
                 req.user.id,
                 { $addToSet: { purchasedRecipes: new mongoose.Types.ObjectId(recipeId) } }
             );
 
-            // Step 2: Clean up any nulls
             await User.findByIdAndUpdate(
                 req.user.id,
                 { $pull: { purchasedRecipes: null } }
             );
-
-            console.log(`[VERIFY SUCCESS] Recipe ${recipeId} unlocked for user ${req.user.id}`);
 
             return res.status(200).json({
                 success: true,
@@ -134,15 +116,12 @@ exports.verifyPayment = async (req, res) => {
                 data: response.data
             });
         }
-        else {
-            console.error(`[VERIFY FAILED] Final status after ${attempts} attempts: ${response.data.status}`);
-            return res.status(400).json({
-                success: false,
-                message: `Payment status is ${response.data.status}.`,
-                status: response.data.status,
-                // raw: response.data // Removed as per instruction
-            });
-        }
+
+        return res.status(400).json({
+            success: false,
+            message: `Payment status is ${response.data.status}.`,
+            status: response.data.status,
+        });
 
     } catch (error) {
         console.error('Payment verification error:', error.response ? error.response.data : error.message);

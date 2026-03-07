@@ -1,5 +1,6 @@
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
+const { detectAllergens } = require('../utils/allergenDetector');
 
 // @desc    Get all approved recipes
 // @route   GET /api/recipes
@@ -9,17 +10,11 @@ exports.getAllRecipes = async (req, res) => {
         const recipes = await Recipe.find({ status: 'approved' })
             .populate('user', 'name')
             .sort({ createdAt: -1 });
-        res.status(200).json({
-            success: true,
-            count: recipes.length,
-            recipes,
-        });
+        res.status(200).json({ success: true, count: recipes.length, recipes });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
-
 
 exports.getSavedRecipes = async (req, res) => {
     try {
@@ -28,7 +23,6 @@ exports.getSavedRecipes = async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found' });
         }
 
-        // Directly find the recipes that are in the user's saved array
         const recipes = await Recipe.find({ _id: { $in: user.savedRecipes } })
             .populate('user', 'name');
 
@@ -43,7 +37,6 @@ exports.getSavedRecipes = async (req, res) => {
     }
 };
 
-
 exports.getMyRecipes = async (req, res) => {
     try {
         const recipes = await Recipe.find({ user: req.user.id }).sort({ createdAt: -1 });
@@ -52,7 +45,6 @@ exports.getMyRecipes = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
 
 exports.getRecipeById = async (req, res) => {
     try {
@@ -70,12 +62,10 @@ exports.getRecipeById = async (req, res) => {
     }
 };
 
-
 exports.createRecipe = async (req, res) => {
     try {
         let { title, category, ingredients, steps, difficulty, cookingTime } = req.body;
 
-        // Parse ingredients if sent as JSON string
         if (typeof ingredients === 'string') {
             try {
                 ingredients = JSON.parse(ingredients);
@@ -84,7 +74,7 @@ exports.createRecipe = async (req, res) => {
             }
         }
 
-        const image = req.file ? req.file.path : req.body.image; // Cloudinary URL
+        const image = req.file ? req.file.path : req.body.image;
         const isPremium = req.body.isPremium === 'true' || req.body.isPremium === true;
         const price = Number(req.body.price) || 0;
 
@@ -118,7 +108,6 @@ exports.updateRecipe = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Recipe not found' });
         }
 
-        // Check if owner or admin
         if (recipe.user.toString() !== req.user.id && req.user.role !== 'admin') {
             return res.status(401).json({ success: false, message: 'User not authorized' });
         }
@@ -142,11 +131,11 @@ exports.updateRecipe = async (req, res) => {
             cookingTime: cookingTime || recipe.cookingTime,
             isPremium: req.body.isPremium !== undefined ? (req.body.isPremium === 'true' || req.body.isPremium === true) : recipe.isPremium,
             price: req.body.price !== undefined ? Number(req.body.price) : recipe.price,
-            status: 'pending', // Re-verify on edit
+            status: 'pending',
         };
 
         if (req.file) {
-            updateData.image = req.file.path; // Cloudinary URL
+            updateData.image = req.file.path;
         }
 
         recipe = await Recipe.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -157,7 +146,6 @@ exports.updateRecipe = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
 
 exports.likeRecipe = async (req, res) => {
     try {
@@ -179,7 +167,6 @@ exports.likeRecipe = async (req, res) => {
     }
 };
 
-
 exports.commentOnRecipe = async (req, res) => {
     try {
         const { text } = req.body;
@@ -198,7 +185,6 @@ exports.commentOnRecipe = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
 
 exports.saveRecipe = async (req, res) => {
     try {
@@ -245,7 +231,6 @@ exports.getLeaderboard = async (req, res) => {
     }
 };
 
-
 exports.purchaseRecipe = async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
@@ -261,5 +246,20 @@ exports.purchaseRecipe = async (req, res) => {
     } catch (error) {
         console.error('Purchase error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+exports.getAllergensForRecipe = async (req, res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) {
+            return res.status(404).json({ success: false, message: 'Recipe not found' });
+        }
+
+        const allergens = await detectAllergens(recipe.ingredients);
+        res.status(200).json({ success: true, allergens });
+    } catch (error) {
+        console.error('Allergen detection error:', error);
+        res.status(500).json({ success: false, message: 'Failed to detect allergens' });
     }
 };

@@ -19,7 +19,6 @@ const sendVerificationEmail = async (user) => {
     const emailContent = [
       'MIME-Version: 1.0',
       'Content-Type: text/plain; charset="UTF-8"',
-      'Content-Transfer-Encoding: base64',
       `From: CookMate <${process.env.GMAIL_USER}>`,
       `To: ${user.email}`,
       `Subject: =?utf-8?B?${Buffer.from('Your CookMate Verification Code').toString('base64')}?=`,
@@ -59,4 +58,38 @@ const sendVerificationEmail = async (user) => {
   }
 };
 
-module.exports = { sendVerificationEmail };
+const sendEmail = async ({ to, subject, body }) => {
+  try {
+    const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
+
+    const emailContent = [
+      'MIME-Version: 1.0',
+      'Content-Type: text/plain; charset="UTF-8"',
+      `From: CookMate <${process.env.GMAIL_USER}>`,
+      `To: ${to}`,
+      `Subject: =?utf-8?B?${Buffer.from(subject).toString('base64')}?=`,
+      '',
+      body
+    ].join('\r\n');
+
+    const encodedEmail = Buffer.from(emailContent, 'utf-8')
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
+    await gmail.users.messages.send({
+      userId: 'me',
+      requestBody: {
+        raw: encodedEmail
+      }
+    });
+
+    console.log(`Email sent to: ${to}`);
+  } catch (err) {
+    console.error('Email send error:', err.message);
+    throw err;
+  }
+};
+
+module.exports = { sendVerificationEmail, sendEmail };

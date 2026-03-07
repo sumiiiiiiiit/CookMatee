@@ -39,6 +39,8 @@ export const authAPI = {
     getProfile: () => api.get('/auth/me'),
     updateProfile: (data) => api.put('/auth/profile', data),
     verifyEmail: (data) => api.post('/auth/verify-email', data),
+    forgotPassword: (data) => api.post('/auth/forgot-password', data),
+    resetPassword: (data) => api.post('/auth/reset-password', data),
 };
 
 export const recipeAPI = {
@@ -57,6 +59,7 @@ export const recipeAPI = {
     getSaved: () => api.get('/recipes/saved'),
     purchase: (id) => api.post(`/recipes/${id}/purchase`),
     getLeaderboard: () => api.get('/recipes/leaderboard'),
+    getAllergens: (id) => api.get(`/recipes/${id}/allergens`),
 };
 
 export const adminAPI = {
@@ -64,6 +67,7 @@ export const adminAPI = {
     deleteUser: (id) => api.delete(`/admin/users/${id}`),
     getRecipes: () => api.get('/admin/recipes'),
     updateRecipeStatus: (id, status) => api.put(`/admin/recipes/${id}/status`, { status }),
+    notifyUser: (recipeId, message) => api.post('/admin/recipes/notify-user', { recipeId, message }),
     deleteRecipe: (id) => api.delete(`/admin/recipes/${id}`),
 };
 

@@ -8,9 +8,7 @@ export default function Navbar({ activePage, user: propUser }) {
     const navigate = useNavigate();
     const [user, setUser] = useState(propUser || null);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
-    const [showChatMenu, setShowChatMenu] = useState(false);
     const menuRef = useRef(null);
-    const chatMenuRef = useRef(null);
 
     useEffect(() => {
         if (propUser) {
@@ -33,9 +31,6 @@ export default function Navbar({ activePage, user: propUser }) {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setShowProfileMenu(false);
-            }
-            if (chatMenuRef.current && !chatMenuRef.current.contains(event.target)) {
-                setShowChatMenu(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);

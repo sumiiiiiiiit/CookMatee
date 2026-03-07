@@ -9,12 +9,16 @@ const {
   getProfile,
   updateProfile,
   verifyEmail,
+  forgotPassword,
+  resetPassword,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 
 // Public routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 // Email verification route
 router.post('/verify-email', verifyEmail);
 router.get('/logout', logoutUser);

@@ -120,20 +120,20 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
             <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
 
-            <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-2xl relative z-10 overflow-hidden transform transition-all animate-in fade-in zoom-in duration-300">
-                <div className="px-10 py-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+            <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-5xl relative z-10 overflow-hidden transform transition-all animate-in fade-in zoom-in duration-300">
+                <div className="px-12 py-10 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                     <div>
-                        <h2 className="text-3xl font-extrabold text-[#1a1a1a]">
+                        <h2 className="text-4xl font-extrabold text-[#1a1a1a]">
                             {view === 'select' ? 'My Recipes' : (formData._id ? 'Edit Recipe' : 'New Recipe')}
                         </h2>
-                        <p className="text-gray-400 text-sm font-medium mt-1">
+                        <p className="text-gray-500 text-base font-medium mt-2">
                             {view === 'select' ? 'Manage your shared culinary creations' : 'Enter the details of your recipe below'}
                         </p>
                     </div>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition p-2 hover:bg-white rounded-full shadow-sm">✕</button>
+                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition p-3 hover:bg-white rounded-full shadow-sm text-2xl">✕</button>
                 </div>
 
-                <div className="max-h-[80vh] overflow-y-auto custom-scrollbar p-10">
+                <div className="max-h-[85vh] overflow-y-auto custom-scrollbar p-12">
                     {view === 'select' && (
                         <div className="space-y-6">
                             <button
@@ -157,7 +157,7 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
                                 <div>
                                     <h3 className="text-lg font-bold text-gray-800 mb-4 px-2">Edit Your Creations</h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        {myRecipes.slice(0, 4).map(recipe => (
+                                        {myRecipes.map(recipe => (
                                             <button
                                                 key={recipe._id}
                                                 onClick={() => handleEditExisting(recipe)}
@@ -173,9 +173,6 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
                                             </button>
                                         ))}
                                     </div>
-                                    {myRecipes.length > 4 && (
-                                        <p className="text-center text-gray-400 text-xs mt-4 italic">And {myRecipes.length - 4} others...</p>
-                                    )}
                                 </div>
                             )}
                         </div>

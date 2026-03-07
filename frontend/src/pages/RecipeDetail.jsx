@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { authAPI, recipeAPI, paymentAPI, getImageUrl } from 'lib/api';
 import { exportRecipeToPDF } from 'lib/pdfExport';
 import Navbar from '../components/Navbar';
+import ChatbotPopup from '../components/ChatbotPopup';
 
 export default function RecipeDetail() {
     const { id } = useParams();
@@ -13,11 +14,13 @@ export default function RecipeDetail() {
     const [commentText, setCommentText] = useState('');
     const [isLiked, setIsLiked] = useState(false);
     const [isSaved, setIsSaved] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [allergens, setAllergens] = useState([]);
+    const [allergensLoading, setAllergensLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch fresh profile always on mount for this page to ensure purchase state is current
                 const [recipeRes, profileRes] = await Promise.allSettled([
                     recipeAPI.getById(id),
                     authAPI.getProfile()
@@ -41,7 +44,23 @@ export default function RecipeDetail() {
                 setLoading(false);
             }
         };
+        const fetchAllergens = async () => {
+            if (!id) return;
+            setAllergensLoading(true);
+            try {
+                const res = await recipeAPI.getAllergens(id);
+                if (res.data.success) {
+                    setAllergens(res.data.allergens);
+                }
+            } catch (error) {
+                console.error('Error fetching allergens:', error);
+            } finally {
+                setAllergensLoading(false);
+            }
+        };
+
         fetchData();
+        fetchAllergens();
     }, [id]);
 
     const handleLike = async () => {
@@ -106,7 +125,7 @@ export default function RecipeDetail() {
 
     const handleExportPDF = async () => {
         try {
-            await exportRecipeToPDF(recipe);
+            await exportRecipeToPDF(recipe, allergens);
         } catch (error) {
             alert(error.message || 'Failed to export PDF');
         }
@@ -188,6 +207,53 @@ export default function RecipeDetail() {
                                             </li>
                                         ))}
                                     </ul>
+                                </section>
+
+                                {/* Allergen Information */}
+                                <section className="mt-10 pt-10 border-t border-gray-100">
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-xl font-bold text-gray-800">Allergen Information</h3>
+                                    </div>
+
+                                    {allergensLoading ? (
+                                        <div className="flex items-center space-x-3 text-gray-400 text-sm animate-pulse">
+                                            <div className="w-4 h-4 rounded-full bg-gray-200"></div>
+                                            <span>Analyzing ingredients for allergens...</span>
+                                        </div>
+                                    ) : allergens.length > 0 ? (
+                                        <div className="space-y-3">
+                                            <div className="bg-red-50 border border-red-100 rounded-2xl p-5">
+                                                <div className="flex items-start gap-4">
+                                                    <div className="bg-red-500 text-white p-2 rounded-xl shadow-lg shadow-red-200">
+                                                        <svg className="w-5 h-5 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 className="font-bold text-red-900 text-sm mb-1 uppercase tracking-tight">Potential Allergens Detected</h4>
+                                                        <p className="text-red-700 text-xs font-medium leading-relaxed mb-3">The following allergens were identified in this recipe's ingredients:</p>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {allergens.map((item, i) => (
+                                                                <div key={i} className="bg-white/80 backdrop-blur border border-red-100 px-3 py-1.5 rounded-xl shadow-sm group hover:border-red-500 transition-colors">
+                                                                    <span className="text-red-600 font-bold capitalize text-xs mr-1.5">{item.allergen.replace('_', ' ')}</span>
+                                                                    {item.detected_ingredients.length > 0 && (
+                                                                        <span className="text-red-400 text-[10px] font-bold">(from: {item.detected_ingredients.join(', ')})</span>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 flex items-center gap-4">
+                                            <div className="bg-emerald-500 text-white p-2 rounded-xl">
+                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-emerald-900 text-sm mb-0.5">No Major Allergens Detected</h4>
+                                            </div>
+                                        </div>
+                                    )}
                                 </section>
                             </div>
                         )}
@@ -272,24 +338,26 @@ export default function RecipeDetail() {
                                                 <span>{isSaved ? 'Saved to Cookbook' : 'Save Recipe'}</span>
                                             </button>
 
-                                            {recipe.isPremium && !showLocked && (
+                                            {!showLocked && (
                                                 <button
-                                                    onClick={() => navigate('/messages')}
+                                                    onClick={() => setIsChatOpen(true)}
                                                     className="flex-1 min-w-[150px] bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-lg shadow-indigo-100"
                                                 >
-                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
-                                                    <span>Message</span>
+                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                                    <span>Ask ChefBot</span>
                                                 </button>
                                             )}
 
-                                            <button
-                                                onClick={handleExportPDF}
-                                                className="px-6 bg-white border-2 border-gray-100 text-gray-600 hover:bg-gray-50 hover:border-gray-200 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-sm"
-                                                title="Export to PDF"
-                                            >
-                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                                                <span className="hidden md:inline">Export</span>
-                                            </button>
+                                            {recipe.isPremium && !showLocked && (
+                                                <button
+                                                    onClick={handleExportPDF}
+                                                    className="px-6 bg-white border-2 border-amber-100 text-amber-600 hover:bg-amber-50 hover:border-amber-200 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-sm"
+                                                    title="Export to PDF"
+                                                >
+                                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                                    <span className="hidden md:inline">Export</span>
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
 
@@ -348,6 +416,13 @@ export default function RecipeDetail() {
                     </div>
                 </div>
             </main>
+
+            {/* Chatbot Popup */}
+            <ChatbotPopup
+                isOpen={isChatOpen}
+                onClose={() => setIsChatOpen(false)}
+                recipeTitle={recipe?.title}
+            />
         </div>
     );
 }

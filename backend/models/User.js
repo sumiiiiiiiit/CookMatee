@@ -22,6 +22,8 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false,
     },
+    resetToken: String,
+    resetTokenExpire: Date,
     role: {
       type: String,
       enum: ['user', 'admin'],

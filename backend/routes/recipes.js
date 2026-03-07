@@ -13,7 +13,8 @@ const {
     likeRecipe,
     commentOnRecipe,
     saveRecipe,
-    purchaseRecipe
+    purchaseRecipe,
+    getAllergensForRecipe
 } = require('../controllers/recipeController');
 
 // Specific routes first
@@ -26,6 +27,7 @@ router.get('/', getAllRecipes);
 
 // Finally parameterized routes
 router.get('/:id', getRecipeById);
+router.get('/:id/allergens', getAllergensForRecipe);
 
 // Protected action routes
 router.post('/', protect, upload.single('image'), createRecipe);

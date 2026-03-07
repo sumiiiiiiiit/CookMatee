@@ -15,12 +15,16 @@ import Navbar from './components/Navbar';
 import Chatbot from './pages/Chatbot';
 import Messages from './pages/Messages';
 import PaymentSuccess from './pages/PaymentSuccess';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/home" element={
                     <ProtectedRoute>
                         <Home />
