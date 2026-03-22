@@ -1,6 +1,7 @@
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
 const { detectAllergens } = require('../utils/allergenDetector');
+const axios = require('axios');
 
 // @desc    Get all approved recipes
 // @route   GET /api/recipes
@@ -256,10 +257,60 @@ exports.getAllergensForRecipe = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Recipe not found' });
         }
 
-        const allergens = await detectAllergens(recipe.ingredients);
-        res.status(200).json({ success: true, allergens });
+        // Only detect allergens if the user has allergies configured
+        const user = await User.findById(req.user.id);
+        if (!user || !user.allergies || user.allergies.length === 0) {
+            return res.status(200).json({ success: true, allergens: [] });
+        }
+
+        const detected = await detectAllergens(recipe.ingredients);
+        
+        // Filter detected allergens to only show those the user is allergic to
+        const filteredAllergens = detected.filter(a => 
+            user.allergies.some(userAllergy => userAllergy.toLowerCase() === a.allergen.toLowerCase())
+        );
+
+        res.status(200).json({ success: true, allergens: filteredAllergens });
     } catch (error) {
         console.error('Allergen detection error:', error);
         res.status(500).json({ success: false, message: 'Failed to detect allergens' });
+    }
+};
+
+exports.searchRecipesAI = async (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) {
+            return res.status(200).json({ success: true, recipes: [] });
+        }
+
+        // Call Python Recommendation Service (In-Memory TF-IDF + Cosine Similarity)
+        // Default port is 5005 as per our Python script
+        const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'http://127.0.0.1:5005/search';
+        
+        try {
+            const response = await axios.get(PYTHON_SERVICE_URL, {
+                params: { q },
+                timeout: 5000 
+            });
+
+            res.status(200).json({
+                success: true,
+                count: (response.data && response.data.length) || 0,
+                recipes: response.data || []
+            });
+        } catch (err) {
+            console.error('Python AI Service Error:', err.message);
+            
+            // Helpful error for the user to know why it's failing
+            res.status(503).json({
+                success: false,
+                message: 'AI Search service is starting up or unavailable. Please run the Python recommender.',
+                error: err.message
+            });
+        }
+    } catch (error) {
+        console.error('Search AI controller error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 };

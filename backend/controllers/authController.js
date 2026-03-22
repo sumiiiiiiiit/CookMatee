@@ -71,12 +71,22 @@ exports.registerUser = async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
+
+    // Check if it's an email-related error
+    if (error.message && (error.message.includes('invalid_grant') || error.message.includes('auth'))) {
+      return res.status(500).json({
+        success: false,
+        message: 'Account created, but verification email failed to send. Please contact the administrator to manualy verify your account or try again later.',
+      });
+    }
+
     res.status(500).json({
       success: false,
-      message: 'Server error during registration',
+      message: error.message || 'Server error during registration',
     });
   }
 };
+
 
 exports.verifyEmail = async (req, res) => {
   const { email, otp } = req.body;
@@ -155,7 +165,14 @@ exports.loginUser = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    // Add a non-httpOnly cookie for frontend auth checks
+    res.cookie('isLoggedIn', 'true', {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
@@ -169,7 +186,8 @@ exports.loginUser = async (req, res) => {
         email: user.email,
         role: user.role || 'user',
         purchasedRecipes: user.purchasedRecipes || [],
-        savedRecipes: user.savedRecipes || []
+        savedRecipes: user.savedRecipes || [],
+        allergies: user.allergies || []
       },
     });
   } catch (error) {
@@ -210,6 +228,7 @@ exports.updateProfile = async (req, res) => {
     }
 
     if (name) user.name = name;
+    if (req.body.allergies !== undefined) user.allergies = req.body.allergies;
     await user.save();
 
     res.status(200).json({
@@ -220,6 +239,7 @@ exports.updateProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        allergies: user.allergies
       },
     });
   } catch (error) {
@@ -232,6 +252,10 @@ exports.logoutUser = async (req, res) => {
   res.cookie('token', 'none', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
+  });
+
+  res.cookie('isLoggedIn', 'false', {
+    expires: new Date(Date.now() + 10 * 1000),
   });
 
   res.status(200).json({ success: true, message: 'Logged out successfully' });
@@ -253,10 +277,20 @@ exports.handleOAuthCallback = async (req, res) => {
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
 
+    console.log('--- NEW GMAIL TOKENS RECEIVED ---');
+    console.log('Refresh Token:', tokens.refresh_token || 'Not provided (already authorized)');
+    console.log('Copy the refresh token above into your .env file as GMAIL_REFRESH_TOKEN');
+
     res.send(`
-      <div style="font-family: sans-serif; text-align: center; padding: 20px;">
-        <h1>Auth Successful!</h1>
-        <p>You can close this window now.</p>
+      <div style="font-family: sans-serif; text-align: center; padding: 40px; line-height: 1.6;">
+        <h1 style="color: #4CAF50;">Auth Successful!</h1>
+        <p>Tokens have been received. Check your <b>backend terminal</b> to see the refresh token.</p>
+        <div style="background: #f4f4f4; padding: 20px; border-radius: 10px; display: inline-block; text-align: left; margin-top: 20px;">
+          <p><b>1.</b> Copy the refresh token from terminal</p>
+          <p><b>2.</b> Update <code>GMAIL_REFRESH_TOKEN</code> in your <code>.env</code> file</p>
+          <p><b>3.</b> Restart your backend server</p>
+        </div>
+        <p style="margin-top: 20px; color: #666;">You can close this window now.</p>
       </div>
     `);
   } catch (err) {
@@ -264,6 +298,7 @@ exports.handleOAuthCallback = async (req, res) => {
     res.status(500).send('Authentication failed');
   }
 };
+
 
 exports.forgotPassword = async (req, res) => {
   try {

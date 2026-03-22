@@ -4,7 +4,7 @@ const recipeSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true,
+            required: true, // Internal API, simple validation is fine
             trim: true,
         },
         category: {
@@ -13,7 +13,7 @@ const recipeSchema = new mongoose.Schema(
             enum: ['Breakfast', 'Lunch', 'Dinner', 'Dessert'],
         },
         image: {
-            type: String,
+            type: String, // URL to image
             default: '',
         },
         ingredients: {
@@ -21,7 +21,7 @@ const recipeSchema = new mongoose.Schema(
             required: true,
         },
         steps: {
-            type: String,
+            type: String, // TODO: Consider changing to array for better formatting support
             required: true,
         },
         user: {
@@ -29,7 +29,7 @@ const recipeSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
-
+        // Denormalized for easier display without population
         chefName: {
             type: String,
             required: true,
@@ -41,7 +41,7 @@ const recipeSchema = new mongoose.Schema(
             max: 5,
         },
         cookingTime: {
-            type: String,
+            type: String, // e.g., '30 mins'
             required: true,
         },
         status: {
@@ -57,7 +57,7 @@ const recipeSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-
+       
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,
@@ -71,7 +71,7 @@ const recipeSchema = new mongoose.Schema(
                     ref: 'User',
                     required: true,
                 },
-                userName: String,
+                userName: String, 
                 text: {
                     type: String,
                     required: true,

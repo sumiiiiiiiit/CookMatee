@@ -14,7 +14,8 @@ const {
     commentOnRecipe,
     saveRecipe,
     purchaseRecipe,
-    getAllergensForRecipe
+    getAllergensForRecipe,
+    searchRecipesAI
 } = require('../controllers/recipeController');
 
 // Specific routes first
@@ -22,12 +23,12 @@ router.get('/leaderboard', getLeaderboard);
 router.get('/saved', protect, getSavedRecipes);
 router.get('/my-recipes', protect, getMyRecipes);
 
-// Then general list route
+router.get('/search', searchRecipesAI);
 router.get('/', getAllRecipes);
 
 // Finally parameterized routes
 router.get('/:id', getRecipeById);
-router.get('/:id/allergens', getAllergensForRecipe);
+router.get('/:id/allergens', protect, getAllergensForRecipe);
 
 // Protected action routes
 router.post('/', protect, upload.single('image'), createRecipe);

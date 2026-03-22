@@ -60,6 +60,8 @@ export const recipeAPI = {
     purchase: (id) => api.post(`/recipes/${id}/purchase`),
     getLeaderboard: () => api.get('/recipes/leaderboard'),
     getAllergens: (id) => api.get(`/recipes/${id}/allergens`),
+    searchAI: (query) => api.get(`/recipes/search`, { params: { q: query } }),
+    searchRecipes: (query) => api.get(`/search`, { params: { q: query } }),
 };
 
 export const adminAPI = {
@@ -74,6 +76,12 @@ export const adminAPI = {
 export const paymentAPI = {
     initiate: (recipeId) => api.post('/payment/initiate', { recipeId }),
     verify: (pidx, recipeId) => api.post('/payment/verify', { pidx, recipeId }),
+};
+
+export const messageAPI = {
+    getConversations: () => api.get('/messages/conversations'),
+    getMessages: (receiverId) => api.get(`/messages/${receiverId}`),
+    getRecipeOwner: (recipeId) => api.get(`/messages/recipe-owner/${recipeId}`),
 };
 
 export default api;

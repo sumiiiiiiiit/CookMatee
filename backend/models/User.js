@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Recipe',
     }],
+    allergies: [{
+      type: String,
+      trim: true
+    }],
   },
   {
     timestamps: true,

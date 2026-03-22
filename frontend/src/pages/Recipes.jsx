@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { authAPI, recipeAPI, getImageUrl } from 'lib/api';
 import Navbar from '../components/Navbar';
+import RecipeSearchBar from '../components/RecipeSearchBar';
 
 export default function Recipes() {
     const navigate = useNavigate();
@@ -38,6 +39,8 @@ export default function Recipes() {
 
         fetchData();
     }, []);
+
+    // Handled by RecipeSearchBar now
 
     if (loading) {
         return (
@@ -107,25 +110,13 @@ export default function Recipes() {
                             {searchTerm && <span className="text-gray-400 font-medium text-lg ml-3">/ Results for "{searchTerm}"</span>}
                         </h2>
 
-                        <div className="relative w-full md:w-80 group">
-                            <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Search recipes or ingredients..."
-                                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 placeholder:text-gray-400"
-                            />
-                            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                            {searchTerm && (
-                                <button
-                                    onClick={() => setSearchTerm('')}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1"
-                                >
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 0114.14 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                                </button>
-                            )}
-                        </div>
+                        <RecipeSearchBar onSearchComplete={(val) => setSearchTerm(val)} />
                     </div>
+
+
+                    <h3 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        {selectedCategory === 'All' ? 'Our Collections' : `${selectedCategory} Specials`}
+                    </h3>
 
                     {loading ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -14,8 +14,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const token = Cookies.get('token');
-        if (token) {
+        const isAuth = Cookies.get('isLoggedIn') === 'true';
+        if (isAuth) {
             navigate('/home');
         }
     }, [navigate]);
@@ -37,7 +37,7 @@ export default function Login() {
             const response = await authAPI.login(formData);
 
             if (response.data.token) {
-                Cookies.set('token', response.data.token, { expires: 7 });
+                Cookies.set('isLoggedIn', 'true', { expires: 7 });
                 navigate('/home');
             }
         } catch (err) {

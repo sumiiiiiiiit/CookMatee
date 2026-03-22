@@ -1,11 +1,45 @@
-const { google } = require('googleapis');
-const { randomBytes } = require('crypto');
+const nodemailer = require('nodemailer');
 const oAuth2Client = require('./oauth');
+
+/**
+ * Common transporter creator for both verification and general emails
+ */
+const createTransporter = async () => {
+  try {
+    // The oauth2Client already has credentials set at the global level in oauth.js
+    // We can get the current access token
+    const { token: accessToken } = await oAuth2Client.getAccessToken();
+
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        type: 'OAuth2',
+        user: process.env.GMAIL_USER,
+        clientId: process.env.GMAIL_CLIENT_ID,
+        clientSecret: process.env.GMAIL_CLIENT_SECRET,
+        refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+      debug: true, // Enable debug output
+      logger: true  // Log to console
+    });
+
+
+    return transporter;
+  } catch (error) {
+    console.error('Error creating email transporter:', error.message);
+    if (error.message.includes('invalid_grant')) {
+      console.error('CRITICAL: Refresh token is invalid or expired.');
+      console.error('Please visit http://localhost:5001/api/auth/google-setup to re-authenticate.');
+    }
+    throw error;
+  }
+};
 
 const sendVerificationEmail = async (user) => {
   try {
-    const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
-
     const User = require('../models/User');
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
@@ -15,79 +49,40 @@ const sendVerificationEmail = async (user) => {
       otpExpires: expires,
     });
 
-    // Correct raw email format (Gmail API requires this exact structure)
-    const emailContent = [
-      'MIME-Version: 1.0',
-      'Content-Type: text/plain; charset="UTF-8"',
-      `From: CookMate <${process.env.GMAIL_USER}>`,
-      `To: ${user.email}`,
-      `Subject: =?utf-8?B?${Buffer.from('Your CookMate Verification Code').toString('base64')}?=`,
-      '',
-      'Welcome to CookMate!',
-      '',
-      `Your verification code is: ${otp}`,
-      'This code expires in 10 minutes.',
-      'If you didn’t sign up, ignore this email.'
-    ].join('\r\n');
+    const transporter = await createTransporter();
 
-    const encodedEmail = Buffer.from(emailContent, 'utf-8')
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+    const mailOptions = {
+      from: `CookMate <${process.env.GMAIL_USER}>`,
+      to: user.email,
+      subject: 'Your CookMate Verification Code',
+      text: `Welcome to CookMate!\r\n\r\nYour verification code is: ${otp}\r\nThis code expires in 10 minutes.\r\nIf you didn’t sign up, ignore this email.`,
+    };
 
-    const res = await gmail.users.messages.send({
-      userId: 'me',
-      requestBody: {
-        raw: encodedEmail
-      }
-    });
-
+    const info = await transporter.sendMail(mailOptions);
     console.log(`Verification email sent to: ${user.email}`);
-    console.log('Message ID:', res.data.id);
+    console.log('Message ID:', info.messageId);
   } catch (err) {
-    console.error('Gmail API send error:', err.message);
-    if (err.message.includes('invalid_grant')) {
-      console.error('CRITICAL: Refresh token is invalid or expired.');
-      console.error('Please visit http://localhost:5001/api/auth/google-setup in your browser to re-authenticate.');
-    }
-    if (err.response?.data) {
-      console.error('Full Google error:', JSON.stringify(err.response.data, null, 2));
-    }
+    console.error('Verification email send error:', err.message);
     throw err;
   }
 };
 
 const sendEmail = async ({ to, subject, body }) => {
   try {
-    const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
+    const transporter = await createTransporter();
 
-    const emailContent = [
-      'MIME-Version: 1.0',
-      'Content-Type: text/plain; charset="UTF-8"',
-      `From: CookMate <${process.env.GMAIL_USER}>`,
-      `To: ${to}`,
-      `Subject: =?utf-8?B?${Buffer.from(subject).toString('base64')}?=`,
-      '',
-      body
-    ].join('\r\n');
+    const mailOptions = {
+      from: `CookMate <${process.env.GMAIL_USER}>`,
+      to: to,
+      subject: subject,
+      text: body,
+    };
 
-    const encodedEmail = Buffer.from(emailContent, 'utf-8')
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
-
-    await gmail.users.messages.send({
-      userId: 'me',
-      requestBody: {
-        raw: encodedEmail
-      }
-    });
-
+    const info = await transporter.sendMail(mailOptions);
     console.log(`Email sent to: ${to}`);
+    console.log('Message ID:', info.messageId);
   } catch (err) {
-    console.error('Email send error:', err.message);
+    console.error('General email send error:', err.message);
     throw err;
   }
 };

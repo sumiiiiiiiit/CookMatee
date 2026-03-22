@@ -10,12 +10,15 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [newName, setNewName] = useState('');
+    const [userAllergies, setUserAllergies] = useState([]);
     const [updateLoading, setUpdateLoading] = useState(false);
+
+    const ALLERGEN_OPTIONS = ["milk", "egg", "wheat", "soy", "peanut", "tree_nut", "shellfish", "fish", "sesame"];
 
     useEffect(() => {
         const fetchProfile = async () => {
-            const token = Cookies.get('token');
-            if (!token) {
+            const isAuth = Cookies.get('isLoggedIn') === 'true';
+            if (!isAuth) {
                 navigate('/login');
                 return;
             }
@@ -25,9 +28,10 @@ export default function Dashboard() {
                 const userData = response.data.user || response.data;
                 setUser(userData);
                 setNewName(userData.name);
+                setUserAllergies(userData.allergies || []);
             } catch (error) {
                 console.error('Failed to fetch profile:', error);
-                Cookies.remove('token');
+                Cookies.remove('isLoggedIn');
                 navigate('/login');
             } finally {
                 setLoading(false);
@@ -37,23 +41,30 @@ export default function Dashboard() {
         fetchProfile();
     }, [navigate]);
 
-    const handleUpdateName = async () => {
-        if (!newName.trim() || newName === user.name) {
-            setIsEditing(false);
-            return;
-        }
-
+    const handleUpdateProfile = async () => {
         setUpdateLoading(true);
         try {
-            const response = await authAPI.updateProfile({ name: newName });
-            setUser({ ...user, name: response.data.user.name });
+            const response = await authAPI.updateProfile({ 
+                name: newName,
+                allergies: userAllergies 
+            });
+            const updatedUser = response.data.user;
+            setUser({ ...user, name: updatedUser.name, allergies: updatedUser.allergies });
             setIsEditing(false);
-            alert('Name updated successfully!');
+            alert('Profile updated successfully!');
         } catch (error) {
-            console.error('Failed to update name:', error);
-            alert('Failed to update name. Please try again.');
+            console.error('Failed to update profile:', error);
+            alert('Failed to update profile. Please try again.');
         } finally {
             setUpdateLoading(false);
+        }
+    };
+
+    const toggleAllergy = (allergy) => {
+        if (userAllergies.includes(allergy)) {
+            setUserAllergies(userAllergies.filter(a => a !== allergy));
+        } else {
+            setUserAllergies([...userAllergies, allergy]);
         }
     };
 
@@ -94,7 +105,7 @@ export default function Dashboard() {
                                     />
                                     <div className="flex space-x-3">
                                         <button
-                                            onClick={handleUpdateName}
+                                            onClick={handleUpdateProfile}
                                             disabled={updateLoading}
                                             className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl text-sm font-bold shadow-md transition disabled:opacity-50"
                                         >
@@ -113,10 +124,10 @@ export default function Dashboard() {
                                     <h1 className="text-4xl font-extrabold text-[#1a1a1a] mb-2">{user?.name}</h1>
                                     <button
                                         onClick={() => setIsEditing(true)}
-                                        className="absolute -right-12 top-2 p-2 bg-gray-50 text-primary hover:bg-primary hover:text-white rounded-full transition-all shadow-sm"
+                                        className="absolute -right-12 top-2 p-2.5 bg-gray-50 text-primary hover:bg-primary hover:text-white rounded-full transition-all shadow-md group-hover:scale-110"
                                         title="Edit Username"
                                     >
-                                        ✏️
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                                     </button>
                                 </div>
                             )}
@@ -130,6 +141,49 @@ export default function Dashboard() {
                                     <p className="text-gray-800 font-bold capitalize">{user?.role}</p>
                                 </div>
                                 <span className={`w-3 h-3 rounded-full ${user?.role === 'admin' ? 'bg-amber-400 animate-pulse' : 'bg-green-400'}`}></span>
+                            </div>
+
+                            <div className="bg-gray-50 p-6 rounded-3xl border border-gray-100">
+                                <div className="flex justify-between items-center mb-4">
+                                    <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">My Allergies</p>
+                                    {!isEditing && (
+                                        <button 
+                                            onClick={() => setIsEditing(true)}
+                                            className="text-[10px] font-bold text-primary hover:underline transition"
+                                        >
+                                            Edit
+                                        </button>
+                                    )}
+                                </div>
+                                {isEditing ? (
+                                    <div className="flex flex-wrap gap-2">
+                                        {ALLERGEN_OPTIONS.map(allergy => (
+                                            <button
+                                                key={allergy}
+                                                onClick={() => toggleAllergy(allergy)}
+                                                className={`px-3 py-1.5 rounded-full text-[10px] font-bold transition border ${
+                                                    userAllergies.includes(allergy) 
+                                                    ? 'bg-primary text-white border-primary shadow-sm' 
+                                                    : 'bg-white text-gray-500 border-gray-200 hover:border-primary/50'
+                                                }`}
+                                            >
+                                                {allergy.replace('_', ' ')}
+                                            </button>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-wrap gap-2">
+                                        {user?.allergies && user.allergies.length > 0 ? (
+                                            user.allergies.map(allergy => (
+                                                <span key={allergy} className="px-3 py-1 bg-red-50 text-red-500 rounded-full text-[10px] font-bold border border-red-100 uppercase tracking-tighter">
+                                                    {allergy.replace('_', ' ')}
+                                                </span>
+                                            ))
+                                        ) : (
+                                            <p className="text-gray-400 text-xs italic">No allergies listed.</p>
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="bg-gray-50 p-6 rounded-3xl border border-gray-100">

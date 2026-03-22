@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { authAPI, recipeAPI, paymentAPI, getImageUrl } from 'lib/api';
+import { authAPI, recipeAPI, paymentAPI, messageAPI, getImageUrl } from 'lib/api';
 import { exportRecipeToPDF } from 'lib/pdfExport';
 import Navbar from '../components/Navbar';
 import ChatbotPopup from '../components/ChatbotPopup';
@@ -38,14 +38,18 @@ export default function RecipeDetail() {
                     setIsLiked(liked);
                     setIsSaved(saved);
                 }
+                return currentUser;
             } catch (error) {
                 console.error('Error fetching recipe:', error);
             } finally {
                 setLoading(false);
             }
         };
-        const fetchAllergens = async () => {
-            if (!id) return;
+        const fetchAllergens = async (currentUser) => {
+            if (!id || !currentUser || !currentUser.allergies || currentUser.allergies.length === 0) {
+                setAllergens([]);
+                return;
+            }
             setAllergensLoading(true);
             try {
                 const res = await recipeAPI.getAllergens(id);
@@ -59,8 +63,14 @@ export default function RecipeDetail() {
             }
         };
 
-        fetchData();
-        fetchAllergens();
+        const init = async () => {
+            const currentUser = await fetchData();
+            if (currentUser) {
+                fetchAllergens(currentUser);
+            }
+        };
+
+        init();
     }, [id]);
 
     const handleLike = async () => {
@@ -128,6 +138,19 @@ export default function RecipeDetail() {
             await exportRecipeToPDF(recipe, allergens);
         } catch (error) {
             alert(error.message || 'Failed to export PDF');
+        }
+    };
+
+    const handleChatWithChef = async () => {
+        if (!user) return navigate('/login');
+        try {
+            const res = await messageAPI.getRecipeOwner(id);
+            if (res.data.success) {
+                // Navigate to messages page and tell it to open the chat with this owner
+                navigate('/messages', { state: { openChatWith: res.data.owner } });
+            }
+        } catch (error) {
+            console.error('Chat with Chef error:', error);
         }
     };
 
@@ -209,52 +232,55 @@ export default function RecipeDetail() {
                                     </ul>
                                 </section>
 
-                                {/* Allergen Information */}
-                                <section className="mt-10 pt-10 border-t border-gray-100">
-                                    <div className="flex items-center justify-between mb-4">
-                                        <h3 className="text-xl font-bold text-gray-800">Allergen Information</h3>
-                                    </div>
-
-                                    {allergensLoading ? (
-                                        <div className="flex items-center space-x-3 text-gray-400 text-sm animate-pulse">
-                                            <div className="w-4 h-4 rounded-full bg-gray-200"></div>
-                                            <span>Analyzing ingredients for allergens...</span>
+                                {/* Allergen Information - Only show if user has allergies set in profile */}
+                                {user?.allergies && user.allergies.length > 0 && (
+                                    <section className="mt-10 pt-10 border-t border-gray-100">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <h3 className="text-xl font-bold text-gray-800">Allergen Information</h3>
                                         </div>
-                                    ) : allergens.length > 0 ? (
-                                        <div className="space-y-3">
-                                            <div className="bg-red-50 border border-red-100 rounded-2xl p-5">
-                                                <div className="flex items-start gap-4">
-                                                    <div className="bg-red-500 text-white p-2 rounded-xl shadow-lg shadow-red-200">
-                                                        <svg className="w-5 h-5 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                                    </div>
-                                                    <div>
-                                                        <h4 className="font-bold text-red-900 text-sm mb-1 uppercase tracking-tight">Potential Allergens Detected</h4>
-                                                        <p className="text-red-700 text-xs font-medium leading-relaxed mb-3">The following allergens were identified in this recipe's ingredients:</p>
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {allergens.map((item, i) => (
-                                                                <div key={i} className="bg-white/80 backdrop-blur border border-red-100 px-3 py-1.5 rounded-xl shadow-sm group hover:border-red-500 transition-colors">
-                                                                    <span className="text-red-600 font-bold capitalize text-xs mr-1.5">{item.allergen.replace('_', ' ')}</span>
-                                                                    {item.detected_ingredients.length > 0 && (
-                                                                        <span className="text-red-400 text-[10px] font-bold">(from: {item.detected_ingredients.join(', ')})</span>
-                                                                    )}
-                                                                </div>
-                                                            ))}
+
+                                        {allergensLoading ? (
+                                            <div className="flex items-center space-x-3 text-gray-400 text-sm animate-pulse">
+                                                <div className="w-4 h-4 rounded-full bg-gray-200"></div>
+                                                <span>Analyzing ingredients for your allergies...</span>
+                                            </div>
+                                        ) : allergens.length > 0 ? (
+                                            <div className="space-y-3">
+                                                <div className="bg-red-50 border border-red-100 rounded-2xl p-5">
+                                                    <div className="flex items-start gap-4">
+                                                        <div className="bg-red-500 text-white p-2 rounded-xl shadow-lg shadow-red-200">
+                                                            <svg className="w-5 h-5 font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="font-bold text-red-900 text-sm mb-1 uppercase tracking-tight">Warning: Allergic Ingredients Detected</h4>
+                                                            <p className="text-red-700 text-xs font-medium leading-relaxed mb-3">Based on your profile, we've identified ingredients you might be allergic to:</p>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {allergens.map((item, i) => (
+                                                                    <div key={i} className="bg-white/80 backdrop-blur border border-red-100 px-3 py-1.5 rounded-xl shadow-sm group hover:border-red-500 transition-colors">
+                                                                        <span className="text-red-600 font-bold capitalize text-xs mr-1.5">{item.allergen.replace('_', ' ')}</span>
+                                                                        {item.detected_ingredients.length > 0 && (
+                                                                            <span className="text-red-400 text-[10px] font-bold">(from: {item.detected_ingredients.join(', ')})</span>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ) : (
-                                        <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 flex items-center gap-4">
-                                            <div className="bg-emerald-500 text-white p-2 rounded-xl">
-                                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                                        ) : (
+                                            <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5 flex items-center gap-4">
+                                                <div className="bg-emerald-500 text-white p-2 rounded-xl">
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-emerald-900 text-sm mb-0.5">No Allergens Detected</h4>
+                                                    <p className="text-emerald-700 text-[10px]">None of your listed allergies were found in this recipe.</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4 className="font-bold text-emerald-900 text-sm mb-0.5">No Major Allergens Detected</h4>
-                                            </div>
-                                        </div>
-                                    )}
-                                </section>
+                                        )}
+                                    </section>
+                                )}
                             </div>
                         )}
                     </div>
@@ -356,6 +382,18 @@ export default function RecipeDetail() {
                                                 >
                                                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                                     <span className="hidden md:inline">Export</span>
+                                                </button>
+                                            )}
+
+                                            {/* Chat with Chef — visible for any unlocked recipe not owned by user */}
+                                            {!showLocked && !isOwned && (
+                                                <button
+                                                    onClick={handleChatWithChef}
+                                                    className="flex-1 min-w-[150px] bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 text-white py-4 rounded-xl font-bold transition flex items-center justify-center space-x-2 shadow-lg shadow-violet-200"
+                                                    title="Chat with the Chef directly"
+                                                >
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                                                    <span>Chat with Chef</span>
                                                 </button>
                                             )}
                                         </div>

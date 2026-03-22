@@ -32,8 +32,14 @@ router.put('/profile', protect, updateProfile);
 router.get('/google-setup', (req, res) => {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: 'offline', // Ensures we get a refresh token
-    scope: ['https://www.googleapis.com/auth/gmail.send'],
+    prompt: 'consent', // Forces Google to show the consent screen & always return a refresh token
+    scope: [
+      'https://www.googleapis.com/auth/gmail.send',
+      'https://mail.google.com/'
+    ],
+
   });
   res.redirect(authUrl);
 });
+
 module.exports = router;
