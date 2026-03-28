@@ -60,6 +60,7 @@ export const recipeAPI = {
     purchase: (id) => api.post(`/recipes/${id}/purchase`),
     getLeaderboard: () => api.get('/recipes/leaderboard'),
     getAllergens: (id) => api.get(`/recipes/${id}/allergens`),
+    getRelated: (id) => api.get(`/recipes/${id}/related`),
     searchAI: (query) => api.get(`/recipes/search`, { params: { q: query } }),
     searchRecipes: (query) => api.get(`/search`, { params: { q: query } }),
 };

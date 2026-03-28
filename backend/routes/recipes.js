@@ -15,7 +15,8 @@ const {
     saveRecipe,
     purchaseRecipe,
     getAllergensForRecipe,
-    searchRecipesAI
+    searchRecipesAI,
+    getRelatedRecipes
 } = require('../controllers/recipeController');
 
 // Specific routes first
@@ -28,6 +29,7 @@ router.get('/', getAllRecipes);
 
 // Finally parameterized routes
 router.get('/:id', getRecipeById);
+router.get('/:id/related', getRelatedRecipes);
 router.get('/:id/allergens', protect, getAllergensForRecipe);
 
 // Protected action routes

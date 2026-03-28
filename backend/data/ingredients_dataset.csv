@@ -1,0 +1,145 @@
+ingredient_id,ingredient_name,calories_per_100g,protein_g,carbs_g,fat_g,fiber_g,sugar_g,category
+1,Apple,52,0.3,14,0.2,2.4,10.4,Fruit
+2,Banana,89,1.1,23,0.3,2.6,12.2,Fruit
+3,Orange,47,0.9,12,0.1,2.4,9.4,Fruit
+4,Strawberry,32,0.8,8,0.3,2,7.4,Fruit
+5,Blueberry,57,0.7,14,0.3,2.4,10,Fruit
+6,Watermelon,30,0.6,8,0.2,0.4,6.2,Fruit
+7,Grapes,67,0.6,17,0.2,0.9,16.4,Fruit
+8,Mango,60,0.8,15,0.4,1.6,13.7,Fruit
+9,Pineapple,50,0.5,13,0.1,1.4,9.9,Fruit
+10,Peach,39,0.9,10,0.3,1.5,8.4,Fruit
+11,Pear,57,0.4,15,0.1,3.1,9.8,Fruit
+12,Kiwi,61,1.1,15,0.5,3,6.2,Fruit
+13,Lemon,29,1.1,9,0.3,2.8,2.5,Fruit
+14,Lime,30,0.7,11,0.2,2.8,1.7,Fruit
+15,Coconut,354,3.3,15,35,9,9,Fruit
+16,Avocado,160,2,9,15,7,0.7,Fruit
+17,Papaya,43,0.5,11,0.3,1.7,7.8,Fruit
+18,Guava,68,2.6,14,0.9,5.4,8.9,Fruit
+19,Pomegranate,83,1.7,19,1.2,4,13.7,Fruit
+20,Dragon Fruit,60,1.2,13,0.4,3,8.1,Fruit
+21,Passion Fruit,97,2.2,23,0.7,10,11.2,Fruit
+22,Grapefruit,42,0.8,11,0.1,1.6,7,Fruit
+23,Tangerine,47,0.7,12,0.3,1.8,9.3,Fruit
+24,Cranberry,46,0.4,12,0.1,4.6,4,Fruit
+25,Blackberry,43,1.4,10,0.5,5.3,4.9,Fruit
+26,Raspberry,52,1.2,12,0.7,6.5,4.4,Fruit
+27,Cantaloupe,34,0.8,8,0.2,0.9,7.9,Fruit
+28,Honeydew,36,0.5,9,0.1,0.8,8.1,Fruit
+29,Date,282,2.7,75,0.2,6.7,66.5,Fruit
+30,Raisin,299,3.1,79,0.5,3.7,59.2,Fruit
+31,Prune,240,2.2,64,0.4,7.1,38.1,Fruit
+32,Fig,74,0.8,19,0.3,1.5,16.3,Fruit
+33,Olive,115,0.8,6,11,1.3,0,Fruit
+34,Carrot,41,0.9,10,0.2,2.8,4.7,Vegetable
+35,Broccoli,34,2.8,7,0.4,2.4,1.7,Vegetable
+36,Cabbage,25,1.3,6,0.1,2.4,3.2,Vegetable
+37,Cauliflower,25,1.9,5,0.3,2.4,1.9,Vegetable
+38,Spinach,23,2.9,4,0.4,2.2,0.4,Vegetable
+39,Kale,49,4.3,9,0.9,2.6,0.9,Vegetable
+40,Lettuce,15,1.2,3,0.2,1.3,0.6,Vegetable
+41,Tomato,18,0.9,4,0.2,1.2,2.6,Vegetable
+42,Cucumber,16,0.7,4,0.1,0.5,1.7,Vegetable
+43,Bell Pepper,31,1,7,0.3,1.7,4.2,Vegetable
+44,Onion,40,1.1,9,0.1,1.7,4.2,Vegetable
+45,Garlic,149,6.4,33,0.5,2.1,1,Vegetable
+46,Potato,77,2,17,0.1,2.1,0.8,Vegetable
+47,Sweet Potato,86,1.6,20,0.1,3,4.2,Vegetable
+48,Pumpkin,26,1,7,0.1,0.5,2.8,Vegetable
+49,Zucchini,21,1.5,3,0.4,1,1.2,Vegetable
+50,Eggplant,35,1.2,9,0.2,3,5.2,Vegetable
+51,Green Beans,31,1.8,7,0.2,2.7,1.8,Vegetable
+52,Peas,81,5.4,14,0.4,2.6,5.7,Vegetable
+53,Corn,86,3.3,19,1.4,2.7,6.3,Vegetable
+54,Asparagus,27,2.2,5,0.1,2.1,1.9,Vegetable
+55,Celery,16,0.7,3,0.2,1.6,1.6,Vegetable
+56,Beetroot,43,1.7,10,0.2,2.8,6.8,Vegetable
+57,Radish,16,0.7,4,0.1,1.6,1.9,Vegetable
+58,Turnip,36,1.1,8,0.1,2.3,3.7,Vegetable
+59,Parsnip,75,1.2,17,0.3,4.9,5.9,Vegetable
+60,Brussels Sprouts,43,3.4,8,0.3,2.4,2.2,Vegetable
+61,Artichoke,47,3.3,10,0.1,5.4,0.7,Vegetable
+62,Mushroom,22,3.1,3,0.3,1,0.5,Vegetable
+63,Avocado,160,2,9,15,7,0.7,Vegetable
+64,Leek,61,1.5,14,0.3,2.4,3.9,Vegetable
+65,Okra,33,2,7,0.2,3.2,1.5,Vegetable
+66,Fennel,31,1.2,7,0.2,3.1,3.9,Vegetable
+67,Watercress,21,2.3,4,0.1,0.7,0.4,Vegetable
+68,Arugula,25,2.6,4,0.7,2.6,0.4,Vegetable
+69,Bok Choy,13,1.5,2,0.2,1.3,0.4,Vegetable
+70,Swiss Chard,19,1.8,4,0.2,1.6,0.8,Vegetable
+71,Collard Greens,33,3.3,7,0.6,3.6,0,Vegetable
+72,Mustard Greens,27,3.2,5,0.4,2.7,0,Vegetable
+73,Pinto Beans,143,9.4,26,0.5,6.4,0.6,Legume
+74,Black Beans,132,8.9,24,0.5,8.7,0.3,Legume
+75,Chickpeas,164,8.9,27,2.7,7.6,1.5,Legume
+76,Lentils,116,9.0,20,0.4,7.9,1.5,Legume
+77,Red Lentils,131,9.0,23,0.4,1.9,0.2,Legume
+78,Kidney Beans,127,8.7,23,0.5,6.4,0.3,Legume
+79,Navy Beans,130,8.6,24,0.5,6.3,0.3,Legume
+80,Cannellini Beans,134,8.9,24,0.6,5.5,0.3,Legume
+81,Mung Beans,95,3.2,17,0.4,4.2,6.6,Legume
+82,Split Peas,118,8.2,21,0.4,8.3,0.5,Legume
+83,Peanuts,567,26,16,49,8.5,4.7,Legume
+84,Peanut Butter,588,25,20,50,6,7,Legume
+85,Soybean,173,17,10,9,6,3,Legume
+86,Tofu,76,8,2,5,1,0,Legume
+87,Tempeh,194,19,9,11,0,0,Legume
+88,Edamame,111,11,10,5,2.2,2,Legume
+89,Almond,579,21,22,50,12.5,4.4,Nut
+90,Walnut,654,9,14,65,6.7,2.6,Nut
+91,Cashew,553,18,30,44,3.3,5.9,Nut
+92,Pistachio,562,20,28,45,10.3,7.7,Nut
+93,Brazil Nut,659,14,12,67,2.3,2.3,Nut
+94,Macadamia Nut,718,7.8,14,76,8.6,4.6,Nut
+95,Pecan,691,9,14,72,8.7,3.9,Nut
+96,Hazelnut,628,15,17,61,9.7,4.3,Nut
+97,Pine Nut,673,14,13,68,3.7,3.6,Nut
+98,Sunflower Seeds,585,21,20,51,8.6,2.6,Nut
+99,Pumpkin Seeds,446,19,54,19,1.1,5.2,Nut
+100,Sesame Seeds,573,17,23,50,11.7,0.3,Nut
+101,Flax Seeds,534,18,29,42,27.3,1.5,Nut
+102,Chia Seeds,486,17,42,31,34.4,1.3,Nut
+103,Chicken Breast,165,31,0,3.6,0,0,Meat
+104,Chicken Thigh,209,26,0,11,0,0,Meat
+105,Chicken Leg,215,27,0,11,0,0,Meat
+106,Turkey Breast,135,30,0,1,0,0,Meat
+107,Turkey Ground,229,23,0,15,0,0,Meat
+108,Ground Beef,217,23,0,13,0,0,Meat
+109,Beef Steak,180,27,0,8,0,0,Meat
+110,Beef Brisket,215,27,0,11,0,0,Meat
+111,Beef Liver,135,21,4,3.6,0,0,Meat
+112,Pork Chop,242,27,0,14,0,0,Meat
+113,Pork Tenderloin,143,27,0,3.6,0,0,Meat
+114,Pork Ground,268,25,0,19,0,0,Meat
+115,Pork Liver,136,21,3.6,3.6,0,0,Meat
+116,Lamb Chop,285,25,0,21,0,0,Meat
+117,Lamb Ground,282,24,0,21,0,0,Meat
+118,Venison,134,26,0,2.6,0,0,Meat
+119,Duck Breast,337,19,0,30,0,0,Meat
+120,Rabbit,173,33,0,3.5,0,0,Meat
+121,Salmon,206,22,0,13,0,0,Fish
+122,Cod,82,18,0,0.7,0,0,Fish
+123,Tuna,132,23,0,4.9,0,0,Fish
+124,Halibut,111,21,0,2.4,0,0,Fish
+125,Mackerel,205,19,0,14,0,0,Fish
+126,Sardine,208,25,0,11,0,0,Fish
+127,Herring,158,18,0,9,0,0,Fish
+128,Trout,141,20,0,6.3,0,0,Fish
+129,Flounder,91,19,0,1.2,0,0,Fish
+130,Catfish,105,18,0,3.6,0,0,Fish
+131,Snapper,100,20,0,1.3,0,0,Fish
+132,Anchovy,210,20,0,12,0,0,Fish
+133,Shrimp,99,24,0,0.3,0,0,Seafood
+134,Crab,81,17,0,0.6,0,0,Seafood
+135,Lobster,90,20,1.3,0.5,0,0,Seafood
+136,Oyster,68,7,4,2,0,0,Seafood
+137,Clam,86,15,3,1.3,0,0,Seafood
+138,Mussel,86,12,4,2.2,0,0,Seafood
+139,Squid,92,16,3,1.4,0,0,Seafood
+140,Egg,155,13,1.1,11,0,1.1,Dairy
+141,Egg White,17,3.6,0.4,0.2,0,0.2,Dairy
+142,Egg Yolk,322,16,11,26,0,8.6,Dairy
+143,Whole Milk,61,3.2,4.8,3.3,0,4.8,Dairy
+144,Skim Milk,35

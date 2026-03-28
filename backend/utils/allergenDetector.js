@@ -7,7 +7,7 @@ const detectAllergens = (ingredients) => {
         const pythonDir = path.join(__dirname, '../Python');
         const scriptPath = path.join(pythonDir, 'AllerenX.py');
         const modelPath = path.join(pythonDir, 'allergen_model.pkl');
-        const ingredientsString = Array.isArray(ingredients) ? ingredients.join(', ') : ingredients;
+        const ingredientsString = Array.isArray(ingredients) ? ingredients.map(i => typeof i === 'string' ? i : i.name).join(', ') : ingredients;
 
         // Pass model path as a 3rd argument to detect command
         const pythonProcess = spawn(pythonPath, [scriptPath, 'detect', ingredientsString, modelPath]);

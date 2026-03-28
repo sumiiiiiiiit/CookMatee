@@ -1,0 +1,1125 @@
+ingredient_id,ingredient_name,calories_per_100g,protein_g,carbs_g,fat_g,fiber_g,sugar_g,category
+1,Apple,52,0.3,14,0.2,2.4,10.4,Fruit
+2,Banana,89,1.1,23,0.3,2.6,12.2,Fruit
+3,Orange,47,0.9,11.8,0.1,2.4,9.4,Fruit
+4,Mango,60,0.8,15,0.4,1.6,13.7,Fruit
+5,Pineapple,50,0.5,13.1,0.1,1.4,9.9,Fruit
+6,Strawberry,32,0.7,7.7,0.3,2,4.9,Fruit
+7,Blueberry,57,0.7,14.5,0.3,2.4,9.9,Fruit
+8,Grape,69,0.7,18,0.2,0.9,15.5,Fruit
+9,Kiwi,61,1.1,14.7,0.5,3,9,Fruit
+10,Lemon,29,1.1,9.3,0.3,2.8,2.5,Fruit
+11,Lime,30,0.7,10.5,0.2,2.8,1.7,Fruit
+12,Avocado,160,2,8.5,14.7,6.7,0.7,Fruit
+13,Pear,57,0.4,15.2,0.1,3.1,9.8,Fruit
+14,Peach,39,0.9,9.5,0.3,1.5,8.4,Fruit
+15,Cherry,50,1,12,0.3,1.6,8.5,Fruit
+16,Watermelon,30,0.6,7.6,0.2,0.4,6.2,Fruit
+17,Cantaloupe,34,0.8,8.2,0.2,0.9,7.9,Fruit
+18,Papaya,43,0.5,10.8,0.3,1.7,7.8,Fruit
+19,Fig,74,0.7,19.2,0.3,2.9,16.3,Fruit
+20,Date,282,2.5,75,0.4,8,63.4,Fruit
+21,Carrot,41,0.9,9.6,0.2,2.8,4.7,Vegetable
+22,Potato,77,2,17.5,0.1,2.2,0.8,Vegetable
+23,Tomato,18,0.9,3.9,0.2,1.2,2.6,Vegetable
+24,Onion,40,1.1,9.3,0.1,1.7,4.2,Vegetable
+25,Garlic,149,6.4,33.1,0.5,2.1,1,Vegetable
+26,Broccoli,34,2.8,6.6,0.4,2.6,1.7,Vegetable
+27,Cauliflower,25,1.9,5,0.3,2.5,1.9,Vegetable
+28,Spinach,23,2.9,3.6,0.4,2.2,0.4,Vegetable
+29,Kale,35,2.9,4.4,1.5,4.1,1,Vegetable
+30,Cabbage,25,1.3,5.8,0.1,2.5,3.2,Vegetable
+31,Lettuce,15,1.4,2.9,0.2,1.3,0.8,Vegetable
+32,Cucumber,16,0.7,3.6,0.1,0.5,1.7,Vegetable
+33,Bell Pepper,26,1,6,0.3,2.1,3.9,Vegetable
+34,Zucchini,17,1.2,3.1,0.3,1,2.5,Vegetable
+35,Eggplant,25,1,6,0.2,3,3.5,Vegetable
+36,Mushroom,22,3.1,3.3,0.3,1,1.7,Vegetable
+37,Asparagus,20,2.2,3.9,0.1,2.1,1.9,Vegetable
+38,Green Bean,31,1.8,7,0.2,3.4,3.3,Vegetable
+39,Peas,81,5.4,14.5,0.4,5.1,5.7,Vegetable
+40,Corn,86,3.2,19,1.2,2.7,6.3,Vegetable
+41,Beetroot,43,1.6,9.6,0.2,2.8,6.8,Vegetable
+42,Radish,16,0.7,3.4,0.1,1.6,1.9,Vegetable
+43,Chicken Breast,165,31,0,3.6,0,0,Meat
+44,Chicken Thigh,177,24,0,8.1,0,0,Meat
+45,Beef (Lean),250,26,0,17,0,0,Meat
+46,Pork,242,27,0,14,0,0,Meat
+47,Lamb,294,25,0,21,0,0,Meat
+48,Turkey Breast,135,29,0,1.7,0,0,Meat
+49,Salmon,208,20,0,13,0,0,Seafood
+50,Tuna,132,29,0,1,0,0,Seafood
+51,Cod,82,18,0,0.7,0,0,Seafood
+52,Shrimp,99,24,0.2,0.3,0,0,Seafood
+53,Crab,83,18,0,0.6,0,0,Seafood
+54,Egg (Whole),143,13,0.7,10,0,0.4,Dairy
+55,Milk (Whole),61,3.2,4.8,3.3,0,4.8,Dairy
+56,Yogurt (Plain),61,3.5,4.7,3.3,0,4.7,Dairy
+57,Cheese (Cheddar),402,25,1.3,33,0,0.5,Dairy
+58,Butter,717,0.9,0.1,81,0,0.1,Dairy
+59,Cream,340,2.8,2.8,36,0,2.8,Dairy
+60,Rice (White),130,2.7,28,0.3,0.4,0.1,Grain
+61,Rice (Brown),111,2.6,23,0.9,1.8,0.4,Grain
+62,Wheat Flour,364,10,76,1,2.7,0.4,Grain
+63,Oats,389,17,66,7,10,0,Grain
+64,Quinoa,120,4.4,21,1.9,2.8,0.9,Grain
+65,Barley,354,12,73,2.3,17,0.8,Grain
+66,Cornmeal,370,7.8,79,2.6,7.3,1.6,Grain
+67,Bread (White),265,9,49,3.2,2.7,5.7,Grain
+68,Pasta (Dry),371,13,75,1.5,3.2,2.7,Grain
+69,Lentils,116,9,20,0.4,8,1.8,Legume
+70,Chickpeas,164,8.9,27,2.6,7.6,4.8,Legume
+71,Kidney Beans,127,8.7,23,0.5,6.4,0.3,Legume
+72,Black Beans,132,8.9,24,0.3,8.7,0.3,Legume
+73,Almond,579,21,22,50,12,4.4,Nut
+74,Walnut,654,15,14,65,6.7,2.6,Nut
+75,Cashew,553,18,30,44,3.3,5.9,Nut
+76,Pistachio,562,20,28,45,10,7.7,Nut
+77,Peanut,567,26,16,49,8.5,4.7,Nut
+78,Chia Seed,486,17,42,31,34,0.7,Seed
+79,Flaxseed,534,18,29,42,27,1.6,Seed
+80,Sunflower Seed,584,21,20,51,8.6,2.6,Seed
+81,Olive Oil,884,0,0,100,0,0,Oil
+82,Vegetable Oil,884,0,0,100,0,0,Oil
+83,Coconut Oil,892,0,0,100,0,0,Oil
+84,Ghee,900,0.3,0,99,0,0,Oil
+85,Sesame Oil,884,0,0,100,0,0,Oil
+86,Salt,0,0,0,0,0,0,Spice
+87,Black Pepper,251,10,64,3.3,25,0.6,Spice
+88,Cumin,375,18,44,22,11,2.3,Spice
+89,Turmeric,312,10,67,3.3,23,3.1,Spice
+90,Ginger (Ground),335,9,71,4.2,14,3.4,Spice
+91,Cinnamon,247,4,81,1.2,53,2.2,Spice
+92,Clove,274,6,66,13,34,2.4,Spice
+93,Cardamom,311,11,68,6.7,28,0,Spice
+94,Basil (Dried),233,23,47,4,37,1.7,Herb
+95,Oregano (Dried),265,9,69,4.3,43,4.1,Herb
+96,Thyme (Dried),276,9.1,64,7.4,37,1.7,Herb
+97,Rosemary (Dried),331,5,64,15,42,0,Herb
+98,Mint (Dried),285,20,52,4,30,0,Herb
+99,Coriander (Ground),279,12,55,18,29,7.1,Spice
+100,Sugar (White),387,0,100,0,0,100,Sweetener
+101,Honey,304,0.3,82,0,0.2,82,Sweetener
+102,Maple Syrup,260,0,67,0.1,0,60,Sweetener
+103,Tofu,76,8,2,4.8,1,0.6,Legume
+104,Tempeh,192,19,9,11,0,0,Legume
+105,Seitan,142,25,6,2,1,0,Grain
+106,Coconut Milk,230,2.3,6,24,0,3.3,Dairy
+107,Coconut (Fresh),354,3.3,15,33,9,6.2,Fruit
+108,Butter Bean,116,7.8,20,0.4,7,1.2,Legume
+109,Pinto Bean,143,9,26,0.7,9,0.5,Legume
+110,Soybean,446,36,30,20,9,7,Legume
+111,Pumpkin Seed,446,19,54,19,18,1.4,Seed
+112,Sesame Seed,573,17,23,50,12,0.3,Seed
+113,Poppy Seed,525,18,28,42,20,3.2,Seed
+114,Vanilla Extract,288,0.1,13,0.1,0,13,Spice
+115,Cocoa Powder,228,20,58,14,37,1.8,Spice
+116,Dark Chocolate,598,8,46,43,11,24,Sweetener
+117,White Chocolate,539,6,59,32,0,59,Sweetener
+118,Basmati Rice,130,2.7,28,0.3,0.4,0.1,Grain
+119,Jasmine Rice,130,2.7,28,0.3,0.4,0.1,Grain
+120,Wild Rice,101,4,21,0.3,1.8,0.7,Grain
+121,Whole Wheat Flour,340,13,72,2.5,12,0.4,Grain
+122,All Purpose Flour,364,10,76,1,2.7,0.4,Grain
+123,Rye Flour,325,10,69,1.5,13,1,Grain
+124,Oat Flour,389,17,66,7,10,0,Grain
+125,Almond Flour,590,21,22,50,12,4.4,Nut
+126,Coconut Flour,443,19,59,13,38,6,Grain
+127,Paneer,265,18,3.5,21,0,3.5,Dairy
+128,Mozerella Cheese,300,22,2.2,22,0,1,Dairy
+129,Parmesan Cheese,431,38,4.1,29,0,1,Dairy
+130,Feta Cheese,264,14,4.1,21,0,4.1,Dairy
+131,Cream Cheese,342,6,4.1,34,0,3.5,Dairy
+132,Sour Cream,198,2.4,4.6,19,0,3.5,Dairy
+133,Heavy Cream,340,2.8,2.8,36,0,2.8,Dairy
+134,Buttermilk,40,3.3,4.8,0.9,0,4.8,Dairy
+135,Soy Milk,54,3.3,6.1,2.1,0.5,4.1,Dairy
+136,Almond Milk,15,0.4,0.6,1.1,0.5,0,Dairy
+137,Oat Milk,46,1,7.1,1.9,0.8,4.3,Dairy
+138,Cashew Milk,23,0.5,1.6,1.8,0,0.9,Dairy
+139,Bok Choy,13,1.5,2.2,0.2,1,1.2,Vegetable
+140,Leek,61,1.5,14,0.3,1.8,3.9,Vegetable
+141,Celery,16,0.7,3,0.2,1.6,1.3,Vegetable
+142,Artichoke,47,3.3,10.5,0.2,5.4,1,Vegetable
+143,Okra,33,1.9,7.5,0.2,3.2,1.5,Vegetable
+144,Brussels Sprout,43,3.4,9,0.3,3.8,2.2,Vegetable
+145,Sweet Potato,86,1.6,20,0.1,3,4.2,Vegetable
+146,Yam,118,1.5,28,0.2,4.1,0.5,Vegetable
+147,Cassava,160,1.4,38,0.3,1.8,1.7,Vegetable
+148,Taro,142,0.5,35,0.2,5.1,0.9,Vegetable
+149,Plantain,122,1.3,32,0.4,2.3,15,Fruit
+150,Pomegranate,83,1.7,19,1.2,4,14,Fruit
+151,Guava,68,2.6,14,1,5.4,9,Fruit
+152,Passion Fruit,97,2.2,23,0.7,10,11,Fruit
+153,Jackfruit,95,1.7,23,0.2,1.5,19,Fruit
+154,Durian,147,1.5,27,5.3,3.8,0,Fruit
+155,Lychee,66,0.8,17,0.4,1.3,15,Fruit
+156,Longan,60,1.3,15,0.1,1.1,14,Fruit
+157,Rambutan,82,0.7,21,0.2,0.9,20,Fruit
+158,Starfruit,31,1,6.7,0.3,2.8,4,Fruit
+159,Persimmon,70,0.6,19,0.2,3.6,13,Fruit
+160,Apricot,48,1.4,11,0.4,2,9,Fruit
+161,Plum,46,0.7,11,0.3,1.4,10,Fruit
+162,Nectarine,44,1.1,10.6,0.3,1.7,7.9,Fruit
+163,Prune,240,2.2,64,0.4,7.1,38,Fruit
+164,Raisin,299,3.1,79,0.5,3.7,59,Sweetener
+165,Cranberry (Dried),308,0.1,83,1.2,6,65,Sweetener
+166,Goji Berry,349,13,73,0.4,13,46,Fruit
+167,Mulberry,43,1.4,9.8,0.4,1.7,8.1,Fruit
+168,Elderberry,73,0.7,18.4,0.5,7,0,Fruit
+169,Seaweed (Nori),35,5.8,5.1,0.3,0.3,0.5,Vegetable
+170,Kelp,43,1.7,9.6,0.6,1.3,0.6,Vegetable
+171,Wakame,45,3,9.1,0.6,0.5,0.7,Vegetable
+172,Squid,92,15.6,3.1,1.4,0,0,Seafood
+173,Oyster,68,7.7,3.9,1.8,0,0,Seafood
+174,Mussel,86,12,3.7,2.2,0,0,Seafood
+175,Scallop,69,12,3.4,0.5,0,0,Seafood
+176,Lobster,77,16.5,0,0.8,0,0,Seafood
+177,Clam,74,12.8,2.6,1,0,0,Seafood
+178,Venison,120,23,0,2.4,0,0,Meat
+179,Bison,143,23,0,5.2,0,0,Meat
+180,Duck,132,19,0,6,0,0,Meat
+181,Goose,161,22,0,7.1,0,0,Meat
+182,Rabbit,173,33,0,3.5,0,0,Meat
+183,Frog Leg,73,16,0,0.3,0,0,Meat
+184,Quail,134,22,0,5.5,0,0,Meat
+185,Pheasant,133,24,0,3.6,0,0,Meat
+186,Trout,148,21,0,6.7,0,0,Seafood
+187,Sardine,208,25,0,11,0,0,Seafood
+188,Mackerel,205,19,0,14,0,0,Seafood
+189,Herring,158,18,0,9,0,0,Seafood
+190,Anchovy,131,20,0,4.8,0,0,Seafood
+191,Caviar,264,25,4,18,0,0,Seafood
+192,Mayonnaise,680,1,1,75,0,1,Oil
+193,Ketchup,97,1.7,25,0.1,0.3,21,Sweetener
+194,Soy Sauce,53,8.1,5.4,0.1,0.8,1.4,Spice
+195,Fish Sauce,35,5.1,1.6,0.1,0,0,Spice
+196,Worcestershire Sauce,78,0,19,0,0,13,Sweetener
+197,BBQ Sauce,170,1,40,1,1,33,Sweetener
+198,Hot Sauce,17,0.9,2.8,0.3,0.3,1.8,Spice
+199,Mustard,66,4.3,5.8,4,3.3,1.8,Spice
+200,Vinegar,21,0,0.9,0,0,0.4,Spice
+201,Red Onion,40,1.1,9.3,0.1,1.7,4.2,Vegetable
+202,Green Onion,32,1.8,7.3,0.2,2.6,2.3,Vegetable
+203,Shallot,72,2.5,16.8,0.1,3.2,7.9,Vegetable
+204,Fennel Bulb,31,1.2,7.3,0.2,3.1,3.9,Vegetable
+205,Turnip,28,0.9,6.4,0.1,1.8,3.8,Vegetable
+206,Collard Greens,32,3.2,5.7,0.6,4,0.5,Vegetable
+207,Arugula,25,2.6,3.7,0.7,1.6,2.1,Vegetable
+208,Watercress,11,2.3,1.3,0.1,0.5,0.2,Vegetable
+209,Swiss Chard,19,1.8,3.7,0.2,1.6,1.1,Vegetable
+210,Rhubarb,21,0.9,4.5,0.2,1.8,1.1,Vegetable
+211,Butternut Squash,45,1,11.7,0.1,2,2.2,Vegetable
+212,Acorn Squash,56,1.1,14.6,0.1,2.1,2.9,Vegetable
+213,Spaghetti Squash,31,0.6,7,0.6,1.5,2.8,Vegetable
+214,Pumpkin,26,1,6.5,0.1,0.5,2.8,Vegetable
+215,Chayote,19,0.8,4.5,0.1,1.7,2.2,Vegetable
+216,Bitter Melon,17,1,3.7,0.2,2.6,1.5,Vegetable
+217,Bottle Gourd,15,0.6,3.4,0.2,0.5,2.2,Vegetable
+218,Drumstick (Moringa Pods),37,2.5,8.5,0.2,3.2,2.5,Vegetable
+219,Cluster Beans,47,3.2,9.5,0.3,4,3.5,Vegetable
+220,Yardlong Beans,47,2.8,8.3,0.4,3.5,2.5,Vegetable
+221,Fenugreek Leaves,49,4.3,6.3,0.9,4.9,1.9,Vegetable
+222,Curry Leaves,63,6,7,2.5,6,0,Herb
+223,Bay Leaf,313,8,75,8.4,26,0,Herb
+224,Nutmeg,525,6,49,36,21,28,Spice
+225,Mace,475,6.7,50.5,32.4,20.2,0,Spice
+226,Star Anise,337,18,50,16,14,0,Spice
+227,Fennel Seed,345,16,52,14,39.8,0,Spice
+228,Caraway Seed,333,20,50,14,38,0,Spice
+229,Celery Seed,392,18,41,25,12,0,Spice
+230,Anise Seed,337,18,50,16,14,0,Spice
+231,Allspice,263,6,72,9,22,0,Spice
+232,Saffron,310,11,65,6,3.9,0,Spice
+233,Paprika,282,14,54,13,35,10,Spice
+234,Smoked Paprika,282,14,54,13,35,10,Spice
+235,Cayenne Pepper,318,12,57,17,28,8.5,Spice
+236,Chili Powder,282,12,56,14,21,6,Spice
+237,Garam Masala,300,10,55,15,25,5,Spice
+238,Chaat Masala,280,10,50,10,20,5,Spice
+239,Tandoori Masala,290,10,52,12,22,5,Spice
+240,Ras El Hanout,280,10,50,12,25,5,Spice
+241,Italian Seasoning,250,10,50,10,30,5,Herb
+242,Old Bay Seasoning,250,10,50,10,30,5,Spice
+243,Taco Seasoning,280,10,55,10,25,5,Spice
+244,Cajun Seasoning,280,10,55,10,25,5,Spice
+245,Chicken Breast (Skinless),165,31,0,3.6,0,0,Meat
+246,Chicken Thigh (Boneless),177,24,0,8.1,0,0,Meat
+247,Ground Beef (85% Lean),250,26,0,17,0,0,Meat
+248,Ground Pork,242,27,0,14,0,0,Meat
+249,Ground Turkey,150,22,0,8,0,0,Meat
+250,Bacon,541,37,1.4,42,0,0,Meat
+251,Pork Sausage,301,12,1.5,27,0,0,Meat
+252,Salami,336,21,2.4,27,0,0,Meat
+253,Pepperoni,494,23,4,44,0,0,Meat
+254,Ham,145,18,1.5,7,0,0,Meat
+255,Prosciutto,250,25,1,18,0,0,Meat
+256,Chorizo,455,24,2,38,0,0,Meat
+257,Beef Sirloin,200,27,0,9,0,0,Meat
+258,Pork Tenderloin,143,26,0,4,0,0,Meat
+259,Lamb Chop,250,25,0,17,0,0,Meat
+260,Duck Breast,189,19,0,11,0,0,Meat
+261,Venison,120,23,0,2.4,0,0,Meat
+262,Bison,143,23,0,5.2,0,0,Meat
+263,Salmon Fillet,208,20,0,13,0,0,Seafood
+264,Smoked Salmon,117,18,0,4,0,0,Seafood
+265,Tuna Steak,132,29,0,1,0,0,Seafood
+266,Tilapia,96,20,0,2,0,0,Seafood
+267,Halibut,111,23,0,2,0,0,Seafood
+268,Catfish,105,18,0,3,0,0,Seafood
+269,Sea Bass,97,18,0,2,0,0,Seafood
+270,Octopus,82,15,2,1.4,0,0,Seafood
+271,Calamari,92,16,3,1.4,0,0,Seafood
+272,Heavy Cream,340,2.8,2.8,36,0,2.8,Dairy
+273,Greek Yogurt (Plain),59,10,3.6,0.4,0,3.6,Dairy
+274,Cottage Cheese,98,11,3.4,4.3,0,2.7,Dairy
+275,Ricotta Cheese,174,11,3,13,0,0.5,Dairy
+276,Goat Cheese,364,21,2.5,30,0,2.5,Dairy
+277,Blue Cheese,353,21,2.3,29,0,0.5,Dairy
+278,Swiss Cheese,380,27,3.5,31,0,1.3,Dairy
+279,Paneer,265,18,3.5,21,0,3.5,Dairy
+280,Mozzarella (Fresh),300,22,2.2,22,0,1,Dairy
+281,Parmesan (Grated),431,38,4.1,29,0,1,Dairy
+282,Mascarpone,429,3,4,45,0,4,Dairy
+283,Ghee,900,0.3,0,99,0,0,Oil
+284,Coconut Milk (Canned),230,2.3,6,24,0,3.3,Dairy
+285,Almond Milk (Unsweetened),15,0.4,0.6,1.1,0.5,0,Dairy
+286,Soy Milk (Unsweetened),54,3.3,6.1,2.1,0.5,4.1,Dairy
+287,Oat Milk (Unsweetened),46,1,7.1,1.9,0.8,4.3,Dairy
+288,Quinoa (Cooked),120,4.4,21,1.9,2.8,0.9,Grain
+289,Couscous (Cooked),112,3.8,23,0.2,1.4,0.1,Grain
+290,Bulgur (Cooked),83,3,18,0.2,4.5,0.1,Grain
+291,Farro (Cooked),170,6,34,1,5,0,Grain
+292,Amaranth (Cooked),102,4,19,2,2.5,0,Grain
+293,Millet (Cooked),119,3.5,24,1,1.3,0,Grain
+294,Sorghum (Cooked),120,4,25,1,3,0,Grain
+295,Buckwheat (Cooked),92,3.4,20,0.6,2.7,0.9,Grain
+296,Red Lentils,116,9,20,0.4,8,1.8,Legume
+297,Moong Dal,116,9,20,0.4,8,1.8,Legume
+298,Chana Dal,160,9,27,3,8,3,Legume
+299,Toor Dal,130,8.5,22,0.5,7,2,Legume
+300,Urad Dal,140,9.5,24,0.5,8,2,Legume
+301,Masoor Dal,116,9,20,0.4,8,1.8,Legume
+302,Black Eyed Peas,116,7.7,20,0.5,6.5,0.3,Legume
+303,Split Peas,118,8.3,21,0.4,8.3,2.5,Legume
+304,Navy Beans,140,8.2,26,0.5,10.5,0.7,Legume
+305,Hazelnut,628,15,17,61,10,4.3,Nut
+306,Brazil Nut,656,14,12,66,8,2.3,Nut
+307,Pecan,691,9,14,72,9.6,4,Nut
+308,Pine Nut,673,14,13,68,3.7,3.6,Nut
+309,Macadamia,718,8,14,76,8.6,4.6,Nut
+310,Pumpkin Seed (Pepita),446,19,54,19,18,1.4,Seed
+311,Hemp Seed,553,32,8.7,49,4,1.5,Seed
+312,Lemongrass,99,1.8,25,0.5,0,0,Herb
+313,Galangal,71,1.5,15,0.5,2,0,Spice
+314,Kaffir Lime Leaf,0,0,0,0,0,0,Herb
+315,Thai Basil,0,0,0,0,0,0,Herb
+316,Pandan Leaf,0,0,0,0,0,0,Herb
+317,Orange Zest,47,0.9,11.8,0.1,2.4,9.4,Fruit
+318,Lemon Zest,29,1.1,9.3,0.3,2.8,2.5,Fruit
+319,Rose Water,0,0,0,0,0,0,Spice
+320,Kewra Water,0,0,0,0,0,0,Spice
+321,Vanilla Bean,288,0.1,13,0.1,0,13,Spice
+322,Cocoa Powder,228,20,58,14,37,1.8,Spice
+323,Dark Chocolate (70%),598,8,46,43,11,24,Sweetener
+324,White Chocolate,539,6,59,32,0,59,Sweetener
+325,Maple Syrup,260,0,67,0.1,0,60,Sweetener
+326,Molasses,290,0,75,0,0,75,Sweetener
+327,Corn Syrup,286,0,78,0,0,78,Sweetener
+328,Agave Nectar,310,0,76,0,0,76,Sweetener
+329,Stevia,0,0,100,0,0,0,Sweetener
+330,Erythritol,0,0,100,0,0,0,Sweetener
+331,Coconut Sugar,380,0,100,0,0,95,Sweetener
+332,Date Syrup,282,2.5,75,0.4,8,63.4,Sweetener
+333,Jaggery,383,0.4,95,0.1,0,90,Sweetener
+334,Brown Sugar,380,0,98,0,0,97,Sweetener
+335,Powdered Sugar,387,0,100,0,0,100,Sweetener
+336,Baking Powder,53,0,28,0,0.2,0,Spice
+337,Baking Soda,0,0,0,0,0,0,Spice
+338,Cornstarch,381,0.3,91,0.1,0.9,0,Grain
+339,Tapioca Starch,357,0.2,88,0,0.9,0,Grain
+340,Arrowroot Powder,357,0.3,88,0.1,0.9,0,Grain
+341,Psyllium Husk,350,0,80,0.5,80,0,Seed
+342,Xanthan Gum,333,0,78,0,78,0,Spice
+343,Gelatin,335,86,0,0,0,0,Dairy
+344,Agar Agar,0,0,0,0,0,0,Spice
+345,Pectin,0,0,0,0,0,0,Spice
+346,Yeast (Dry),325,41,41,7.6,27,0,Grain
+347,Active Dry Yeast,325,41,41,7.6,27,0,Grain
+348,Instant Yeast,325,41,41,7.6,27,0,Grain
+349,Sourdough Starter,0,0,0,0,0,0,Grain
+350,Apple Cider Vinegar,21,0,0.9,0,0,0.4,Spice
+351,Balsamic Vinegar,88,0.5,17,0,0,15,Sweetener
+352,Rice Vinegar,0,0,0,0,0,0,Spice
+353,White Vinegar,21,0,0.9,0,0,0.4,Spice
+354,Red Wine Vinegar,19,0,0.3,0,0,0,Spice
+355,Mayonnaise,680,1,1,75,0,1,Oil
+356,Ketchup,97,1.7,25,0.1,0.3,21,Sweetener
+357,Tomato Paste,82,4.3,19,0.5,4.1,12.2,Vegetable
+358,Tomato Sauce,24,1.3,5.3,0.2,1.5,3.6,Vegetable
+359,BBQ Sauce,170,1,40,1,1,33,Sweetener
+360,Soy Sauce,53,8.1,5.4,0.1,0.8,1.4,Spice
+361,Fish Sauce,35,5.1,1.6,0.1,0,0,Spice
+362,Oyster Sauce,51,1.4,11,0.2,0.3,2.5,Spice
+363,Hoisin Sauce,220,3,44,3.5,2.5,25,Sweetener
+364,Sriracha,93,2,20,1,1.5,15,Spice
+365,Hot Sauce,17,0.9,2.8,0.3,0.3,1.8,Spice
+366,Mustard (Yellow),66,4.3,5.8,4,3.3,1.8,Spice
+367,Dijon Mustard,66,4.3,5.8,4,3.3,1.8,Spice
+368,Worcestershire Sauce,78,0,19,0,0,13,Sweetener
+369,Tahini,595,17,21,54,9.3,0.5,Seed
+370,Pesto Sauce,430,9,5,42,2,2,Herb
+371,Harissa Paste,150,3,12,10,3,5,Spice
+372,Gochujang,150,3,30,2,2,15,Spice
+373,Miso Paste,198,12,25,6,5,6,Legume
+374,Kimchi,23,2,4,0.5,2.5,2,Vegetable
+375,Sauerkraut,19,0.9,4.7,0.1,2.9,1.8,Vegetable
+376,Pickles (Dill),11,0.4,2.3,0.2,1.2,1.1,Vegetable
+377,Olives (Black),115,0.8,6.3,10.9,3.2,0.6,Fruit
+378,Olives (Green),115,0.8,6.3,10.9,3.2,0.6,Fruit
+379,Capers,23,2.4,4.9,0.9,3,0.4,Vegetable
+380,Sundried Tomatoes,258,14,56,3,13,38,Vegetable
+381,Roasted Red Pepper,31,1,7,0.3,2.1,3.9,Vegetable
+382,Artichoke Hearts,47,3.3,10.5,0.2,5.4,1,Vegetable
+383,Hearts of Palm,28,2.4,4.8,0.5,2.5,0.9,Vegetable
+384,Bamboo Shoots (Canned),27,2.6,5.2,0.3,2.2,3,Vegetable
+385,Water Chestnuts,97,1.4,24,0.1,3,4.8,Vegetable
+386,Lotus Root,74,1.6,17,0.1,4.9,0.5,Vegetable
+387,Tamarind Paste,239,2.8,62.5,0.6,5.1,57,Sweetener
+388,Tamarind Pulp,239,2.8,62.5,0.6,5.1,57,Sweetener
+389,Coconut Water,19,0.7,3.7,0.2,1.1,2.6,Fruit
+390,Aloe Vera Juice,0,0,0,0,0,0,Vegetable
+391,Matcha Powder,265,24,39,6,30,0,Herb
+392,Green Tea Powder,265,24,39,6,30,0,Herb
+393,Chia Seed (already had),486,17,42,31,34,0.7,Seed
+394,Flaxseed (already had),534,18,29,42,27,1.6,Seed
+395,Poppy Seed,525,18,28,42,20,3.2,Seed
+396,Sesame Seed (Toasted),573,17,23,50,12,0.3,Seed
+397,Sunflower Seed (Toasted),584,21,20,51,8.6,2.6,Seed
+398,Pumpkin Seed Kernel,446,19,54,19,18,1.4,Seed
+399,Watermelon Seed Kernel,557,28,15,47,0,0,Seed
+400,Black Sesame Seed,573,17,23,50,12,0.3,Seed
+401,Quinoa Flour,368,14,64,6,7,2,Grain
+402,Almond Flour,590,21,22,50,12,4.4,Nut
+403,Coconut Flour,443,19,59,13,38,6,Grain
+404,Chickpea Flour,387,22,57,7,11,11,Legume
+405,Rice Flour,366,6,80,1,2,0,Grain
+406,Corn Flour,361,7,79,2,7,1,Grain
+407,Tapioca Flour,357,0.2,88,0,0.9,0,Grain
+408,Potato Starch,357,0.1,83,0,0.8,0,Grain
+409,Arrowroot Flour,357,0.3,88,0.1,0.9,0,Grain
+410,Cassava Flour,330,1.5,82,0.3,3.5,2,Grain
+411,Oat Bran,246,17,66,7,15,1,Grain
+412,Wheat Bran,216,16,65,4,43,0,Grain
+413,Psyllium Husk Powder,350,0,80,0.5,80,0,Seed
+414,Flaxseed Meal,534,18,29,42,27,1.6,Seed
+415,Chia Seed Meal,486,17,42,31,34,0.7,Seed
+416,Hemp Protein Powder,400,50,8,10,20,2,Seed
+417,Whey Protein Powder,400,80,8,5,0,5,Dairy
+418,Casein Protein Powder,380,80,5,2,0,5,Dairy
+419,Pea Protein Powder,370,80,6,5,5,0,Legume
+420,Soy Protein Powder,360,80,8,3,5,0,Legume
+421,Egg White Powder,382,81,7,0,0,0,Dairy
+422,Gelatin Powder,335,86,0,0,0,0,Dairy
+423,Agar Agar Powder,0,0,0,0,0,0,Spice
+424,Cocoa Butter,884,0,0,100,0,0,Oil
+425,Shea Butter,884,0,0,100,0,0,Oil
+426,Palm Oil,884,0,0,100,0,0,Oil
+427,Avocado Oil,884,0,0,100,0,0,Oil
+428,Grapeseed Oil,884,0,0,100,0,0,Oil
+429,Canola Oil,884,0,0,100,0,0,Oil
+430,Safflower Oil,884,0,0,100,0,0,Oil
+431,Sunflower Oil,884,0,0,100,0,0,Oil
+432,Peanut Oil,884,0,0,100,0,0,Oil
+433,Sesame Oil,884,0,0,100,0,0,Oil
+434,Extra Virgin Olive Oil,884,0,0,100,0,0,Oil
+435,Truffle Oil,884,0,0,100,0,0,Oil
+436,Chili Oil,884,0,0,100,0,0,Oil
+437,Garlic Oil,884,0,0,100,0,0,Oil
+438,Herb Oil,884,0,0,100,0,0,Oil
+439,Paneer (Low Fat),200,18,4,12,0,3,Dairy
+440,Ricotta (Low Fat),138,11,5,8,0,0.5,Dairy
+441,Greek Yogurt (0% Fat),59,10,3.6,0.4,0,3.6,Dairy
+442,Cottage Cheese (Low Fat),81,11,3,1,0,3,Dairy
+443,Skim Milk,34,3.4,5,0.1,0,5,Dairy
+444,Almond Milk (Sweetened),24,0.5,1.4,1.5,0.5,1,Dairy
+445,Coconut Cream,330,3.6,7,34,0,4,Dairy
+446,Heavy Whipping Cream,340,2.8,2.8,36,0,2.8,Dairy
+447,Half and Half,131,3.1,4.7,10.4,0,4.7,Dairy
+448,Buttermilk (Low Fat),40,3.3,4.8,0.9,0,4.8,Dairy
+449,Evaporated Milk,134,6.8,10,7.6,0,10,Dairy
+450,Condensed Milk (Sweetened),321,7.9,54,8.7,0,54,Dairy
+451,Chicken Stock,7,1,0.3,0.2,0,0,Spice
+452,Beef Stock,7,1,0.3,0.2,0,0,Spice
+453,Vegetable Stock,5,0.5,0.5,0,0.1,0,Spice
+454,Fish Stock,16,2.3,0.5,0.5,0,0,Spice
+455,Tomato Juice,18,0.9,4.2,0.1,0.4,3.5,Vegetable
+456,Orange Juice,45,0.7,10.4,0.2,0.2,8.4,Fruit
+457,Apple Juice,46,0.1,11.3,0.1,0.2,9.6,Fruit
+458,Cranberry Juice,46,0.4,12,0.1,0.1,11,Fruit
+459,Grape Juice,61,0.6,15,0.1,0.2,14.8,Fruit
+460,Pineapple Juice,53,0.4,12.9,0.1,0.2,10,Fruit
+461,Mango Juice,60,0.4,15,0.2,0.8,13.5,Fruit
+462,Coconut Water,19,0.7,3.7,0.2,1.1,2.6,Fruit
+463,Aloe Vera Gel,0,0,0,0,0,0,Vegetable
+464,Matcha Latte Base,265,24,39,6,30,0,Herb
+465,Green Tea (Brewed),0,0,0,0,0,0,Herb
+466,Black Tea (Brewed),0,0,0,0,0,0,Herb
+467,Coffee (Brewed),0,0,0,0,0,0,Spice
+468,Espresso,0,0,0,0,0,0,Spice
+469,Hot Chocolate Mix,380,8,82,6,7,70,Sweetener
+470,Cocoa Mix,380,8,82,6,7,70,Sweetener
+471,Protein Bar (Average),400,25,45,15,5,25,Sweetener
+472,Energy Bar,400,15,55,15,8,25,Sweetener
+473,Granola Bar,450,8,65,18,6,25,Sweetener
+474,Trail Mix,450,15,45,25,8,20,Nut
+475,Mixed Nuts,600,18,22,52,8,4,Nut
+476,Dried Fruit Mix,300,3,70,1,8,50,Fruit
+477,Beef Jerky,410,33,11,26,2,9,Meat
+478,Chicken Jerky,300,40,10,10,0,5,Meat
+479,Turkey Jerky,300,40,10,10,0,5,Meat
+480,Salmon Jerky,350,30,15,15,0,5,Seafood
+481,Seaweed Snacks,350,20,40,15,10,5,Vegetable
+482,Rice Cakes,387,7,82,3,4,1,Grain
+483,Popcorn (Air Popped),375,12,78,4,15,1,Grain
+484,Tortilla Chips,490,7,65,22,5,2,Grain
+485,Pita Chips,450,8,70,18,4,3,Grain
+486,Pretzels,380,10,80,3,3,3,Grain
+487,Crackers (Saltine),421,10,72,9,3,2,Grain
+488,Cheese Crackers,500,10,60,25,3,5,Grain
+489,Whole Wheat Crackers,420,10,70,15,10,5,Grain
+490,Biscuit Mix,450,8,70,15,3,10,Grain
+491,Pancake Mix,350,8,75,3,3,15,Grain
+492,Waffle Mix,350,8,75,3,3,15,Grain
+493,Cake Mix,400,5,80,10,2,40,Sweetener
+494,Brownie Mix,450,5,75,15,3,45,Sweetener
+495,Cookie Mix,450,5,70,18,3,35,Sweetener
+496,Pizza Dough Mix,300,8,60,2,3,2,Grain
+497,Bread Mix,350,10,70,2,4,5,Grain
+498,Pasta Sauce (Marinara),70,2,10,2,2,6,Vegetable
+499,Alfredo Sauce,150,3,5,13,0,2,Dairy
+500,Pesto Sauce (Jar),430,9,5,42,2,2,Herb
+501,Enchilada Sauce,50,1,8,1,2,4,Spice
+502,Taco Sauce,30,1,6,0.5,1,4,Spice
+503,Chili Sauce,90,2,20,0.5,1,15,Spice
+504,Plum Sauce,180,1,44,0,1,40,Sweetener
+505,Sweet and Sour Sauce,150,0.5,37,0.5,0.5,35,Sweetener
+506,Teriyaki Sauce,120,4,24,0,0.5,20,Spice
+507,Peanut Sauce,250,8,20,18,3,10,Spice
+508,Coconut Aminos,60,0,14,0,0,12,Spice
+509,Tamari Sauce,60,10,6,0,1,1,Spice
+510,Braggs Liquid Aminos,60,10,6,0,1,1,Spice
+511,Apple Cider Vinegar (with Mother),21,0,0.9,0,0,0.4,Spice
+512,Rice Wine Vinegar,0,0,0,0,0,0,Spice
+513,Balsamic Glaze,200,1,50,0,0,45,Sweetener
+514,Honey Mustard,100,1,20,3,1,18,Sweetener
+515,Ranch Dressing,400,2,6,40,0,4,Dairy
+516,Blue Cheese Dressing,450,3,6,45,0,5,Dairy
+517,Thousand Island Dressing,350,1,15,32,0,12,Sweetener
+518,Caesar Dressing,400,3,6,40,0,3,Dairy
+519,Vinaigrette (Balsamic),150,0.5,8,12,0,6,Sweetener
+520,Olive Oil Vinaigrette,150,0.5,8,12,0,6,Sweetener
+521,Sesame Dressing,200,2,15,15,1,10,Spice
+522,Ginger Dressing,150,1,15,8,1,12,Spice
+523,Miso Dressing,120,4,15,5,2,8,Spice
+524,Tahini Dressing,250,8,15,20,4,2,Seed
+525,Guacamole,160,2,9,15,6,1,Fruit
+526,Hummus,166,8,20,9,6,0.5,Legume
+527,Baba Ganoush,120,2,10,8,4,2,Vegetable
+528,Tzatziki,80,3,5,6,0.5,4,Dairy
+529,Pico de Gallo,25,1,5,0.2,1.5,3,Vegetable
+530,Salsa (Fresh),30,1.5,6,0.2,1.5,3,Vegetable
+531,Salsa Verde,30,1.5,6,0.2,1.5,3,Vegetable
+532,Chipotle Salsa,35,1.5,7,0.3,2,4,Vegetable
+533,Mango Salsa,60,1,15,0.3,2,12,Fruit
+534,Pineapple Salsa,50,1,12,0.2,2,10,Fruit
+535,Avocado Salsa,80,1.5,8,6,3,2,Fruit
+536,Cranberry Sauce,150,0.5,38,0.2,1,35,Sweetener
+537,Applesauce (Unsweetened),42,0.2,11,0.1,1.3,9,Fruit
+538,Pumpkin Puree,34,1.1,8,0.3,2.9,3.5,Vegetable
+539,Sweet Potato Puree,86,1.6,20,0.1,3,4.2,Vegetable
+540,Butternut Squash Puree,45,1,11.7,0.1,2,2.2,Vegetable
+541,Tomato Puree,38,1.7,8.7,0.2,2.1,5.8,Vegetable
+542,Beet Puree,43,1.6,9.6,0.2,2.8,6.8,Vegetable
+543,Carrot Puree,41,0.9,9.6,0.2,2.8,4.7,Vegetable
+544,Spinach Puree,23,2.9,3.6,0.4,2.2,0.4,Vegetable
+545,Kale Puree,35,2.9,4.4,1.5,4.1,1,Vegetable
+546,Broccoli Puree,34,2.8,6.6,0.4,2.6,1.7,Vegetable
+547,Cauliflower Puree,25,1.9,5,0.3,2.5,1.9,Vegetable
+548,Zucchini Puree,17,1.2,3.1,0.3,1,2.5,Vegetable
+549,Eggplant Puree,25,1,6,0.2,3,3.5,Vegetable
+550,Mushroom Puree,22,3.1,3.3,0.3,1,1.7,Vegetable
+551,Onion Puree,40,1.1,9.3,0.1,1.7,4.2,Vegetable
+552,Garlic Puree,149,6.4,33.1,0.5,2.1,1,Vegetable
+553,Ginger Puree,80,2,18,0.7,2,1.5,Spice
+554,Lemon Juice,22,0.4,6.9,0.2,0.3,2.5,Fruit
+555,Lime Juice,30,0.4,10.5,0.1,0.4,1.7,Fruit
+556,Orange Juice Concentrate,166,2.5,38.5,0.2,0.8,31,Fruit
+557,Apple Juice Concentrate,166,0.4,41,0.2,0.5,39,Fruit
+558,Cranberry Juice Concentrate,200,0.5,50,0.2,0.5,45,Fruit
+559,Pineapple Juice Concentrate,200,0.8,49,0.2,0.8,45,Fruit
+560,Coconut Milk Powder,660,7,25,65,0,10,Dairy
+561,Coconut Cream Powder,660,7,25,65,0,10,Dairy
+562,Almond Flour (Blanched),590,21,22,50,12,4.4,Nut
+563,Cashew Flour,553,18,30,44,3.3,5.9,Nut
+564,Pistachio Flour,562,20,28,45,10,7.7,Nut
+565,Macadamia Flour,718,8,14,76,8.6,4.6,Nut
+566,Hazelnut Flour,628,15,17,61,10,4.3,Nut
+567,Pecan Flour,691,9,14,72,9.6,4,Nut
+568,Walnut Flour,654,15,14,65,6.7,2.6,Nut
+569,Peanut Flour (Defatted),300,50,30,10,10,5,Nut
+570,Sunflower Seed Flour,584,21,20,51,8.6,2.6,Seed
+571,Pumpkin Seed Flour,446,19,54,19,18,1.4,Seed
+572,Hemp Seed Flour,553,32,8.7,49,4,1.5,Seed
+573,Flax Meal,534,18,29,42,27,1.6,Seed
+574,Chia Flour,486,17,42,31,34,0.7,Seed
+575,Sesame Flour,573,17,23,50,12,0.3,Seed
+576,Poppy Seed Flour,525,18,28,42,20,3.2,Seed
+577,Cornstarch (already had),381,0.3,91,0.1,0.9,0,Grain
+578,Tapioca Starch (already had),357,0.2,88,0,0.9,0,Grain
+579,Potato Starch (already had),357,0.1,83,0,0.8,0,Grain
+580,Arrowroot (already had),357,0.3,88,0.1,0.9,0,Grain
+581,Xanthan Gum (already had),333,0,78,0,78,0,Spice
+582,Guar Gum,320,5,85,0,85,0,Spice
+583,Locust Bean Gum,320,5,85,0,85,0,Spice
+584,Carrageenan,0,0,0,0,0,0,Spice
+585,Agar Agar (already had),0,0,0,0,0,0,Spice
+586,Pectin (already had),0,0,0,0,0,0,Spice
+587,Gelatin (already had),335,86,0,0,0,0,Dairy
+588,Collagen Peptides,360,90,0,0,0,0,Dairy
+589,Beef Collagen,360,90,0,0,0,0,Dairy
+590,Chicken Collagen,360,90,0,0,0,0,Dairy
+591,Marine Collagen,360,90,0,0,0,0,Seafood
+592,Bone Broth Powder,300,70,5,5,0,0,Meat
+593,Beef Bone Broth,45,9,0.5,2,0,0,Meat
+594,Chicken Bone Broth,45,9,0.5,2,0,0,Meat
+595,Vegetable Broth Powder,20,2,4,0,1,1,Spice
+596,Mushroom Broth Powder,25,3,5,0,1,1,Spice
+597,Seaweed Broth Powder,20,2,4,0,1,1,Spice
+598,Miso Powder,198,12,25,6,5,6,Legume
+599,Bouillon Cube (Chicken),250,15,30,10,0,5,Spice
+600,Bouillon Cube (Beef),250,15,30,10,0,5,Spice
+801,Chicken Breast (Grilled),165,31,0,3.6,0,0,Meat
+802,Turkey Breast (Roasted),135,29,0,1.7,0,0,Meat
+803,Salmon (Wild),182,25,0,8,0,0,Seafood
+804,Tuna (Canned in Water),116,25,0,1,0,0,Seafood
+805,Egg White (Large),52,11,0.7,0.2,0,0.6,Dairy
+806,Whey Protein Isolate,370,88,2,1,0,2,Dairy
+807,Casein Protein Powder,380,80,5,2,0,5,Dairy
+808,Pea Protein Isolate,370,80,6,5,5,0,Legume
+809,Hemp Protein Powder,400,50,8,10,20,2,Seed
+810,Collagen Peptides,360,90,0,0,0,0,Dairy
+811,Beef (95% Lean Ground),170,26,0,7,0,0,Meat
+812,Pork Tenderloin (Lean),143,26,0,4,0,0,Meat
+813,Shrimp (Cooked),99,24,0.2,0.3,0,0,Seafood
+814,Cod Fillet,82,18,0,0.7,0,0,Seafood
+815,Greek Yogurt (0% Fat),59,10,3.6,0.4,0,3.6,Dairy
+816,Cottage Cheese (Low Fat),81,11,3,1,0,3,Dairy
+817,Lentils (Cooked),116,9,20,0.4,8,1.8,Legume
+818,Chickpeas (Cooked),164,8.9,27,2.6,7.6,4.8,Legume
+819,Black Beans (Cooked),132,8.9,24,0.3,8.7,0.3,Legume
+820,Quinoa (Cooked),120,4.4,21,1.9,2.8,0.9,Grain
+821,Tofu (Firm),76,8,2,4.8,1,0.6,Legume
+822,Tempeh,192,19,9,11,0,0,Legume
+823,Seitan,142,25,6,2,1,0,Grain
+824,Almonds,579,21,22,50,12,4.4,Nut
+825,Peanuts,567,26,16,49,8.5,4.7,Nut
+826,Chia Seeds,486,17,42,31,34,0.7,Seed
+827,Flaxseeds,534,18,29,42,27,1.6,Seed
+828,Pumpkin Seeds,446,19,54,19,18,1.4,Seed
+829,Sunflower Seeds,584,21,20,51,8.6,2.6,Seed
+830,Avocado,160,2,8.5,14.7,6.7,0.7,Fruit
+831,Olive Oil,884,0,0,100,0,0,Oil
+832,Coconut Oil,892,0,0,100,0,0,Oil
+833,Ghee,900,0.3,0,99,0,0,Oil
+834,Butter,717,0.9,0.1,81,0,0.1,Dairy
+835,Heavy Cream,340,2.8,2.8,36,0,2.8,Dairy
+836,Cheddar Cheese,402,25,1.3,33,0,0.5,Dairy
+837,Parmesan Cheese,431,38,4.1,29,0,1,Dairy
+838,Mozzarella Cheese,300,22,2.2,22,0,1,Dairy
+839,Feta Cheese,264,14,4.1,21,0,4.1,Dairy
+840,Paneer (Full Fat),265,18,3.5,21,0,3.5,Dairy
+841,Peanut Butter (Natural),588,25,20,50,8,6,Nut
+842,Almond Butter,614,21,19,55,10,3,Nut
+843,Tahini,595,17,21,54,9.3,0.5,Seed
+844,Dark Chocolate (85%),598,8,46,43,11,24,Sweetener
+845,Whole Milk,61,3.2,4.8,3.3,0,4.8,Dairy
+846,Skim Milk,34,3.4,5,0.1,0,5,Dairy
+847,Soy Milk (Unsweetened),54,3.3,6.1,2.1,0.5,4.1,Dairy
+848,Almond Milk (Unsweetened),15,0.4,0.6,1.1,0.5,0,Dairy
+849,Oat Milk (Unsweetened),46,1,7.1,1.9,0.8,4.3,Dairy
+850,Broccoli (Steamed),34,2.8,6.6,0.4,2.6,1.7,Vegetable
+851,Spinach (Raw),23,2.9,3.6,0.4,2.2,0.4,Vegetable
+852,Kale (Raw),35,2.9,4.4,1.5,4.1,1,Vegetable
+853,Chicken Thigh (Skinless),177,24,0,8.1,0,0,Meat
+854,Beef Sirloin (Lean),200,27,0,9,0,0,Meat
+855,Pork Loin (Lean),143,26,0,4,0,0,Meat
+856,Lamb Leg (Lean),170,25,0,8,0,0,Meat
+857,Salmon (Farmed),208,20,0,13,0,0,Seafood
+858,Tilapia Fillet,96,20,0,2,0,0,Seafood
+859,Egg (Whole, Large),143,13,0.7,10,0,0.4,Dairy
+860,Egg Yolk (Large),55,2.7,0.6,4.5,0,0.1,Dairy
+861,Greek Yogurt (5% Fat),106,9,4,5,0,4,Dairy
+862,Cottage Cheese (4% Fat),98,11,3.4,4.3,0,2.7,Dairy
+863,Lentil Flour,116,9,20,0.4,8,1.8,Legume
+864,Chickpea Flour,387,22,57,7,11,11,Legume
+865,Almond Flour,590,21,22,50,12,4.4,Nut
+866,Coconut Flour,443,19,59,13,38,6,Grain
+867,Whey Protein Concentrate,400,75,10,8,0,8,Dairy
+868,Soy Protein Isolate,360,80,8,3,5,0,Legume
+869,Rice Protein Powder,370,80,5,5,3,0,Grain
+870,Beef Protein Isolate,380,90,0,2,0,0,Meat
+871,Collagen Hydrolysate,360,90,0,0,0,0,Dairy
+872,Spirulina (Dried),290,57,24,8,4,0,Vegetable
+873,Chlorella (Dried),300,60,20,10,5,0,Vegetable
+874,Moringa Powder,300,27,38,6,20,8,Vegetable
+875,Edamame (Shelled),121,11.9,8.9,5.2,5,2.2,Legume
+876,Black Lentils (Cooked),116,9,20,0.4,8,1.8,Legume
+877,Green Peas (Cooked),81,5.4,14.5,0.4,5.1,5.7,Vegetable
+878,Hemp Seeds,553,32,8.7,49,4,1.5,Seed
+879,Pumpkin Seed Protein Powder,446,60,10,20,10,2,Seed
+880,Sunflower Seed Protein,584,25,20,45,8,3,Seed
+881,Macadamia Nuts,718,8,14,76,8.6,4.6,Nut
+882,Pecans,691,9,14,72,9.6,4,Nut
+883,Brazil Nuts,656,14,12,66,8,2.3,Nut
+884,Hazelnuts,628,15,17,61,10,4.3,Nut
+885,Cashews,553,18,30,44,3.3,5.9,Nut
+886,Pistachios,562,20,28,45,10,7.7,Nut
+887,Avocado Oil,884,0,0,100,0,0,Oil
+888,Flaxseed Oil,884,0,0,100,0,0,Oil
+889,Canola Oil,884,0,0,100,0,0,Oil
+890,Safflower Oil,884,0,0,100,0,0,Oil
+891,Peanut Oil,884,0,0,100,0,0,Oil
+892,Sesame Oil,884,0,0,100,0,0,Oil
+893,Mayonnaise (Full Fat),680,1,1,75,0,1,Oil
+894,Heavy Whipping Cream,340,2.8,2.8,36,0,2.8,Dairy
+895,Half & Half,131,3.1,4.7,10.4,0,4.7,Dairy
+896,Condensed Milk,321,7.9,54,8.7,0,54,Dairy
+897,Evaporated Milk,134,6.8,10,7.6,0,10,Dairy
+898,Coconut Milk (Full Fat),230,2.3,6,24,0,3.3,Dairy
+899,Coconut Cream,330,3.6,7,34,0,4,Dairy
+900,Cocoa Butter,884,0,0,100,0,0,Oil
+901,Shea Butter,884,0,0,100,0,0,Oil
+902,Palm Oil,884,0,0,100,0,0,Oil
+903,Beef Tallow,902,0,0,100,0,0,Oil
+904,Lard,902,0,0,100,0,0,Oil
+905,Chicken Fat,900,0,0,100,0,0,Oil
+906,Duck Fat,900,0,0,100,0,0,Oil
+907,Goose Fat,900,0,0,100,0,0,Oil
+908,Butter (Salted),717,0.9,0.1,81,0,0.1,Dairy
+909,Ghee (Clarified),900,0.3,0,99,0,0,Oil
+910,Paneer (Low Fat),200,18,4,12,0,3,Dairy
+911,Ricotta (Low Fat),138,11,5,8,0,0.5,Dairy
+912,Cream Cheese (Full Fat),342,6,4.1,34,0,3.5,Dairy
+913,Blue Cheese,353,21,2.3,29,0,0.5,Dairy
+914,Goat Cheese,364,21,2.5,30,0,2.5,Dairy
+915,Swiss Cheese,380,27,3.5,31,0,1.3,Dairy
+916,Provolone Cheese,350,25,3,26,0,1,Dairy
+917,Monterey Jack Cheese,370,24,0.7,30,0,0.5,Dairy
+918,Colby Cheese,394,24,2.5,32,0,0.5,Dairy
+919,Muenster Cheese,368,23,1.1,30,0,0.5,Dairy
+920,Brie Cheese,334,21,0.5,28,0,0.5,Dairy
+921,Camembert Cheese,300,20,1,24,0,0.5,Dairy
+922,Roquefort Cheese,369,22,2,31,0,0.5,Dairy
+923,Parmesan (Shredded),431,38,4.1,29,0,1,Dairy
+924,Grated Parmesan,431,38,4.1,29,0,1,Dairy
+925,Nutritional Yeast,325,50,41,5,25,0,Grain
+926,Brewer’s Yeast,325,45,40,2,20,0,Grain
+927,Spirulina Powder,290,57,24,8,4,0,Vegetable
+928,Moringa Leaf Powder,300,27,38,6,20,8,Vegetable
+929,Wheatgrass Powder,300,25,55,5,25,10,Vegetable
+930,Barley Grass Powder,300,25,55,5,25,10,Vegetable
+931,Beetroot Powder,300,10,70,1,15,60,Vegetable
+932,Carrot Powder,300,8,70,2,15,50,Vegetable
+933,Tomato Powder,300,12,65,3,15,40,Vegetable
+934,Onion Powder,300,10,70,1,10,30,Vegetable
+935,Garlic Powder,300,15,70,1,10,20,Vegetable
+936,Ginger Powder,335,9,71,4.2,14,3.4,Spice
+937,Turmeric Powder,312,10,67,3.3,23,3.1,Spice
+938,Fenugreek Seed Powder,323,23,58,7,25,0,Spice
+939,Amchur Powder,300,3,70,2,10,60,Spice
+940,Black Salt,0,0,0,0,0,0,Spice
+941,Himalayan Pink Salt,0,0,0,0,0,0,Spice
+942,Sea Salt (Fine),0,0,0,0,0,0,Spice
+943,MSG,0,0,0,0,0,0,Spice
+944,Beef Jerky,410,33,11,26,2,9,Meat
+945,Chicken Jerky,300,40,10,10,0,5,Meat
+946,Salmon Jerky,350,30,15,15,0,5,Seafood
+947,Turkey Jerky,300,40,10,10,0,5,Meat
+948,Protein Bar (High Protein),400,30,40,12,5,15,Sweetener
+949,Protein Shake (Ready-to-Drink),150,25,8,3,2,5,Dairy
+950,Egg White Protein Powder,382,81,7,0,0,0,Dairy
+951,Beef Protein Isolate Powder,380,90,0,2,0,0,Meat
+952,Marine Collagen Powder,360,90,0,0,0,0,Seafood
+953,Chicken Collagen Powder,360,90,0,0,0,0,Meat
+954,Bone Broth Protein Powder,300,70,5,5,0,0,Meat
+955,Plant-Based Protein Blend,370,75,10,8,8,2,Legume
+956,Whey + Casein Blend,390,78,8,6,2,6,Dairy
+957,Mass Gainer Powder,400,20,70,5,5,30,Sweetener
+958,Weight Gainer Powder,400,15,75,8,5,40,Sweetener
+959,Low-Calorie Sweetener (Stevia),0,0,100,0,0,0,Sweetener
+960,Erythritol,0,0,100,0,0,0,Sweetener
+961,Monk Fruit Sweetener,0,0,100,0,0,0,Sweetener
+962,Coconut Sugar,380,0,100,0,0,95,Sweetener
+963,Jaggery,383,0.4,95,0.1,0,90,Sweetener
+964,Date Syrup,282,2.5,75,0.4,8,63.4,Sweetener
+965,Maple Syrup,260,0,67,0.1,0,60,Sweetener
+966,Honey (Raw),304,0.3,82,0,0.2,82,Sweetener
+967,Agave Nectar,310,0,76,0,0,76,Sweetener
+968,Molasses,290,0,75,0,0,75,Sweetener
+969,Corn Syrup,286,0,78,0,0,78,Sweetener
+970,Brown Rice Syrup,300,0,75,0,0,70,Sweetener
+971,High-Fructose Corn Syrup,286,0,78,0,0,78,Sweetener
+972,Glucose Syrup,286,0,78,0,0,78,Sweetener
+973,Maltodextrin,380,0,95,0,0,0,Grain
+974,Dextrose Powder,380,0,95,0,0,0,Grain
+975,Fructose Powder,380,0,100,0,0,100,Sweetener
+976,Inulin Powder,150,0,15,0,85,0,Vegetable
+977,Psyllium Husk Powder,350,0,80,0.5,80,0,Seed
+978,Acacia Fiber Powder,200,0,90,0,90,0,Seed
+979,Guar Gum Powder,320,5,85,0,85,0,Spice
+980,Xanthan Gum Powder,333,0,78,0,78,0,Spice
+981,Locust Bean Gum,320,5,85,0,85,0,Spice
+982,Carrageenan Powder,0,0,0,0,0,0,Spice
+983,Agar Agar Powder,0,0,0,0,0,0,Spice
+984,Pectin Powder,0,0,0,0,0,0,Spice
+985,Citric Acid Powder,0,0,0,0,0,0,Spice
+986,Cream of Tartar Powder,0,0,0,0,0,0,Spice
+987,Baking Powder (Low Sodium),53,0,28,0,0.2,0,Spice
+988,Baking Soda,0,0,0,0,0,0,Spice
+989,Cornstarch Powder,381,0.3,91,0.1,0.9,0,Grain
+990,Tapioca Starch Powder,357,0.2,88,0,0.9,0,Grain
+991,Potato Starch Powder,357,0.1,83,0,0.8,0,Grain
+992,Arrowroot Powder,357,0.3,88,0.1,0.9,0,Grain
+993,Potato Flour,357,0.1,83,0,0.8,0,Grain
+994,Cassava Flour,330,1.5,82,0.3,3.5,2,Grain
+995,Rice Flour (Brown),366,6,80,1,2,0,Grain
+996,Almond Flour (Blanched),590,21,22,50,12,4.4,Nut
+997,Coconut Flour (Defatted),443,19,59,13,38,6,Grain
+998,Chickpea Flour (Besan),387,22,57,7,11,11,Legume
+999,Soy Flour (Defatted),300,50,30,10,10,5,Legume
+1000,Wheat Gluten Flour,370,75,15,5,3,0,Grain
+1001,White Rice (Cooked),130,2.7,28,0.3,0.4,0.1,Grain
+1002,Brown Rice (Cooked),111,2.6,23,0.9,1.8,0.4,Grain
+1003,Basmati Rice (Cooked),130,2.7,28,0.3,0.4,0.1,Grain
+1004,Jasmine Rice (Cooked),130,2.7,28,0.3,0.4,0.1,Grain
+1005,White Pasta (Cooked),131,5,25,1,1.8,0.6,Grain
+1006,Whole Wheat Pasta (Cooked),124,5.5,26,1,4,1,Grain
+1007,White Bread,265,9,49,3.2,2.7,5.7,Grain
+1008,Whole Wheat Bread,247,13,41,3.5,6,5,Grain
+1009,Sourdough Bread,260,9,49,2,2,3,Grain
+1010,Corn Tortilla,218,6,44,2.5,5,2,Grain
+1011,Wheat Flour (All-Purpose),364,10,76,1,2.7,0.4,Grain
+1012,Whole Wheat Flour,340,13,72,2.5,12,0.4,Grain
+1013,Almond Flour,590,21,22,50,12,4.4,Nut
+1014,Coconut Flour,443,19,59,13,38,6,Grain
+1015,Chickpea Flour,387,22,57,7,11,11,Legume
+1016,Rice Flour,366,6,80,1,2,0,Grain
+1017,Cornstarch,381,0.3,91,0.1,0.9,0,Grain
+1018,Tapioca Starch,357,0.2,88,0,0.9,0,Grain
+1019,Potato Starch,357,0.1,83,0,0.8,0,Grain
+1020,Arrowroot Powder,357,0.3,88,0.1,0.9,0,Grain
+1021,White Sugar,387,0,100,0,0,100,Sweetener
+1022,Brown Sugar,380,0,98,0,0,97,Sweetener
+1023,Powdered Sugar,387,0,100,0,0,100,Sweetener
+1024,Honey,304,0.3,82,0,0.2,82,Sweetener
+1201,Ghee,900,0.3,0,99,0,0,Oil
+1202,Butter,717,0.9,0.1,81,0,0.1,Dairy
+1203,Olive Oil,884,0,0,100,0,0,Oil
+1204,Coconut Oil,892,0,0,100,0,0,Oil
+1205,Peanut Oil,884,0,0,100,0,0,Oil
+1206,Canola Oil,884,0,0,100,0,0,Oil
+1207,Avocado Oil,884,0,0,100,0,0,Oil
+1208,Almonds,579,21,22,50,12,4.4,Nut
+1209,Cashews,553,18,30,44,3.3,5.9,Nut
+1210,Peanuts,567,26,16,49,8.5,4.7,Nut
+1211,Pistachios,562,20,28,45,10,7.7,Nut
+1212,Walnuts,654,15,14,65,6.7,2.6,Nut
+1213,Pecans,691,9,14,72,9.6,4,Nut
+1214,Macadamia Nuts,718,8,14,76,8.6,4.6,Nut
+1215,Peanut Butter (Natural),588,25,20,50,8,6,Nut
+1216,Almond Butter,614,21,19,55,10,3,Nut
+1217,Tahini,595,17,21,54,9.3,0.5,Seed
+1218,Chicken Breast (Skinless),165,31,0,3.6,0,0,Meat
+1219,Chicken Thigh,177,24,0,8.1,0,0,Meat
+1220,Ground Beef (80% Lean),254,17,0,20,0,0,Meat
+1221,Salmon Fillet,208,20,0,13,0,0,Seafood
+1222,Tuna (Canned in Oil),198,29,0,9,0,0,Seafood
+1223,Egg (Whole),143,13,0.7,10,0,0.4,Dairy
+1224,Egg White,52,11,0.7,0.2,0,0.6,Dairy
+1225,Greek Yogurt (5% Fat),106,9,4,5,0,4,Dairy
+1226,Cheddar Cheese,402,25,1.3,33,0,0.5,Dairy
+1227,Parmesan Cheese,431,38,4.1,29,0,1,Dairy
+1228,Mozzarella Cheese,300,22,2.2,22,0,1,Dairy
+1229,Paneer (Full Fat),265,18,3.5,21,0,3.5,Dairy
+1230,Feta Cheese,264,14,4.1,21,0,4.1,Dairy
+1231,Heavy Cream,340,2.8,2.8,36,0,2.8,Dairy
+1232,Condensed Milk (Sweetened),321,7.9,54,8.7,0,54,Dairy
+1233,White Rice (Uncooked),130,2.7,28,0.3,0.4,0.1,Grain
+1234,Basmati Rice (Uncooked),130,2.7,28,0.3,0.4,0.1,Grain
+1235,Jasmine Rice (Uncooked),130,2.7,28,0.3,0.4,0.1,Grain
+1236,Brown Rice (Uncooked),111,2.6,23,0.9,1.8,0.4,Grain
+1237,White Wheat Flour,364,10,76,1,2.7,0.4,Grain
+1238,All-Purpose Flour,364,10,76,1,2.7,0.4,Grain
+1239,Whole Wheat Flour,340,13,72,2.5,12,0.4,Grain
+1240,Chickpea Flour (Besan),387,22,57,7,11,11,Legume
+1241,Rice Flour,366,6,80,1,2,0,Grain
+1242,Cornstarch,381,0.3,91,0.1,0.9,0,Grain
+1243,Tapioca Starch,357,0.2,88,0,0.9,0,Grain
+1244,Potato Starch,357,0.1,83,0,0.8,0,Grain
+1245,White Sugar,387,0,100,0,0,100,Sweetener
+1246,Brown Sugar,380,0,98,0,0,97,Sweetener
+1247,Jaggery,383,0.4,95,0.1,0,90,Sweetener
+1248,Honey,304,0.3,82,0,0.2,82,Sweetener
+1249,Maple Syrup,260,0,67,0.1,0,60,Sweetener
+1250,Date Syrup,282,2.5,75,0.4,8,63.4,Sweetener
+1251,Coconut Sugar,380,0,100,0,0,95,Sweetener
+1252,Corn Syrup,286,0,78,0,0,78,Sweetener
+1253,Molasses,290,0,75,0,0,75,Sweetener
+1254,Dark Chocolate (70%),598,8,46,43,11,24,Sweetener
+1255,White Chocolate,539,6,59,32,0,59,Sweetener
+1256,Potato (Raw),77,2,17.5,0.1,2.2,0.8,Vegetable
+1257,Sweet Potato (Raw),86,1.6,20,0.1,3,4.2,Vegetable
+1258,Corn (Raw),86,3.2,19,1.2,2.7,6.3,Vegetable
+1259,Cassava (Raw),160,1.4,38,0.3,1.8,1.7,Vegetable
+1260,Plantain (Raw),122,1.3,32,0.4,2.3,15,Fruit
+1261,Dates (Dried),282,2.5,75,0.4,8,63.4,Fruit
+1262,Raisins,299,3.1,79,0.5,3.7,59,Sweetener
+1263,Dried Apricots,241,3.4,63,0.5,7.3,53,Fruit
+1264,Lentils (Dry),116,9,20,0.4,8,1.8,Legume
+1265,Chickpeas (Dry),164,8.9,27,2.6,7.6,4.8,Legume
+1266,Black Beans (Dry),132,8.9,24,0.3,8.7,0.3,Legume
+1267,Quinoa (Dry),368,14,64,6,7,2,Grain
+1268,Oats (Dry),389,17,66,7,10,0,Grain
+1269,Barley (Dry),354,12,73,2.3,17,0.8,Grain
+1270,Whey Protein Concentrate,400,75,10,8,0,8,Dairy
+1271,Whey Protein Isolate,370,88,2,1,0,2,Dairy
+1272,Casein Protein,380,80,5,2,0,5,Dairy
+1273,Pea Protein Isolate,370,80,6,5,5,0,Legume
+1274,Soy Protein Isolate,360,80,8,3,5,0,Legume
+1275,Collagen Peptides,360,90,0,0,0,0,Dairy
+1276,Beef Protein Isolate,380,90,0,2,0,0,Meat
+1277,Egg White Protein Powder,382,81,7,0,0,0,Dairy
+1278,Spirulina Powder,290,57,24,8,4,0,Vegetable
+1279,Moringa Powder,300,27,38,6,20,8,Vegetable
+1280,Edamame (Dry),446,36,30,20,9,7,Legume
+1281,Tempeh,192,19,9,11,0,0,Legume
+1282,Seitan,142,25,6,2,1,0,Grain
+1283,Tofu (Firm),76,8,2,4.8,1,0.6,Legume
+1284,Paneer (Low Fat),200,18,4,12,0,3,Dairy
+1285,Cottage Cheese (Low Fat),81,11,3,1,0,3,Dairy
+1286,Greek Yogurt (0% Fat),59,10,3.6,0.4,0,3.6,Dairy
+1287,Heavy Whipping Cream,340,2.8,2.8,36,0,2.8,Dairy
+1288,Evaporated Milk,134,6.8,10,7.6,0,10,Dairy
+1289,Condensed Milk,321,7.9,54,8.7,0,54,Dairy
+1290,Whole Milk,61,3.2,4.8,3.3,0,4.8,Dairy
+1291,Skim Milk,34,3.4,5,0.1,0,5,Dairy
+1292,Soy Milk (Unsweetened),54,3.3,6.1,2.1,0.5,4.1,Dairy
+1293,Almond Milk (Unsweetened),15,0.4,0.6,1.1,0.5,0,Dairy
+1294,Oat Milk (Unsweetened),46,1,7.1,1.9,0.8,4.3,Dairy
+1295,Coconut Milk (Full Fat),230,2.3,6,24,0,3.3,Dairy
+1296,Coconut Cream,330,3.6,7,34,0,4,Dairy
+1297,White Bread,265,9,49,3.2,2.7,5.7,Grain
+1298,Whole Wheat Bread,247,13,41,3.5,6,5,Grain
+1299,Pasta (Dry),371,13,75,1.5,3.2,2.7,Grain
+1300,White Rice (Cooked),130,2.7,28,0.3,0.4,0.1,Grain
+1301,Basmati Rice (Cooked),130,2.7,28,0.3,0.4,0.1,Grain
+1302,Jasmine Rice (Cooked),130,2.7,28,0.3,0.4,0.1,Grain
+1303,Brown Rice (Cooked),111,2.6,23,0.9,1.8,0.4,Grain
+1304,Potato (Boiled),87,1.9,20,0.1,2.2,0.9,Vegetable
+1305,Sweet Potato (Baked),90,2,21,0.2,3.3,6.5,Vegetable
+1306,Corn (Cooked),86,3.2,19,1.2,2.7,6.3,Vegetable
+1307,Plantain (Fried),122,1.3,32,0.4,2.3,15,Fruit
+1308,Dates,282,2.5,75,0.4,8,63.4,Fruit
+1309,Raisins,299,3.1,79,0.5,3.7,59,Sweetener
+1310,Banana,89,1.1,23,0.3,2.6,12.2,Fruit
+1311,Mango,60,0.8,15,0.4,1.6,13.7,Fruit
+1312,Pineapple,50,0.5,13.1,0.1,1.4,9.9,Fruit
+1313,Grapes,69,0.7,18,0.2,0.9,15.5,Fruit
+1314,Apple,52,0.3,14,0.2,2.4,10.4,Fruit
+1315,Orange,47,0.9,11.8,0.1,2.4,9.4,Fruit
+1316,Banana Flour (Green),340,4,80,1,10,5,Grain
+1317,Resistant Starch Powder,300,0,80,0,20,0,Grain
+1318,Inulin Powder,150,0,15,0,85,0,Vegetable
+1319,Psyllium Husk,350,0,80,0.5,80,0,Seed
+1320,Acacia Fiber,200,0,90,0,90,0,Seed
+1321,Oat Bran,246,17,66,7,15,1,Grain
+1322,Wheat Bran,216,16,65,4,43,0,Grain
+1323,Maltodextrin,380,0,95,0,0,0,Grain
+1324,Dextrose,380,0,95,0,0,0,Grain
+1325,Fructose,380,0,100,0,0,100,Sweetener
+1326,Glucose Syrup,286,0,78,0,0,78,Sweetener
+1327,High-Fructose Corn Syrup,286,0,78,0,0,78,Sweetener
+1328,Brown Rice Syrup,300,0,75,0,0,70,Sweetener
+1329,Tapioca Syrup,300,0,75,0,0,70,Sweetener
+1330,Corn Maltodextrin,380,0,95,0,0,0,Grain
+1331,Yacon Syrup,150,0,30,0,40,10,Sweetener
+1332,Allulose,0,0,100,0,0,0,Sweetener
+1333,Erythritol,0,0,100,0,0,0,Sweetener
+1334,Monk Fruit,0,0,100,0,0,0,Sweetener
+1335,Stevia,0,0,100,0,0,0,Sweetener
+1336,Coconut Flour,443,19,59,13,38,6,Grain
+1337,Almond Flour,590,21,22,50,12,4.4,Nut
+1338,Chickpea Flour,387,22,57,7,11,11,Legume
+1339,Rice Flour,366,6,80,1,2,0,Grain
+1340,Potato Flour,357,0.1,83,0,0.8,0,Grain
+1341,Cassava Flour,330,1.5,82,0.3,3.5,2,Grain
+1342,Green Banana Flour,340,4,80,1,10,5,Grain
+1343,Low-Carb Flour Blend,300,15,30,15,20,5,Grain
+1344,Keto Flour Blend,350,12,25,25,15,3,Nut
+1345,Protein Pasta (Lentil),180,25,30,3,10,3,Legume
+1346,Edamame Pasta,180,25,30,3,10,3,Legume
+1347,Chickpea Pasta,180,25,30,3,10,3,Legume
+1348,Shirataki Noodles,10,0,3,0,2.5,0,Vegetable
+1349,Konjac Rice,10,0,3,0,2.5,0,Vegetable
+1350,Cauliflower Rice,25,2,5,0.3,2,2,Vegetable
+1351,Broccoli Rice,35,3,6,0.5,3,2,Vegetable
+1352,Zucchini Noodles,17,1.2,3.1,0.3,1,2.5,Vegetable
+1353,Spaghetti Squash,31,0.6,7,0.6,1.5,2.8,Vegetable
+1354,Beef Jerky,410,33,11,26,2,9,Meat
+1355,Chicken Jerky,300,40,10,10,0,5,Meat
+1356,Salmon Jerky,350,30,15,15,0,5,Seafood
+1357,Turkey Jerky,300,40,10,10,0,5,Meat
+1358,Protein Bar (High Protein),400,30,40,12,5,15,Sweetener
+1359,Mass Gainer Powder,400,20,70,5,5,30,Sweetener
+1360,Weight Gainer Powder,400,15,75,8,5,40,Sweetener
+1361,Granola Bar,450,8,65,18,6,25,Sweetener
+1362,Trail Mix,450,15,45,25,8,20,Nut
+1363,Mixed Nuts,600,18,22,52,8,4,Nut
+1364,Dried Fruit Mix,300,3,70,1,8,50,Fruit
+1365,Popcorn (Air-Popped),375,12,78,4,15,1,Grain
+1366,Tortilla Chips,490,7,65,22,5,2,Grain
+1367,Pretzels,380,10,80,3,3,3,Grain
+1368,Crackers (Saltine),421,10,72,9,3,2,Grain
+1369,Cheese Crackers,500,10,60,25,3,5,Grain
+1370,Pancake Mix,350,8,75,3,3,15,Grain
+1371,Waffle Mix,350,8,75,3,3,15,Grain
+1372,Cake Mix,400,5,80,10,2,40,Sweetener
+1373,Brownie Mix,450,5,75,15,3,45,Sweetener
+1374,Cookie Mix,450,5,70,18,3,35,Sweetener
+1375,Pizza Dough Mix,300,8,60,2,3,2,Grain
+1376,Bread Mix,350,10,70,2,4,5,Grain
+1377,Tomato Sauce,24,1.3,5.3,0.2,1.5,3.6,Vegetable
+1378,BBQ Sauce,170,1,40,1,1,33,Sweetener
+1379,Soy Sauce,53,8.1,5.4,0.1,0.8,1.4,Spice
+1380,Teriyaki Sauce,120,4,24,0,0.5,20,Spice
+1381,Peanut Sauce,250,8,20,18,3,10,Spice
+1382,Hoisin Sauce,220,3,44,3.5,2.5,25,Sweetener
+1383,Sriracha,93,2,20,1,1.5,15,Spice
+1384,Mayonnaise,680,1,1,75,0,1,Oil
+1385,Ranch Dressing,400,2,6,40,0,4,Dairy
+1386,Caesar Dressing,400,3,6,40,0,3,Dairy
+1387,Guacamole,160,2,9,15,6,1,Fruit
+1388,Hummus,166,8,20,9,6,0.5,Legume
+1389,Baba Ganoush,120,2,10,8,4,2,Vegetable
+1390,Tzatziki,80,3,5,6,0.5,4,Dairy
+1391,Salsa,30,1.5,6,0.2,1.5,3,Vegetable
+1392,Applesauce (Unsweetened),42,0.2,11,0.1,1.3,9,Fruit
+1393,Pumpkin Puree,34,1.1,8,0.3,2.9,3.5,Vegetable
+1394,Sweet Potato Puree,86,1.6,20,0.1,3,4.2,Vegetable
+1395,Tomato Paste,82,4.3,19,0.5,4.1,12.2,Vegetable
+1396,Coconut Water,19,0.7,3.7,0.2,1.1,2.6,Fruit
+1397,Matcha Powder,265,24,39,6,30,0,Herb
+1398,Cocoa Powder,228,20,58,14,37,1.8,Spice
+1399,Nutritional Yeast,325,50,41,5,25,0,Grain
+1400,Brewer’s Yeast,325,45,40,2,20,0,Grain
+1401,Spirulina,290,57,24,8,4,0,Vegetable
+1402,Moringa Leaf Powder,300,27,38,6,20,8,Vegetable
+1403,Wheatgrass Powder,300,25,55,5,25,10,Vegetable
+1404,Beef Bone Broth,45,9,0.5,2,0,0,Meat
+1405,Chicken Bone Broth,45,9,0.5,2,0,0,Meat
+1406,Vegetable Broth,5,0.5,0.5,0,0.1,0,Spice
+1407,Bouillon Cube (Chicken),250,15,30,10,0,5,Spice
+1408,Bouillon Cube (Beef),250,15,30,10,0,5,Spice
+1409,Instant Coffee Powder,353,20,50,1,0,5,Spice
+1410,Hot Chocolate Mix,380,8,82,6,7,70,Sweetener
+1411,Protein Shake (Ready),150,25,8,3,2,5,Dairy
+1412,Energy Bar,400,15,55,15,8,25,Sweetener
+1413,Granola,450,10,60,20,8,20,Grain
+1414,Trail Mix (Sweet),500,12,45,30,8,25,Nut
+1415,Dried Fruit Mix,300,3,70,1,8,50,Fruit
+1416,Popcorn (Buttered),500,8,60,28,10,2,Grain
+1417,Potato Chips,536,7,53,34,4.5,2,Vegetable
+1418,Tortilla Chips,490,7,65,22,5,2,Grain
+1419,Cheese Puffs,500,8,60,28,2,5,Grain
+1420,Crackers (Cheese),500,10,60,25,3,5,Grain
+1421,Pretzels,380,10,80,3,3,3,Grain
+1422,Biscuit Mix,450,8,70,15,3,10,Grain
+1423,Pancake Mix,350,8,75,3,3,15,Grain
+1424,Cake Mix,400,5,80,10,2,40,Sweetener
+1425,Brownie Mix,450,5,75,15,3,45,Sweetener
+1426,Cookie Dough Mix,450,5,70,18,3,35,Sweetener
+1427,Pizza Crust Mix,300,8,60,2,3,2,Grain
+1428,Bread Mix,350,10,70,2,4,5,Grain
+1429,Tomato Sauce,24,1.3,5.3,0.2,1.5,3.6,Vegetable
+1430,Pesto,430,9,5,42,2,2,Herb
+1431,Alfredo Sauce,150,3,5,13,0,2,Dairy
+1432,Marinara Sauce,70,2,10,2,2,6,Vegetable
+1433,BBQ Sauce,170,1,40,1,1,33,Sweetener
+1434,Teriyaki Sauce,120,4,24,0,0.5,20,Spice
+1435,Peanut Sauce,250,8,20,18,3,10,Spice
+1436,Sweet & Sour Sauce,150,0.5,37,0.5,0.5,35,Sweetener
+1437,Mayonnaise,680,1,1,75,0,1,Oil
+1438,Ranch Dressing,400,2,6,40,0,4,Dairy
+1439,Guacamole,160,2,9,15,6,1,Fruit
+1440,Hummus,166,8,20,9,6,0.5,Legume
+1441,Tzatziki,80,3,5,6,0.5,4,Dairy
+1442,Salsa,30,1.5,6,0.2,1.5,3,Vegetable
+1443,Applesauce,42,0.2,11,0.1,1.3,9,Fruit
+1444,Pumpkin Puree,34,1.1,8,0.3,2.9,3.5,Vegetable
+1445,Tomato Paste,82,4.3,19,0.5,4.1,12.2,Vegetable
+1446,Coconut Water,19,0.7,3.7,0.2,1.1,2.6,Fruit
+1447,Matcha Powder,265,24,39,6,30,0,Herb
+1448,Cocoa Powder,228,20,58,14,37,1.8,Spice
+1449,Nutritional Yeast,325,50,41,5,25,0,Grain
+1450,Spirulina Powder,290,57,24,8,4,0,Vegetable
+1451,Moringa Powder,300,27,38,6,20,8,Vegetable
+1452,Beef Bone Broth,45,9,0.5,2,0,0,Meat
+1453,Chicken Bone Broth,45,9,0.5,2,0,0,Meat
+1454,Instant Coffee,353,20,50,1,0,5,Spice
+1455,Hot Chocolate Mix,380,8,82,6,7,70,Sweetener
+1456,Protein Bar,400,30,40,12,5,15,Sweetener
+1457,Mass Gainer,400,20,70,5,5,30,Sweetener
+1458,Granola Bar,450,8,65,18,6,25,Sweetener
+1459,Trail Mix,450,15,45,25,8,20,Nut
+1460,Dried Fruit Mix,300,3,70,1,8,50,Fruit
+1461,Popcorn (Buttered),500,8,60,28,10,2,Grain
+1462,Potato Chips,536,7,53,34,4.5,2,Vegetable
+1463,Tortilla Chips,490,7,65,22,5,2,Grain
+1464,Pretzels,380,10,80,3,3,3,Grain
+1465,Crackers,421,10,72,9,3,2,Grain
+1466,Cheese Crackers,500,10,60,25,3,5,Grain
+1467,Pancake Mix,350,8,75,3,3,15,Grain
+1468,Cake Mix,400,5,80,10,2,40,Sweetener
+1469,Brownie Mix,450,5,75,15,3,45,Sweetener
+1470,Cookie Mix,450,5,70,18,3,35,Sweetener
+1471,Pizza Dough Mix,300,8,60,2,3,2,Grain
+1472,Bread Mix,350,10,70,2,4,5,Grain
+1473,Tomato Sauce,24,1.3,5.3,0.2,1.5,3.6,Vegetable
+1474,BBQ Sauce,170,1,40,1,1,33,Sweetener
+1475,Mayonnaise,680,1,1,75,0,1,Oil
+1476,Guacamole,160,2,9,15,6,1,Fruit
+1477,Hummus,166,8,20,9,6,0.5,Legume
+1478,Salsa,30,1.5,6,0.2,1.5,3,Vegetable
+1479,Applesauce,42,0.2,11,0.1,1.3,9,Fruit
+1480,Pumpkin Puree,34,1.1,8,0.3,2.9,3.5,Vegetable
+1481,Coconut Milk Powder,660,7,25,65,0,10,Dairy
+1482,Cocoa Butter,884,0,0,100,0,0,Oil
+1483,Shea Butter,884,0,0,100,0,0,Oil
+1484,Palm Oil,884,0,0,100,0,0,Oil
+1485,Beef Tallow,902,0,0,100,0,0,Oil
+1486,Lard,902,0,0,100,0,0,Oil
+1487,Chicken Fat,900,0,0,100,0,0,Oil
+1488,Heavy Cream,340,2.8,2.8,36,0,2.8,Dairy
+1489,Condensed Milk,321,7.9,54,8.7,0,54,Dairy
+1490,Evaporated Milk,134,6.8,10,7.6,0,10,Dairy
+1491,Whole Milk Powder,496,26,38,27,0,38,Dairy
+1492,Skim Milk Powder,362,36,52,1,0,52,Dairy
+1493,Malt Powder,280,5,70,0,0,60,Sweetener
+1494,Malted Milk Powder,400,12,70,10,2,50,Dairy
+1495,Instant Breakfast Powder,380,15,70,5,5,50,Dairy
+1496,Protein Shake Powder,400,80,8,5,0,5,Dairy
+1497,Mass Gainer Powder,400,20,70,5,5,30,Sweetener
+1498,Weight Gainer Powder,400,15,75,8,5,40,Sweetener
+1499,Granola,450,10,60,20,8,20,Grain
+1500,Trail Mix,450,15,45,25,8,20,Nut

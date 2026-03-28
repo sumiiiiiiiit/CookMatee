@@ -17,7 +17,10 @@ const recipeSchema = new mongoose.Schema(
             default: '',
         },
         ingredients: {
-            type: [String],
+            type: [{
+                name: { type: String, required: true },
+                quantity: { type: String, required: true }
+            }],
             required: true,
         },
         steps: {
@@ -43,6 +46,26 @@ const recipeSchema = new mongoose.Schema(
         cookingTime: {
             type: String, // e.g., '30 mins'
             required: true,
+        },
+        cookingMethod: {
+            type: String,
+            default: 'frying', // Defaulting so old recipes don't crash
+        },
+        calories: {
+            type: Number,
+            default: 0,
+        },
+        protein: {
+            type: Number,
+            default: 0,
+        },
+        carbs: {
+            type: Number,
+            default: 0,
+        },
+        fat: {
+            type: Number,
+            default: 0,
         },
         status: {
             type: String,

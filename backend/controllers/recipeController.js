@@ -1,6 +1,7 @@
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
 const { detectAllergens } = require('../utils/allergenDetector');
+const { calculateRecipeCalories } = require('../utils/calorieCalculator');
 const axios = require('axios');
 
 // @desc    Get all approved recipes
@@ -65,7 +66,7 @@ exports.getRecipeById = async (req, res) => {
 
 exports.createRecipe = async (req, res) => {
     try {
-        let { title, category, ingredients, steps, difficulty, cookingTime } = req.body;
+        let { title, category, ingredients, steps, difficulty, cookingTime, cookingMethod } = req.body;
 
         if (typeof ingredients === 'string') {
             try {
@@ -74,6 +75,19 @@ exports.createRecipe = async (req, res) => {
                 ingredients = ingredients.split(',').map(i => i.trim());
             }
         }
+
+        if (Array.isArray(ingredients)) {
+            ingredients = ingredients.map(i => {
+                if (typeof i === 'string') return { name: i, quantity: `${Math.floor(Math.random() * 50 + 1) * 10}g` };
+                return i;
+            }).filter(i => i && i.name);
+        }
+
+        const nutrition = calculateRecipeCalories(ingredients, cookingMethod || 'frying');
+        const calories = nutrition.calories;
+        const protein = nutrition.protein;
+        const carbs = nutrition.carbs;
+        const fat = nutrition.fat;
 
         const image = req.file ? req.file.path : req.body.image;
         const isPremium = req.body.isPremium === 'true' || req.body.isPremium === true;
@@ -87,6 +101,11 @@ exports.createRecipe = async (req, res) => {
             steps,
             difficulty,
             cookingTime,
+            cookingMethod: cookingMethod || 'frying',
+            calories,
+            protein,
+            carbs,
+            fat,
             isPremium,
             price,
             user: req.user.id,
@@ -113,7 +132,7 @@ exports.updateRecipe = async (req, res) => {
             return res.status(401).json({ success: false, message: 'User not authorized' });
         }
 
-        let { title, category, ingredients, steps, difficulty, cookingTime } = req.body;
+        let { title, category, ingredients, steps, difficulty, cookingTime, cookingMethod } = req.body;
 
         if (typeof ingredients === 'string') {
             try {
@@ -123,6 +142,19 @@ exports.updateRecipe = async (req, res) => {
             }
         }
 
+        if (Array.isArray(ingredients)) {
+            ingredients = ingredients.map(i => {
+                if (typeof i === 'string') return { name: i, quantity: `${Math.floor(Math.random() * 50 + 1) * 10}g` };
+                return i;
+            }).filter(i => i && i.name);
+        }
+
+        const nutrition = calculateRecipeCalories(ingredients || recipe.ingredients, cookingMethod || recipe.cookingMethod || 'frying');
+        const calories = nutrition.calories;
+        const protein = nutrition.protein;
+        const carbs = nutrition.carbs;
+        const fat = nutrition.fat;
+
         const updateData = {
             title: title || recipe.title,
             category: category || recipe.category,
@@ -130,6 +162,11 @@ exports.updateRecipe = async (req, res) => {
             steps: steps || recipe.steps,
             difficulty: difficulty || recipe.difficulty,
             cookingTime: cookingTime || recipe.cookingTime,
+            cookingMethod: cookingMethod || recipe.cookingMethod || 'frying',
+            calories,
+            protein,
+            carbs,
+            fat,
             isPremium: req.body.isPremium !== undefined ? (req.body.isPremium === 'true' || req.body.isPremium === true) : recipe.isPremium,
             price: req.body.price !== undefined ? Number(req.body.price) : recipe.price,
             status: 'pending',
@@ -311,6 +348,33 @@ exports.searchRecipesAI = async (req, res) => {
         }
     } catch (error) {
         console.error('Search AI controller error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+exports.getRelatedRecipes = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const recipe = await Recipe.findById(id);
+        if (!recipe) return res.status(404).json({ success: false, message: 'Recipe not found' });
+
+        let related = await Recipe.find({
+            _id: { $ne: id },
+            category: recipe.category,
+            status: 'approved'
+        }).limit(3);
+
+        if (related.length < 3) {
+            const extra = await Recipe.find({
+                _id: { $ne: id, $nin: related.map(r => r._id) },
+                status: 'approved'
+            }).limit(3 - related.length);
+            related = related.concat(extra);
+        }
+
+        res.status(200).json({ success: true, recipes: related });
+    } catch (error) {
+        console.error('Related recipes error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };

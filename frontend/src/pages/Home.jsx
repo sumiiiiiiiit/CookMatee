@@ -32,32 +32,32 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff] dark:bg-[#121212] transition-colors duration-300">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
+        <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#121212] flex flex-col transition-colors duration-300">
             <Navbar activePage="home" user={user} />
 
             {/* Hero Section */}
             <main className="flex-grow flex flex-col items-center justify-center text-center px-4 -mt-20">
-                <h1 className="text-6xl md:text-7xl font-extrabold text-[#1a1a1a] mb-8 leading-tight">
+                <h1 className="text-6xl md:text-7xl font-extrabold text-[#1a1a1a] dark:text-white mb-8 leading-tight transition-colors">
                     Discover, Cook & <br /> Share Amazing <br /> Recipes
                 </h1>
 
                 <div className="flex space-x-4">
                     <button
                         onClick={() => navigate('/recipes')}
-                        className="bg-primary hover:bg-secondary text-white px-10 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-indigo-200 transition-all transform hover:scale-105"
+                        className="bg-primary hover:bg-secondary text-white px-10 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-indigo-100 dark:shadow-none transition-all transform hover:scale-105"
                     >
                         Explore Recipes
                     </button>
                     <button
                         onClick={() => setIsUploadModalOpen(true)}
-                        className="bg-white hover:bg-gray-50 text-primary border-2 border-primary px-10 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-gray-100 transition-all transform hover:scale-105"
+                        className="bg-white dark:bg-[#1e1e1e] hover:bg-gray-50 dark:hover:bg-gray-800 text-primary border-2 border-primary px-10 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-gray-100 dark:shadow-none transition-all transform hover:scale-105"
                     >
                         Upload Recipe
                     </button>

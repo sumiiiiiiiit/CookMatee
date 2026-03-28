@@ -109,6 +109,11 @@ export const exportRecipeToPDF = async (recipe, allergens = []) => {
         const timeText = `⏱ Cooking Time: ${recipe.cookingTime}`;
         pdf.text(timeText, margin, yPosition);
 
+        if (recipe.cookingMethod) {
+            const methodText = `🔥 Method: ${recipe.cookingMethod.replace('_', ' ').toUpperCase()}`;
+            pdf.text(methodText, margin + 80, yPosition);
+        }
+
         const difficultyStars = '★'.repeat(recipe.difficulty) + '☆'.repeat(5 - recipe.difficulty);
         const difficultyText = `Difficulty: ${difficultyStars}`;
         pdf.text(difficultyText, margin, yPosition + 6);
@@ -159,7 +164,9 @@ export const exportRecipeToPDF = async (recipe, allergens = []) => {
                     pdf.addPage();
                     yPosition = margin;
                 }
-                const bulletText = `• ${ingredient}`;
+                const name = typeof ingredient === 'string' ? ingredient : (ingredient.name || '');
+                const qty = typeof ingredient === 'string' || !ingredient.quantity ? '' : ` - ${ingredient.quantity}`;
+                const bulletText = `• ${name}${qty}`;
                 const lines = pdf.splitTextToSize(bulletText, contentWidth - 5);
                 pdf.text(lines, margin + 2, yPosition);
                 yPosition += lines.length * 5;
