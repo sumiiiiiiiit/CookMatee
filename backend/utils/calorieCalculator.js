@@ -62,34 +62,50 @@ const loadNutritionData = () => {
 const extractGrams = (quantityStr) => {
     if (!quantityStr) return 100; // Default if empty
     
-    // Clean string and handle fractions if any (e.g. 1/2)
-    let cleanStr = quantityStr.replace(',', '.');
+    // Clean string
+    let cleanStr = quantityStr.toString().toLowerCase().trim().replace(',', '.');
     
+    // Handle specific culinary terms where num isn't strictly present or means something small
+    if (cleanStr.includes('to taste') || cleanStr.includes('pinch') || cleanStr.includes('dash')) return 2;
+    if (cleanStr.includes('as needed')) return 15; // e.g. a tablespoon or so
+
     // Find number
     const numMatch = cleanStr.match(/([\d./]+)/);
-    if (!numMatch) return 100;
-
-    let num;
-    if (numMatch[1].includes('/')) {
-        const parts = numMatch[1].split('/');
-        num = parseFloat(parts[0]) / parseFloat(parts[1]);
+    
+    let num = 1; // Default to 1 if no number found but string has a recognized word
+    if (numMatch) {
+        if (numMatch[1].includes('/')) {
+            const parts = numMatch[1].split('/');
+            num = parseFloat(parts[0]) / parseFloat(parts[1]);
+        } else {
+            num = parseFloat(numMatch[1]);
+        }
     } else {
-        num = parseFloat(numMatch[1]);
+        // If no number but we have Words like medium, small
+        if (!cleanStr.match(/medium|small|large|clove|piece|slice/i)) {
+            return 100; // Complete fallback
+        }
     }
 
     if (isNaN(num)) return 100;
 
     // Unit conversions to grams (approximate)
-    if (cleanStr.match(/kg|kilogram|kilograms/i)) return num * 1000;
-    if (cleanStr.match(/ml|millilitre|millilitres/i)) return num; // 1ml ≈ 1g
-    if (cleanStr.match(/l|litre|litres/i)) return num * 1000;
-    if (cleanStr.match(/tsp|teaspoon|teaspoons/i)) return num * 5;
-    if (cleanStr.match(/tbsp|tablespoon|tablespoons/i)) return num * 15;
-    if (cleanStr.match(/cup|cups/i)) return num * 240;
-    if (cleanStr.match(/g|gram|grams/i)) return num;
+    if (cleanStr.match(/\b(kg|kilogram|kilograms)\b/i)) return num * 1000;
+    if (cleanStr.match(/\b(ml|millilitre|millilitres)\b/i)) return num; // 1ml ≈ 1g
+    if (cleanStr.match(/\b(l|litre|litres)\b/i)) return num * 1000;
+    if (cleanStr.match(/\b(tsp|teaspoon|teaspoons)\b/i)) return num * 5;
+    if (cleanStr.match(/\b(tbsp|tablespoon|tablespoons)\b/i)) return num * 15;
+    if (cleanStr.match(/\b(cup|cups)\b/i)) return num * 240;
+    if (cleanStr.match(/\b(g|gram|grams)\b/i)) return num;
+    if (cleanStr.match(/\b(clove|cloves)\b/i)) return num * 5;
+    if (cleanStr.match(/\b(slice|slices)\b/i)) return num * 25;
+    if (cleanStr.match(/\b(medium)\b/i)) return num * 130;
+    if (cleanStr.match(/\b(small)\b/i)) return num * 80;
+    if (cleanStr.match(/\b(large)\b/i)) return num * 180;
+    if (cleanStr.match(/\b(piece|pieces)\b/i)) return num * 100;
     
-    // If no unit, check if it's a small number (count-like)
-    if (num < 10) return num * 100; 
+    // If no unit, check if it's a small number (count-like) e.g. "2" onions
+    if (num <= 10) return num * 100; 
 
     return num; // Default fallback assumes g if large number
 };
@@ -108,26 +124,39 @@ const calculateRecipeCalories = (ingredients, cookingMethod) => {
     ingredients.forEach(ing => {
         if (!ing || !ing.name) return;
         
-        const ingName = ing.name.toLowerCase().trim();
+        let ingName = ing.name.toLowerCase().trim();
         const grams = extractGrams(ing.quantity);
         
-        // Find best match in dataset
         let matchedNutrition = null;
         
-        // Exact match
-        if (data[ingName]) {
+        if (ingName === 'water' || ingName === 'ice') {
+            matchedNutrition = { calories: 0, protein: 0, carbs: 0, fat: 0 };
+        } else if (data[ingName]) {
             matchedNutrition = data[ingName];
         } else {
-            // Partial match
+            // Partial match - look for full word match to prevent "water" matching "watermelon"
             for (const [dbName, dbNutr] of Object.entries(data)) {
-                if (ingName.includes(dbName) || dbName.includes(ingName)) {
+                const nameWords = ingName.split(/[\s-]+/);
+                const dbWords = dbName.split(/[\s-]+/);
+                
+                // If any word exactly matches, prioritize that
+                if (nameWords.some(w => dbWords.includes(w))) {
                     matchedNutrition = dbNutr;
                     break;
                 }
             }
+            // Fallback to substring match if no word matched
+            if (!matchedNutrition) {
+                for (const [dbName, dbNutr] of Object.entries(data)) {
+                    if (ingName.includes(dbName) || dbName.includes(ingName)) {
+                        matchedNutrition = dbNutr;
+                        break;
+                    }
+                }
+            }
         }
         
-        // If no match found, default to zero (e.g. for water or unknown items)
+        // If no match found, default to zero
         if (!matchedNutrition) {
             matchedNutrition = { calories: 0, protein: 0, carbs: 0, fat: 0 };
         }

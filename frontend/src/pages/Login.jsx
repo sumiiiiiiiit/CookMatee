@@ -78,7 +78,7 @@ export default function Login() {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="e.g. username@example.com"
-                            className="input-field"
+                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
                             required
                         />
                     </div>
@@ -92,7 +92,7 @@ export default function Login() {
                             value={formData.password}
                             onChange={handleChange}
                             placeholder="enter your password"
-                            className="input-field"
+                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
                             required
                         />
                     </div>
@@ -105,13 +105,15 @@ export default function Login() {
                     </div>
 
                     {/* Submit Button */}
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="btn-primary disabled:opacity-50"
-                    >
-                        {loading ? 'Signing in...' : 'Continue'}
-                    </button>
+                    <div className="flex justify-center mt-6 w-full">
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="btn-primary disabled:opacity-50 px-12"
+                        >
+                            {loading ? 'Signing in...' : 'Continue'}
+                        </button>
+                    </div>
 
                     {/* Sign Up Link */}
                     <p className="text-center text-sm text-gray-600 mt-6">

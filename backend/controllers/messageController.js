@@ -2,35 +2,51 @@ const Message = require('../models/Message');
 const User = require('../models/User');
 
 // GET /api/messages/conversations
-// Returns a list of unique users that the current user has exchanged messages with
+// Returns a list of unique conversations that the current user has exchanged messages with (separated by recipe)
 const getConversations = async (req, res) => {
     try {
         const userId = req.user._id;
 
         const messages = await Message.find({
             $or: [{ senderId: userId }, { receiverId: userId }]
-        }).sort({ timestamp: -1 });
+        }).sort({ timestamp: -1 }).populate({
+            path: 'recipeId',
+            select: 'title image _id user' // Include user (chef's ID)
+        });
 
-        // Build a map of unique conversation partners
-        const partnerIds = new Set();
+        const conversationsMap = new Map();
+
         messages.forEach((msg) => {
-            const otherId = msg.senderId.toString() === userId.toString()
+            const partnerId = msg.senderId.toString() === userId.toString()
                 ? msg.receiverId.toString()
                 : msg.senderId.toString();
-            partnerIds.add(otherId);
+            
+            const recipeIdStr = msg.recipeId ? msg.recipeId._id.toString() : 'no-recipe';
+            const convKey = `${partnerId}_${recipeIdStr}`;
+
+            if (!conversationsMap.has(convKey)) {
+                conversationsMap.set(convKey, {
+                    partnerId,
+                    recipe: msg.recipeId,
+                    lastMessage: msg
+                });
+            }
         });
 
-        const partners = await User.find({ _id: { $in: [...partnerIds] } }).select('_id name email');
+        const partnerIds = Array.from(new Set(Array.from(conversationsMap.values()).map(c => c.partnerId)));
+        const partners = await User.find({ _id: { $in: partnerIds } }).select('_id name email');
 
-        // Attach last message to each partner
-        const conversations = partners.map((partner) => {
-            const lastMsg = messages.find(
-                (m) =>
-                    m.senderId.toString() === partner._id.toString() ||
-                    m.receiverId.toString() === partner._id.toString()
-            );
-            return { partner, lastMessage: lastMsg };
-        });
+        const conversations = Array.from(conversationsMap.values()).map((conv) => {
+            const partner = partners.find(p => p._id.toString() === conv.partnerId);
+            return {
+                partner,
+                recipe: conv.recipe || null,
+                lastMessage: conv.lastMessage
+            };
+        }).filter(c => c.partner);
+
+        // Sort conversations by timestamp descending
+        conversations.sort((a, b) => new Date(b.lastMessage.timestamp) - new Date(a.lastMessage.timestamp));
 
         res.json({ success: true, conversations });
     } catch (error) {
@@ -40,18 +56,27 @@ const getConversations = async (req, res) => {
 };
 
 // GET /api/messages/:receiverId
-// Returns full message history between current user and receiverId
+// Returns full message history between current user and receiverId, optionally filtered by recipeId
 const getMessages = async (req, res) => {
     try {
         const userId = req.user._id;
         const { receiverId } = req.params;
+        const { recipeId } = req.query;
 
-        const messages = await Message.find({
+        const matchQuery = {
             $or: [
                 { senderId: userId, receiverId },
                 { senderId: receiverId, receiverId: userId }
             ]
-        })
+        };
+
+        if (recipeId && recipeId !== 'null' && recipeId !== 'undefined') {
+            matchQuery.recipeId = recipeId;
+        } else {
+            matchQuery.recipeId = null; // matches missing or explicitly null
+        }
+
+        const messages = await Message.find(matchQuery)
             .sort({ timestamp: 1 })
             .populate('senderId', 'name')
             .populate('receiverId', 'name');

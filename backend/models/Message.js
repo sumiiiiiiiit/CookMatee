@@ -11,13 +11,17 @@ const messageSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    recipeId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Recipe',
+        required: false
+    },
     message: {
         type: String,
         required: true
     },
     timestamp: {
         type: Date,
-        
         default: Date.now
     }
 });

@@ -9,9 +9,8 @@ const {
   getProfile,
   updateProfile,
   verifyEmail,
-  forgotPassword,
-  resetPassword,
 } = require('../controllers/authController');
+const { forgotPassword, resetPassword, handleOAuthCallback } = require('../controllers/passwordController');
 const { protect } = require('../middleware/auth');
 
 // Public routes

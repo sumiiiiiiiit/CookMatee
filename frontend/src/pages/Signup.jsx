@@ -98,7 +98,7 @@ export default function Signup() {
                             value={formData.name}
                             onChange={handleChange}
                             placeholder="John Doe"
-                            className="input-field"
+                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
                             required
                             autoComplete="name"
                         />
@@ -112,7 +112,7 @@ export default function Signup() {
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="you@example.com"
-                            className="input-field"
+                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
                             required
                             autoComplete="email"
                         />
@@ -127,7 +127,7 @@ export default function Signup() {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="At least 8 characters"
-                                className="input-field pr-12"
+                                className="input-field pr-12 !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
                                 required
                                 autoComplete="new-password"
                             />
@@ -142,44 +142,18 @@ export default function Signup() {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-3 text-sm">Register as:</label>
-                        <div className="flex gap-4">
-                            <label className={`flex-1 flex items-center justify-center p-3 rounded-xl border-2 cursor-pointer transition-all ${formData.role === 'user' ? 'border-primary bg-indigo-50 text-indigo-700' : 'border-gray-100 bg-white text-gray-500'
-                                }`}>
-                                <input
-                                    type="radio"
-                                    name="role"
-                                    value="user"
-                                    checked={formData.role === 'user'}
-                                    onChange={handleChange}
-                                    className="hidden"
-                                />
-                                <span className="font-semibold">User</span>
-                            </label>
-                            <label className={`flex-1 flex items-center justify-center p-3 rounded-xl border-2 cursor-pointer transition-all ${formData.role === 'admin' ? 'border-amber-400 bg-amber-50 text-amber-700' : 'border-gray-100 bg-white text-gray-500'
-                                }`}>
-                                <input
-                                    type="radio"
-                                    name="role"
-                                    value="admin"
-                                    checked={formData.role === 'admin'}
-                                    onChange={handleChange}
-                                    className="hidden"
-                                />
-                                <span className="font-semibold">Admin</span>
-                            </label>
-                        </div>
-                    </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed transition-all ${loading ? 'animate-pulse' : ''
-                            }`}
-                    >
-                        {loading ? 'Creating account...' : 'Sign Up'}
-                    </button>
+
+                    <div className="flex justify-center mt-8 w-full">
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className={`btn-primary px-12 disabled:opacity-60 disabled:cursor-not-allowed transition-all ${loading ? 'animate-pulse' : ''
+                                }`}
+                        >
+                            {loading ? 'Creating account...' : 'Sign Up'}
+                        </button>
+                    </div>
 
                     <p className="text-center text-sm text-gray-600 mt-6">
                         Already have an account?{' '}

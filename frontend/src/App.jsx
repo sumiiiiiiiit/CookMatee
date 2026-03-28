@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Chatbot from './pages/Chatbot';
 import Messages from './pages/Messages';
+import Earnings from './pages/Earnings';
 import PaymentSuccess from './pages/PaymentSuccess';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
@@ -41,6 +42,11 @@ function App() {
                 <Route path="/messages" element={
                     <ProtectedRoute>
                         <Messages />
+                    </ProtectedRoute>
+                } />
+                <Route path="/earnings" element={
+                    <ProtectedRoute>
+                        <Earnings />
                     </ProtectedRoute>
                 } />
                 <Route path="/recipes/:id" element={<RecipeDetail />} />

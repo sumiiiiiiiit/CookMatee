@@ -75,20 +75,28 @@ io.on('connection', (socket) => {
   }
 
   // ── Send a message ──────────────────────────────────────────────────────
-  socket.on('send_message', async ({ receiverId, message }) => {
+  socket.on('send_message', async ({ receiverId, recipeId, message }) => {
     if (!receiverId || !message?.trim()) return;
 
     try {
-      const saved = await Message.create({
-        senderId: userId,
-        receiverId,
-        message: message.trim(),
-      });
+        const payloadToSave = {
+            senderId: userId,
+            receiverId,
+            message: message.trim(),
+        };
+        // Add recipeId only if provided and not null string
+        if (recipeId && recipeId !== 'null' && recipeId !== 'undefined') {
+            payloadToSave.recipeId = recipeId;
+        }
 
+      const saved = await Message.create(payloadToSave);
+
+      // In real scenario we'd deeply populate recipe details, but returning the ID is fine for frontend
       const payload = {
         _id: saved._id,
         senderId: userId,
         receiverId,
+        recipeId: saved.recipeId,
         message: saved.message,
         timestamp: saved.timestamp,
       };
@@ -133,6 +141,7 @@ app.use('/api/ai', require('./routes/ai'));
 app.use('/api/search', require('./routes/search'));
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/messages', require('./routes/messages'));
+app.use('/api/earnings', require('./routes/earnings'));
 
 // Global Error Handler
 app.use((err, req, res, next) => {
@@ -147,7 +156,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'CookMate API is running!' });
 });
 
-app.get('/oauth2callback', require('./controllers/authController').handleOAuthCallback);
+app.get('/oauth2callback', require('./controllers/passwordController').handleOAuthCallback);
 
 const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => {

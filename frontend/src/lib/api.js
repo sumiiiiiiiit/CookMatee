@@ -81,8 +81,12 @@ export const paymentAPI = {
 
 export const messageAPI = {
     getConversations: () => api.get('/messages/conversations'),
-    getMessages: (receiverId) => api.get(`/messages/${receiverId}`),
+    getMessages: (receiverId, recipeId) => api.get(`/messages/${receiverId}`, { params: { recipeId } }),
     getRecipeOwner: (recipeId) => api.get(`/messages/recipe-owner/${recipeId}`),
+};
+
+export const earningAPI = {
+    getStats: () => api.get('/earnings/my-earnings'),
 };
 
 export default api;

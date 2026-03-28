@@ -4,12 +4,14 @@ const { protect } = require('../middleware/auth');
 const { upload } = require('../config/cloudinary');
 const {
     getAllRecipes,
-    getLeaderboard,
     getSavedRecipes,
     getMyRecipes,
     getRecipeById,
     createRecipe,
     updateRecipe,
+} = require('../controllers/recipeController');
+const {
+    getLeaderboard,
     likeRecipe,
     commentOnRecipe,
     saveRecipe,
@@ -17,7 +19,7 @@ const {
     getAllergensForRecipe,
     searchRecipesAI,
     getRelatedRecipes
-} = require('../controllers/recipeController');
+} = require('../controllers/recipeInteractionController');
 
 // Specific routes first
 router.get('/leaderboard', getLeaderboard);
