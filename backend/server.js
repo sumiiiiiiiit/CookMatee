@@ -143,21 +143,10 @@ app.use('/api/payment', require('./routes/payment'));
 app.use('/api/messages', require('./routes/messages'));
 app.use('/api/earnings', require('./routes/earnings'));
 
-// Serve Static Frontend Assets in Production
-if (process.env.NODE_ENV === 'production') {
-  const buildPath = path.join(__dirname, '../frontend/build');
-  app.use(express.static(buildPath));
-  
-  // Handlers for client-side routing
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
-  });
-} else {
-  // Simple check for dev mode
-  app.get('/', (req, res) => {
-    res.json({ message: 'CookMate API is running!' });
-  });
-}
+// Health check — frontend is deployed separately on Vercel
+app.get('/', (req, res) => {
+  res.json({ message: 'CookMate API is running!', status: 'ok' });
+});
 
 // Global Error Handler
 app.use((err, req, res, next) => {
