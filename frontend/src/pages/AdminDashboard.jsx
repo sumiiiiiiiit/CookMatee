@@ -102,54 +102,30 @@ export default function AdminDashboard() {
                     </button>
                 </div>
 
-                <div className="p-4 space-y-4">
-                    <div className="flex bg-gray-50 dark:bg-gray-800 rounded-xl p-1">
-                        <button onClick={() => { setActiveTab('recipes'); setSearchQuery(''); }}
-                            className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${activeTab === 'recipes' ? 'bg-white dark:bg-gray-700 shadow-sm text-primary' : 'text-gray-500'}`}>
-                            <ChefHat size={14} /> Recipes
-                        </button>
-                        <button onClick={() => { setActiveTab('users'); setSearchQuery(''); }}
-                            className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${activeTab === 'users' ? 'bg-white dark:bg-gray-700 shadow-sm text-primary' : 'text-gray-500'}`}>
-                            <Users size={14} /> Users
-                        </button>
-                    </div>
+                <div className="p-4 space-y-2 flex-grow">
+                    <button onClick={() => { setActiveTab('recipes'); setSearchQuery(''); }}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition ${activeTab === 'recipes' ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                        <ChefHat size={18} />
+                        Recipes
+                    </button>
+                    <button onClick={() => { setActiveTab('users'); setSearchQuery(''); }}
+                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition ${activeTab === 'users' ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                        <Users size={18} />
+                        Users
+                    </button>
 
-                    <div className="relative">
-                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder={`Search ${activeTab}...`}
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20"
-                        />
+                    <div className="pt-4">
+                        <div className="relative">
+                            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder={`Search ${activeTab}...`}
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full pl-9 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary/20"
+                            />
+                        </div>
                     </div>
-                </div>
-
-                <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-                    {loading ? (
-                        <div className="flex justify-center py-10"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div>
-                    ) : (
-                        activeTab === 'recipes' ? (
-                            <div className="space-y-2">
-                                {filteredRecipes.map(r => (
-                                    <div key={r._id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl hover:ring-2 hover:ring-primary/20 cursor-pointer transition">
-                                        <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{r.title}</p>
-                                        <p className="text-[10px] text-gray-400 mt-0.5">by {r.chefName}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="space-y-2">
-                                {filteredUsers.map(u => (
-                                    <div key={u._id} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-xl hover:ring-2 hover:ring-primary/20 cursor-pointer transition">
-                                        <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate">{u.name}</p>
-                                        <p className="text-[10px] text-gray-400 mt-0.5">{u.email}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        )
-                    )}
                 </div>
 
                 <div className="p-4 border-t border-gray-100 dark:border-gray-800">

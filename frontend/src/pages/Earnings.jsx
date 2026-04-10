@@ -99,7 +99,7 @@ export default function Earnings() {
                                     <span className="text-5xl font-extrabold dark:text-white tracking-tighter">Rs. {stats?.totalBalance?.toLocaleString()}</span>
                                     {stats?.totalBalance > 0 && (
                                         <span className="text-green-500 font-bold bg-green-50 dark:bg-green-900/20 px-3 py-1 rounded-full text-xs flex items-center">
-                                            <TrendingUp className="w-3 h-3 mr-1" /> +12.5%
+                                            <TrendingUp className="w-3 h-3 mr-1" /> +12.5
                                         </span>
                                     )}
                                 </div>

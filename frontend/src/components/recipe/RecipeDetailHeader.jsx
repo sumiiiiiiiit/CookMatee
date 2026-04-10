@@ -26,13 +26,13 @@ export default function RecipeDetailHeader({
                     <button onClick={handleSave} className={`p-3 rounded-full border transition-all ${isSaved ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900/40 text-amber-500' : 'bg-gray-50 dark:bg-gray-800 border-gray-100 dark:border-gray-700 text-gray-400 hover:text-amber-500'}`} title="Save to Cookbook">
                         <svg className="w-6 h-6" fill={isSaved ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
                     </button>
-                    {!showLocked && (
+                    {!showLocked && recipe.isPremium && (
                         <button onClick={() => setIsChatOpen(true)} className="p-3 rounded-full border bg-indigo-50 dark:bg-indigo-900/20 border-indigo-100 dark:border-indigo-900/40 text-indigo-500 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-all active:scale-95" title="Ask AI ChefBot">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                         </button>
                     )}
                     
-                    {!showLocked && !isOwned && (
+                    {!showLocked && !isOwned && recipe.isPremium && (
                         <button onClick={handleChatWithChef} className="p-3 rounded-full border bg-violet-50 dark:bg-violet-900/20 border-violet-100 dark:border-violet-900/40 text-violet-500 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-all active:scale-95" title="Chat with Chef">
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                         </button>
