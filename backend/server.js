@@ -17,19 +17,20 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 
-// Socket.io setup with CORS
+// Middleware - Robust CORS configuration
+const frontendOrigin = (process.env.FRONTEND_URL || 'http://localhost:3000').replace(/\/$/, "").trim();
+
+app.use(cors({
+  origin: frontendOrigin,
+  credentials: true
+}));
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: frontendOrigin,
     credentials: true,
   }
 });
-
-// Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
-}));
 app.use(cookieParser());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
@@ -38,7 +39,7 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 io.use((socket, next) => {
   // Accept token from handshake auth or as query param
   let token = socket.handshake.auth?.token || socket.handshake.query?.token;
-  
+
   // If token missing from auth, try extracting from httpOnly cookie
   if ((!token || token === 'none') && socket.handshake.headers.cookie) {
     const cookies = require('cookie').parse(socket.handshake.headers.cookie);
@@ -79,15 +80,15 @@ io.on('connection', (socket) => {
     if (!receiverId || !message?.trim()) return;
 
     try {
-        const payloadToSave = {
-            senderId: userId,
-            receiverId,
-            message: message.trim(),
-        };
-        // Add recipeId only if provided and not null string
-        if (recipeId && recipeId !== 'null' && recipeId !== 'undefined') {
-            payloadToSave.recipeId = recipeId;
-        }
+      const payloadToSave = {
+        senderId: userId,
+        receiverId,
+        message: message.trim(),
+      };
+      // Add recipeId only if provided and not null string
+      if (recipeId && recipeId !== 'null' && recipeId !== 'undefined') {
+        payloadToSave.recipeId = recipeId;
+      }
 
       const saved = await Message.create(payloadToSave);
 
@@ -143,7 +144,7 @@ app.use('/api/payment', require('./routes/payment'));
 app.use('/api/messages', require('./routes/messages'));
 app.use('/api/earnings', require('./routes/earnings'));
 
-// Health check — frontend is deployed separately on Vercel
+
 app.get('/', (req, res) => {
   res.json({ message: 'CookMate API is running!', status: 'ok' });
 });
