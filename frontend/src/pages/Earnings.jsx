@@ -203,7 +203,7 @@ export default function Earnings() {
                                     </svg>
                                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                                         <span className="text-xl font-black dark:text-white">
-                                            {stats?.recipes?.length > 0 ? (Math.max(...stats.recipes.map(r => (r.revenue / (stats.totalBalance || 1)) * 100)).toFixed(0)) : 0}%
+                                            {stats?.recipes?.length > 0 ? (Math.max(...stats.recipes.map(r => (r.revenue / (stats.totalBalance || 1)) * 100)).toFixed(0)) : 0}
                                         </span>
                                         <span className="text-[10px] text-gray-400 font-bold uppercase">Top Recipe</span>
                                     </div>
@@ -221,7 +221,7 @@ export default function Earnings() {
                                                 </div>
                                                 <div className="text-right flex-shrink-0 ml-2">
                                                     <div className="text-xs font-black dark:text-white">Rs. {recipe.revenue.toLocaleString()}</div>
-                                                    <div className="text-[10px] text-gray-400">{percent}%</div>
+                                                    <div className="text-[10px] text-gray-400">{percent}</div>
                                                 </div>
                                             </div>
                                         );
