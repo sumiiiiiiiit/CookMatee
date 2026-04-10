@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { authAPI } from 'lib/api';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -48,15 +48,15 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center px-4">
-            <div className="card max-w-md w-full p-8 bg-white rounded-2xl shadow-lg">
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-[#1a1a1a] flex items-center justify-center px-4">
+            <div className="card max-w-md w-full p-8 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg">
                 {/* Logo */}
                 <div className="flex justify-center mb-6">
                     <img src={logo} alt="CookMate Logo" className="w-24 h-auto" />
                 </div>
 
                 {/* Title */}
-                <h2 className="text-center text-gray-700 mb-6 text-xl font-medium">
+                <h2 className="text-center text-gray-700 dark:text-gray-300 mb-6 text-xl font-medium">
                     Enter your details to sign in to your account.
                 </h2>
 
@@ -71,28 +71,28 @@ export default function Login() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Email */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Email</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Email</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="e.g. username@example.com"
-                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
+                            className="input-field !bg-white dark:bg-[#1a1a1a] !text-gray-900 dark:text-gray-100 !border-gray-300 !placeholder-gray-400"
                             required
                         />
                     </div>
 
                     {/* Password */}
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Password</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Password</label>
                         <input
                             type="password"
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
                             placeholder="enter your password"
-                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
+                            className="input-field !bg-white dark:bg-[#1a1a1a] !text-gray-900 dark:text-gray-100 !border-gray-300 !placeholder-gray-400"
                             required
                         />
                     </div>
@@ -116,7 +116,7 @@ export default function Login() {
                     </div>
 
                     {/* Sign Up Link */}
-                    <p className="text-center text-sm text-gray-600 mt-6">
+                    <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
                         Don't have an account?{' '}
                         <Link to="/signup" className="text-primary hover:underline font-semibold">
                             Register Now

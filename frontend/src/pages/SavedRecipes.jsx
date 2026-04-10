@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAPI, recipeAPI, getImageUrl } from 'lib/api';
 import Cookies from 'js-cookie';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/common/Navbar';
 
 export default function SavedRecipes() {
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function SavedRecipes() {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
+        <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#121212] flex flex-col">
             <Navbar activePage="recipes" user={user} />
 
             <main className="flex-grow p-10 md:p-20">
@@ -53,7 +53,7 @@ export default function SavedRecipes() {
                 {loading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-48 bg-white rounded-2xl animate-pulse shadow-sm"></div>
+                            <div key={i} className="h-48 bg-white dark:bg-[#1a1a1a] rounded-2xl animate-pulse shadow-sm"></div>
                         ))}
                     </div>
                 ) : savedRecipes.length > 0 ? (
@@ -63,9 +63,9 @@ export default function SavedRecipes() {
                                 <div
                                     key={recipe._id}
                                     onClick={() => navigate(`/recipes/${recipe._id}`)}
-                                    className="bg-white p-6 rounded-3xl shadow-lg border border-gray-100 flex items-center space-x-6 hover:shadow-xl transition-all cursor-pointer group"
+                                    className="bg-white dark:bg-[#1a1a1a] p-6 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-800 flex items-center space-x-6 hover:shadow-xl transition-all cursor-pointer group"
                                 >
-                                    <div className="w-32 h-32 bg-[#f3f4f6] rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-100 group-hover:scale-105 transition-transform">
+                                    <div className="w-32 h-32 bg-[#f3f4f6] rounded-2xl flex-shrink-0 flex items-center justify-center overflow-hidden border border-gray-100 dark:border-gray-800 group-hover:scale-105 transition-transform">
                                         {recipe.image ? (
                                             <img src={getImageUrl(recipe.image)} alt={recipe.title} className="w-full h-full object-cover" />
                                         ) : (
@@ -75,7 +75,7 @@ export default function SavedRecipes() {
                                         )}
                                     </div>
                                     <div className="flex-grow">
-                                        <h3 className="text-xl font-bold text-gray-800 mb-1 group-hover:text-primary transition-colors">{recipe.title}</h3>
+                                        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-1 group-hover:text-primary transition-colors">{recipe.title}</h3>
                                         <p className="text-xs text-gray-400 mb-6 font-medium">Saved on {recipe.createdAt ? new Date(recipe.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'N/A'}</p>
 
                                         <div className="flex space-x-3">
@@ -87,7 +87,7 @@ export default function SavedRecipes() {
                                             </button>
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); handleRemove(recipe._id); }}
-                                                className="px-6 py-2.5 bg-white hover:bg-red-50 text-red-500 border border-red-100 rounded-xl font-bold text-xs transition-all"
+                                                className="px-6 py-2.5 bg-white dark:bg-[#1a1a1a] hover:bg-red-50 text-red-500 border border-red-100 rounded-xl font-bold text-xs transition-all"
                                             >
                                                 Remove
                                             </button>
@@ -98,13 +98,13 @@ export default function SavedRecipes() {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-20 bg-white/50 rounded-3xl border-2 border-dashed border-gray-200">
+                    <div className="text-center py-20 bg-white dark:bg-[#1a1a1a]/50 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-700">
                         <div className="flex justify-center mb-6">
                             <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-gray-300">
                                 <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.247 18.477 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
                             </div>
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-800 mb-2">No recipes saved yet</h3>
+                        <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">No recipes saved yet</h3>
                         <p className="text-gray-500 max-w-sm mx-auto">Browse the recipe catalog and save your favorites to build your personal cookbook!</p>
                         <button
                             onClick={() => navigate('/recipes')}

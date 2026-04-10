@@ -11,8 +11,8 @@ export default function ConversationItem({ partner, recipe, lastMessage, user, a
         <li key={`${partner._id}_${recipe?._id || "no-recipe"}`}>
             <button
                 onClick={() => setActiveChat({ partner, recipe })}
-                className={`w-full text-left px-4 py-3.5 flex items-center gap-3.5 transition-colors border-b border-gray-50
-                    ${isActive ? 'bg-[#f0f2f5]' : 'hover:bg-[#f5f6f8]'}`}
+                className={`w-full text-left px-4 py-3.5 flex items-center gap-3.5 transition-colors border-b border-gray-50 dark:border-gray-800
+                    ${isActive ? 'bg-[#f0f2f5] dark:bg-gray-800' : 'hover:bg-[#f5f6f8] dark:hover:bg-gray-800/50'}`}
             >
                 {/* Avatar */}
                 <div className="relative flex-shrink-0">
@@ -20,27 +20,27 @@ export default function ConversationItem({ partner, recipe, lastMessage, user, a
                         {partner.name?.charAt(0).toUpperCase()}
                     </div>
                     {/* Online indicator placeholder */}
-                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white" />
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white dark:border-gray-800" />
                 </div>
 
                 {/* Info */}
                 <div className="flex-grow min-w-0">
                     <div className="flex justify-between items-baseline gap-2">
-                        <span className="font-bold text-gray-900 text-sm truncate">
-                            {prefix && <span className="text-violet-600 font-extrabold mr-1">{prefix}</span>}
+                        <span className="font-bold text-gray-900 dark:text-gray-100 text-sm truncate">
+                            {prefix && <span className="text-violet-600 dark:text-primary font-extrabold mr-1">{prefix}</span>}
                             {partner.name}
                         </span>
-                        <span className="text-[10px] text-gray-400 flex-shrink-0 font-medium tracking-tight">
+                        <span className="text-[10px] text-gray-400 dark:text-gray-500 flex-shrink-0 font-medium tracking-tight">
                             {formatRelTime(lastMessage?.timestamp)}
                         </span>
                     </div>
-                    {recipe && <p className="text-xs text-slate-500 font-medium truncate mt-0.5 tracking-tight">{recipe.title}</p>}
-                    <p className="text-xs text-gray-500 truncate mt-0.5 font-medium">
+                    {recipe && <p className="text-xs text-slate-500 dark:text-gray-400 font-medium truncate mt-0.5 tracking-tight">{recipe.title}</p>}
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate mt-0.5 font-medium">
                         {lastMessage
                             ? (isMe
-                                ? <span><span className="text-gray-400">You: </span>{lastMessage.message}</span>
+                                ? <span><span className="text-gray-400 dark:text-gray-500">You: </span>{lastMessage.message}</span>
                                 : lastMessage.message)
-                            : <span className="italic text-gray-400">No messages yet</span>
+                            : <span className="italic text-gray-400 dark:text-gray-500">No messages yet</span>
                         }
                     </p>
                 </div>

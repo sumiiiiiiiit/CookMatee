@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { recipeAPI } from '../lib/api';
+import { recipeAPI } from '../../lib/api';
 
 export default function RecipeSearchBar({ onSearchComplete }) {
     const [searchTerm, setSearchTerm] = useState('');

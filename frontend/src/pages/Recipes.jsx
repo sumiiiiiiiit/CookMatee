@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { authAPI, recipeAPI } from 'lib/api';
-import Navbar from '../components/Navbar';
-import RecipeSearchBar from '../components/RecipeSearchBar';
-import RecipeCard from '../components/RecipeCard';
+import Navbar from '../components/common/Navbar';
+import RecipeSearchBar from '../components/recipe/RecipeSearchBar';
+import RecipeCard from '../components/recipe/RecipeCard';
 
 const CATEGORIES = ['Breakfast', 'Lunch', 'Dinner', 'Dessert'];
 const QUICK_FILTERS = [
@@ -106,7 +106,7 @@ export default function Recipes() {
                             }`}
                         >
                             <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${selectedCategory === cat ? 'border-white' : 'border-gray-300 dark:border-gray-700'}`}>
-                                {selectedCategory === cat && <div className="w-2.5 h-2.5 rounded-full bg-white animate-in zoom-in" />}
+                                {selectedCategory === cat && <div className="w-2.5 h-2.5 rounded-full bg-white dark:bg-[#1a1a1a] animate-in zoom-in" />}
                             </div>
                             {cat}
                         </button>
@@ -155,7 +155,7 @@ export default function Recipes() {
                                 className={`px-7 py-3 rounded-full text-xs font-black transition-all border ${
                                     (cat === 'All' && selectedCategory === null) || selectedCategory === cat
                                     ? 'bg-[#007AFF] text-white border-[#007AFF] shadow-2xl shadow-blue-200 dark:shadow-none'
-                                    : 'bg-white dark:bg-[#252525] border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-white hover:shadow-lg'
+                                    : 'bg-white dark:bg-[#252525] border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-white dark:bg-[#1a1a1a] hover:shadow-lg'
                                 }`}
                             >
                                 {cat}
@@ -168,8 +168,8 @@ export default function Recipes() {
                                 onClick={() => setQuickFilter(quickFilter === filter.id ? null : filter.id)}
                                 className={`px-6 py-3 rounded-full text-xs font-bold transition-all border ${
                                     quickFilter === filter.id
-                                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 border-gray-900 dark:border-gray-100 shadow-xl'
-                                    : 'bg-white dark:bg-[#252525] border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-white hover:shadow-lg'
+                                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 dark:text-gray-100 border-gray-900 dark:border-gray-100 dark:border-gray-800 shadow-xl'
+                                    : 'bg-white dark:bg-[#252525] border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-white dark:bg-[#1a1a1a] hover:shadow-lg'
                                 }`}
                             >
                                 {filter.label}
@@ -205,15 +205,9 @@ export default function Recipes() {
                             >
                                 <svg className="w-6 h-6 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>
                             </button>
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-                                <button
-                                    key={p}
-                                    onClick={() => setCurrentPage(p)}
-                                    className={`w-14 h-14 rounded-2xl font-black transition-all text-sm ${currentPage === p ? 'bg-[#007AFF] text-white shadow-2xl shadow-blue-200 scale-110' : 'text-gray-500 bg-white dark:bg-[#252525] border border-gray-100 dark:border-gray-700 hover:shadow-xl'}`}
-                                >
-                                    {p}
-                                </button>
-                            ))}
+                            <div className="text-gray-500 font-bold px-4">
+                                Page {currentPage} of {totalPages}
+                            </div>
                             <button
                                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                                 disabled={currentPage === totalPages}
@@ -259,8 +253,8 @@ export default function Recipes() {
                                     onClick={() => setQuickFilter(quickFilter === filter.id ? null : filter.id)}
                                     className={`px-6 py-3 rounded-full text-xs font-black border transition-all ${
                                         quickFilter === filter.id 
-                                        ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 border-gray-900 dark:border-gray-100 shadow-2xl scale-105' 
-                                        : 'bg-white dark:bg-[#252525] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-white hover:shadow-xl'
+                                        ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 dark:text-gray-100 border-gray-900 dark:border-gray-100 dark:border-gray-800 shadow-2xl scale-105' 
+                                        : 'bg-white dark:bg-[#252525] border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-white dark:bg-[#1a1a1a] hover:shadow-xl'
                                     }`}
                                 >
                                     {filter.label}
@@ -275,7 +269,7 @@ export default function Recipes() {
                         <div className="flex justify-center pt-8">
                             <button
                                 onClick={() => setShowAll(true)}
-                                className="group flex items-center gap-4 px-16 py-5 rounded-[2.5rem] bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 font-extrabold text-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:scale-105 transition-all duration-500"
+                                className="group flex items-center gap-4 px-16 py-5 rounded-[2.5rem] bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 dark:text-gray-100 font-extrabold text-sm hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:scale-105 transition-all duration-500"
                             >
                                 Explore All Recipes
                                 <svg className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>

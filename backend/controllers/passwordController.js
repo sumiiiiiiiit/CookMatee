@@ -1,45 +1,10 @@
 const crypto = require('crypto');
 const User = require('../models/User');
 const { sendEmail } = require('../utils/sendEmail');
-const oAuth2Client = require('../utils/oauth');
 
-exports.handleOAuthCallback = async (req, res) => {
-  const { code, error } = req.query;
+// OAuth callback no longer used (switched to Brevo SMTP)
+exports.handleOAuthCallback = (req, res) => res.status(404).send('Not available');
 
-  if (error) {
-    console.error('Google OAuth error:', error);
-    return res.status(400).send(`Google error: ${error}`);
-  }
-
-  if (!code) {
-    return res.status(400).send('No code received from Google');
-  }
-
-  try {
-    const { tokens } = await oAuth2Client.getToken(code);
-    oAuth2Client.setCredentials(tokens);
-
-    console.log('--- NEW GMAIL TOKENS RECEIVED ---');
-    console.log('Refresh Token:', tokens.refresh_token || 'Not provided (already authorized)');
-    console.log('Copy the refresh token above into your .env file as GMAIL_REFRESH_TOKEN');
-
-    res.send(`
-      <div style="font-family: sans-serif; text-align: center; padding: 40px; line-height: 1.6;">
-        <h1 style="color: #4CAF50;">Auth Successful!</h1>
-        <p>Tokens have been received. Check your <b>backend terminal</b> to see the refresh token.</p>
-        <div style="background: #f4f4f4; padding: 20px; border-radius: 10px; display: inline-block; text-align: left; margin-top: 20px;">
-          <p><b>1.</b> Copy the refresh token from terminal</p>
-          <p><b>2.</b> Update <code>GMAIL_REFRESH_TOKEN</code> in your <code>.env</code> file</p>
-          <p><b>3.</b> Restart your backend server</p>
-        </div>
-        <p style="margin-top: 20px; color: #666;">You can close this window now.</p>
-      </div>
-    `);
-  } catch (err) {
-    console.error('Token exchange failed:', err.message);
-    res.status(500).send('Authentication failed');
-  }
-};
 
 exports.forgotPassword = async (req, res) => {
   try {

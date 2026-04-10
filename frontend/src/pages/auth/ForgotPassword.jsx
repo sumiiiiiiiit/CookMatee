@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from 'lib/api';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 export default function ForgotPassword() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function ForgotPassword() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center px-4">
-            <div className="card max-w-md w-full p-10 bg-white rounded-3xl shadow-xl border border-white/20 backdrop-blur-sm">
+            <div className="card max-w-md w-full p-10 bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-xl border border-white/20 backdrop-blur-sm">
                 {/* Logo */}
                 <div className="flex justify-center mb-8">
                     <img src={logo} alt="CookMate Logo" className="w-24 h-auto" />
@@ -38,7 +38,7 @@ export default function ForgotPassword() {
 
                 {/* Title */}
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Forgot Password?</h2>
+                    <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">Forgot Password?</h2>
                     <p className="text-gray-500 font-medium">Enter your email and we'll send you a link to reset your password.</p>
                 </div>
 
@@ -59,13 +59,13 @@ export default function ForgotPassword() {
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-gray-700 font-bold mb-2 uppercase tracking-wider text-xs ml-1">Email Address</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-bold mb-2 uppercase tracking-wider text-xs ml-1">Email Address</label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="username@example.com"
-                            className="w-full px-6 py-4 rounded-2xl border border-gray-100 bg-gray-50 focus:ring-4 focus:ring-primary/10 focus:border-primary focus:bg-white outline-none transition-all font-medium text-gray-900"
+                            className="w-full px-6 py-4 rounded-2xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-[#1a1a1a] focus:ring-4 focus:ring-primary/10 focus:border-primary focus:bg-white dark:bg-[#1a1a1a] outline-none transition-all font-medium text-gray-900 dark:text-gray-100"
                             required
                         />
                     </div>

@@ -4,10 +4,26 @@ const path = require('path');
 /**
  * Controller to handle AI-powered recipe searches by spawning a Python process.
  */
-exports.searchRecipes = (req, res) => {
+exports.searchRecipes = async (req, res) => {
     const query = req.query.q || '';
     
-    // Path to the Python executable within the virtual environment
+    if (process.env.PYTHON_SERVICE_URL) {
+        // Deployed separate Python service on Render
+        try {
+            const axios = require('axios');
+            const response = await axios.get(process.env.PYTHON_SERVICE_URL, { params: { q: query } });
+            return res.status(200).json({
+                success: true,
+                count: response.data?.length || 0,
+                data: response.data || []
+            });
+        } catch (err) {
+            console.error('Python Service Error:', err.message);
+            return res.status(500).json({ success: false, message: 'Python service unavailable', error: err.message });
+        }
+    }
+
+    // Path to the Python executable within the virtual environment (Fallback for local)
     const pythonPath = path.join(__dirname, '..', 'Python', 'venv', 'bin', 'python3');
     const scriptPath = path.join(__dirname, '..', 'Python', 'recipe_search_main.py');
     

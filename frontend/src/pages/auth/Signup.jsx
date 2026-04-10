@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { authAPI } from 'lib/api';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -64,13 +64,13 @@ export default function Signup() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-[#1a1a1a] flex items-center justify-center px-4">
             <div className="card max-w-md w-full p-8">
                 <div className="flex justify-center mb-6">
                     <img src={logo} alt="CookMate Logo" className="w-24 h-auto" />
                 </div>
 
-                <h2 className="text-center text-gray-700 text-xl font-semibold mb-2">
+                <h2 className="text-center text-gray-700 dark:text-gray-300 text-xl font-semibold mb-2">
                     Create your CookMate account
                 </h2>
                 <p className="text-center text-gray-500 text-sm mb-8">
@@ -91,35 +91,35 @@ export default function Signup() {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">Full Name</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Full Name</label>
                         <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
                             placeholder="John Doe"
-                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
+                            className="input-field !bg-white dark:bg-[#1a1a1a] !text-gray-900 dark:text-gray-100 !border-gray-300 !placeholder-gray-400"
                             required
                             autoComplete="name"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">Email Address</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Email Address</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
                             placeholder="you@example.com"
-                            className="input-field !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
+                            className="input-field !bg-white dark:bg-[#1a1a1a] !text-gray-900 dark:text-gray-100 !border-gray-300 !placeholder-gray-400"
                             required
                             autoComplete="email"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-gray-700 font-medium mb-2">Password</label>
+                        <label className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Password</label>
                         <div className="relative">
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -127,14 +127,14 @@ export default function Signup() {
                                 value={formData.password}
                                 onChange={handleChange}
                                 placeholder="At least 8 characters"
-                                className="input-field pr-12 !bg-white !text-gray-900 !border-gray-300 !placeholder-gray-400"
+                                className="input-field pr-12 !bg-white dark:bg-[#1a1a1a] !text-gray-900 dark:text-gray-100 !border-gray-300 !placeholder-gray-400"
                                 required
                                 autoComplete="new-password"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-400 focus:outline-none"
                                 aria-label={showPassword ? 'Hide password' : 'Show password'}
                             >
                                 {showPassword ? 'Hide' : 'Show'}
@@ -155,7 +155,7 @@ export default function Signup() {
                         </button>
                     </div>
 
-                    <p className="text-center text-sm text-gray-600 mt-6">
+                    <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
                         Already have an account?{' '}
                         <Link
                             to="/login"

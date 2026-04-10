@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { authAPI } from 'lib/api';
-import logo from '../assets/logo.png';
+import logo from '../../assets/logo.png';
 
 export default function VerifyEmail() {
     const navigate = useNavigate();
@@ -76,16 +76,16 @@ export default function VerifyEmail() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 px-4">
-            <div className="card max-w-md w-full p-8 text-center bg-white rounded-2xl shadow-lg">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-[#1a1a1a] px-4">
+            <div className="card max-w-md w-full p-8 text-center bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg">
                 <div className="flex justify-center mb-6">
                     <img src={logo} alt="CookMate Logo" className="w-20 h-auto" />
                 </div>
 
-                <h1 className="text-2xl font-bold text-gray-800 mb-2">Verify Your Email</h1>
+                <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Verify Your Email</h1>
                 <p className="text-gray-500 mb-8 text-sm">
                     We've sent a 6-digit verification code to <br />
-                    <span className="font-semibold text-gray-700">{email}</span>
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">{email}</span>
                 </p>
 
                 {error && (
@@ -124,7 +124,7 @@ export default function VerifyEmail() {
                         {loading ? 'Verifying...' : 'Verify Account'}
                     </button>
 
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                         Didn't receive the code?{' '}
                         <button
                             type="button"

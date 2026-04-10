@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/common/Navbar';
 import { earningAPI, getImageUrl } from '../lib/api';
 import { TrendingUp, DollarSign, PieChart, Calendar, ChevronRight } from 'lucide-react';
 
@@ -27,7 +27,7 @@ export default function Earnings() {
     };
 
     if (loading) return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="min-h-screen bg-gray-50 dark:bg-[#121212] flex items-center justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
         </div>
     );
@@ -261,7 +261,7 @@ export default function Earnings() {
                                                     opacity: selectedRecipe?._id === recipe._id ? 1 : 0.7
                                                 }}
                                             >
-                                                <div className="absolute top-0 left-0 w-full h-1/3 bg-white/20"></div>
+                                                <div className="absolute top-0 left-0 w-full h-1/3 bg-white dark:bg-[#1a1a1a]/20"></div>
                                             </div>
                                         </div>
                                         <div className="text-center w-full px-1">

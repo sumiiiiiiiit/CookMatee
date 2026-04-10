@@ -1,11 +1,31 @@
-import { getImageUrl } from 'lib/api';
+import { useState } from 'react';
+import { getImageUrl, paymentAPI } from 'lib/api';
+import PremiumLockedState from './PremiumLockedState';
 
 const STAR = "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z";
 
 export default function RecipeCard({ recipe, navigate, user }) {
+    const [showModal, setShowModal] = useState(false);
     const isOwned = user && (recipe.user?._id || recipe.user) === user?._id;
     const isPurchased = user && (user.purchasedRecipes || []).some(pr => (pr?._id || pr) === recipe._id);
     const showUnlock = recipe.isPremium && !isOwned && !isPurchased;
+
+    const handlePurchase = async () => {
+        if (!user) return navigate('/login');
+        try {
+            const res = await paymentAPI.initiate(recipe._id);
+            if (res.data.success && res.data.formData) {
+                const { formData, gateway_url } = res.data;
+                const form = document.createElement('form');
+                form.method = 'POST'; form.action = gateway_url;
+                Object.entries(formData).forEach(([k, v]) => {
+                    const i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = v; form.appendChild(i);
+                });
+                document.body.appendChild(form); 
+                form.submit(); 
+            }
+        } catch (error) { alert(error.response?.data?.message || 'Payment failed'); }
+    };
 
     return (
         <div
@@ -54,19 +74,28 @@ export default function RecipeCard({ recipe, navigate, user }) {
                 </div>
             </div>
 
-            {/* Unlock Button Overlay (on hover for premium) */}
             {showUnlock && (
                 <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center p-6 z-20">
                     <button 
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/recipes/${recipe._id}`);
+                            setShowModal(true);
                         }}
                         className="bg-white text-[#007AFF] w-full py-4 rounded-3xl font-black text-sm shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 active:scale-95 flex items-center justify-center gap-2"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                         Unlock Recipe
                     </button>
+                </div>
+            )}
+            
+            {showModal && (
+                <div onClick={(e) => e.stopPropagation()}>
+                    <PremiumLockedState 
+                        recipe={recipe} 
+                        handlePurchase={handlePurchase} 
+                        onClose={() => setShowModal(false)} 
+                    />
                 </div>
             )}
         </div>

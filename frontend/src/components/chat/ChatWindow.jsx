@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
-import { messageAPI } from 'lib/api';
+import { messageAPI, BASE_URL } from '../../lib/api';
 
-const SOCKET_URL = 'http://localhost:5001';
+const SOCKET_URL = BASE_URL;
 
 export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, recipientName }) {
     const [messages, setMessages] = useState([]);

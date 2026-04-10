@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
-import Navbar from '../components/Navbar';
-import ChatPanel from '../components/ChatPanel';
-import ConversationItem from '../components/ConversationItem';
+import Navbar from '../components/common/Navbar';
+import ChatPanel from '../components/chat/ChatPanel';
+import ConversationItem from '../components/chat/ConversationItem';
 import { authAPI, messageAPI } from 'lib/api';
 
-const SOCKET_URL = 'http://localhost:5001';
+const SOCKET_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5001';
 
 
 export default function Messages() {
@@ -21,21 +21,21 @@ export default function Messages() {
     const [socket, setSocket] = useState(null);
     const [chatMessages, setChatMessages] = useState([]);
 
-    // ── Initialize Socket Globally for the Page ──────────────────────────
+    // ── Initialize Socket Globally for the Page
     useEffect(() => {
         const token = Cookies.get('token');
 
-        const newSocket = io(SOCKET_URL, { 
+        const newSocket = io(SOCKET_URL, {
             auth: { token: token || '' },
             withCredentials: true,
-            transports: ['websocket'] 
+            transports: ['websocket']
         });
         setSocket(newSocket);
 
         return () => newSocket.disconnect();
     }, []);
 
-    // ── Handle Global Socket Events ──────────────────────────────────────
+
     useEffect(() => {
         if (!socket) return;
 
@@ -44,7 +44,7 @@ export default function Messages() {
             handleMessageUpdate(msg, { partner: { _id: msg.senderId }, recipe: { _id: msg.recipeId } });
 
             // Also append to active chat panel if we are talking to them
-            const matchRecipe = (msg.recipeId || msg.recipeId?._id) === (activeChat.recipe?._id || activeChat.recipe); 
+            const matchRecipe = (msg.recipeId || msg.recipeId?._id) === (activeChat.recipe?._id || activeChat.recipe);
             if (activeChat && (msg.senderId === activeChat.partner._id) && matchRecipe) {
                 setChatMessages(prev => {
                     // Prevent duplicates
@@ -59,7 +59,7 @@ export default function Messages() {
             handleMessageUpdate(msg, { partner: { _id: msg.receiverId }, recipe: { _id: msg.recipeId } });
 
             // Replace temp message in active chat panel to prevent duplicate UI issues
-            const matchRecipe = (msg.recipeId || msg.recipeId?._id) === (activeChat.recipe?._id || activeChat.recipe); 
+            const matchRecipe = (msg.recipeId || msg.recipeId?._id) === (activeChat.recipe?._id || activeChat.recipe);
             if (activeChat && (msg.receiverId === activeChat.partner._id) && matchRecipe) {
                 setChatMessages(prev => {
                     // Remove optimistic temp message with exact same text, append verified one
@@ -78,7 +78,7 @@ export default function Messages() {
         };
     }, [socket, activeChat]);
 
-    // ── Load Initial Data ────────────────────────────────────────────────
+    // ── Load Initial Data 
     useEffect(() => {
         const init = async () => {
             try {
@@ -112,7 +112,6 @@ export default function Messages() {
         };
         init();
 
-        // Clear state so a refresh doesn't automatically re-open it if they closed it
         if (location.state?.openChatWith) {
             window.history.replaceState({}, document.title)
         }
@@ -124,8 +123,8 @@ export default function Messages() {
         if (!pid) return;
 
         setConversations(prev => {
-            const index = prev.findIndex(c => 
-                c.partner._id.toString() === pid.toString() && 
+            const index = prev.findIndex(c =>
+                c.partner._id.toString() === pid.toString() &&
                 (c.recipe?._id?.toString() || null) === (rid?.toString() || null)
             );
             if (index > -1) {
@@ -162,28 +161,28 @@ export default function Messages() {
     );
 
     if (loading) return (
-        <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff]">
+        <div className="min-h-screen flex items-center justify-center bg-[#f8f9ff] dark:bg-[#121212]">
             <div className="animate-spin rounded-full h-12 w-12 border-2 border-violet-500 border-t-transparent" />
         </div>
     );
 
     return (
-        <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
+        <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#121212] flex flex-col">
             <Navbar activePage="messages" user={user} />
 
             {/* ── WhatsApp-style two-panel layout ────────────────────────── */}
             <div className="flex-grow flex overflow-hidden" style={{ height: 'calc(100vh - 73px)' }}>
 
                 {/* ══ LEFT SIDEBAR ══════════════════════════════════════════ */}
-                <aside className={`flex flex-col bg-white border-r border-gray-200 transition-all duration-200 flex-shrink-0
+                <aside className={`flex flex-col bg-white dark:bg-[#1a1a1a] border-r border-gray-200 dark:border-gray-700 transition-all duration-200 flex-shrink-0
                     ${activeChat ? 'hidden md:flex md:w-[340px] lg:w-[380px]' : 'w-full md:w-[380px]'}`}
                 >
                     {/* Sidebar header */}
                     <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-shrink-0">
-                        <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">Chats</h1>
+                        <h1 className="text-xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">Chats</h1>
                         <button
                             onClick={() => navigate(-1)}
-                            className="w-8 h-8 rounded-xl hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors"
+                            className="w-8 h-8 rounded-xl hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 dark:text-gray-300 transition-colors"
                             title="Go back"
                         >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,7 +202,7 @@ export default function Messages() {
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
                                 placeholder="Search conversations…"
-                                className="flex-grow bg-transparent text-sm font-medium text-gray-700 placeholder-gray-400 focus:outline-none"
+                                className="flex-grow bg-transparent text-sm font-medium text-gray-700 dark:text-gray-300 placeholder-gray-400 focus:outline-none"
                             />
                         </div>
                     </div>
@@ -212,14 +211,14 @@ export default function Messages() {
                     <div className="flex-grow overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#e2e8f0 transparent' }}>
                         {filtered.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
-                                <div className="w-20 h-20 rounded-full bg-[#f0f2f5] border-2 border-dashed border-gray-200 flex items-center justify-center">
+                                <div className="w-20 h-20 rounded-full bg-[#f0f2f5] border-2 border-dashed border-gray-200 dark:border-gray-700 flex items-center justify-center">
                                     <svg className="w-9 h-9 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
                                             d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <p className="font-bold text-gray-600 text-sm">No messages yet</p>
+                                    <p className="font-bold text-gray-600 dark:text-gray-400 text-sm">No messages yet</p>
                                     <p className="text-xs text-gray-400 mt-1 leading-relaxed">
                                         Purchase a premium recipe and<br />tap <span className="text-violet-500 font-semibold">Chat with Chef</span> to start.
                                     </p>
@@ -264,7 +263,7 @@ export default function Messages() {
                     ) : (
                         /* WhatsApp-style empty right panel */
                         <div className="flex flex-col items-center justify-center gap-5 text-center select-none">
-                            <div className="w-32 h-32 rounded-full bg-white/40 backdrop-blur flex items-center justify-center shadow-inner">
+                            <div className="w-32 h-32 rounded-full bg-white dark:bg-[#1a1a1a]/40 backdrop-blur flex items-center justify-center shadow-inner">
                                 <svg className="w-16 h-16 text-gray-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8"
                                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

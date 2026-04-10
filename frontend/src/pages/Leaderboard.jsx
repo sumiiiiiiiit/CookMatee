@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { recipeAPI } from 'lib/api';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/common/Navbar';
 
 export default function Leaderboard() {
     const navigate = useNavigate();
@@ -23,12 +23,12 @@ export default function Leaderboard() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
+        <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#121212] flex flex-col">
             <Navbar activePage="recipes" />
 
             <main className="flex-grow flex flex-col items-center pt-12 pb-20 px-4">
                 <div className="text-center mb-8 max-w-2xl">
-                    <h1 className="text-[32px] font-extrabold text-[#1a1a1a] mb-2 tracking-tight">
+                    <h1 className="text-[32px] font-extrabold text-[#1a1a1a] dark:text-white mb-2 tracking-tight">
                         Most Liked Recipe Leaderboard
                     </h1>
                     <p className="text-gray-500 text-base">
@@ -36,8 +36,8 @@ export default function Leaderboard() {
                     </p>
                 </div>
 
-                <div className="bg-white rounded-[40px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100/50 w-full max-w-5xl overflow-hidden p-12 mb-12">
-                    <h2 className="text-[22px] font-bold text-[#1a1a1a] mb-10 px-2">Top Recipe Rankings</h2>
+                <div className="bg-white dark:bg-[#1a1a1a] rounded-[40px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 dark:border-gray-800/50 w-full max-w-5xl overflow-hidden p-12 mb-12">
+                    <h2 className="text-[22px] font-bold text-[#1a1a1a] dark:text-white mb-10 px-2">Top Recipe Rankings</h2>
 
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
@@ -53,10 +53,10 @@ export default function Leaderboard() {
                                 {loading ? (
                                     [...Array(5)].map((_, i) => (
                                         <tr key={i} className="animate-pulse">
-                                            <td className="px-6 py-8"><div className="h-4 w-4 bg-gray-50 rounded"></div></td>
-                                            <td className="px-6 py-8"><div className="h-4 w-32 bg-gray-50 rounded"></div></td>
-                                            <td className="px-6 py-8"><div className="h-4 w-8 bg-gray-50 mx-auto rounded"></div></td>
-                                            <td className="px-6 py-8"><div className="h-4 w-24 bg-gray-50 ml-auto rounded"></div></td>
+                                            <td className="px-6 py-8"><div className="h-4 w-4 bg-gray-50 dark:bg-[#1a1a1a] rounded"></div></td>
+                                            <td className="px-6 py-8"><div className="h-4 w-32 bg-gray-50 dark:bg-[#1a1a1a] rounded"></div></td>
+                                            <td className="px-6 py-8"><div className="h-4 w-8 bg-gray-50 dark:bg-[#1a1a1a] mx-auto rounded"></div></td>
+                                            <td className="px-6 py-8"><div className="h-4 w-24 bg-gray-50 dark:bg-[#1a1a1a] ml-auto rounded"></div></td>
                                         </tr>
                                     ))
                                 ) : leaderboard.length > 0 ? (
@@ -65,14 +65,14 @@ export default function Leaderboard() {
                                             <tr
                                                 key={entry._id}
                                                 onClick={() => navigate(`/recipes/${entry._id}`)}
-                                                className={`${index % 2 === 1 ? 'bg-gray-50/30' : 'bg-white'} hover:bg-gray-50 transition-colors group cursor-pointer`}
+                                                className={`${index % 2 === 1 ? 'bg-gray-50 dark:bg-[#1a1a1a]/30' : 'bg-white dark:bg-[#1a1a1a]'} hover:bg-gray-50 dark:bg-[#1a1a1a] transition-colors group cursor-pointer`}
                                             >
-                                                <td className="px-6 py-8 font-bold text-[#1a1a1a]">
+                                                <td className="px-6 py-8 font-bold text-[#1a1a1a] dark:text-white">
                                                     {index + 1}
                                                 </td>
                                                 <td className="px-6 py-8">
                                                     <div className="flex flex-col">
-                                                        <span className="font-bold text-[#1a1a1a] group-hover:text-primary transition-colors text-base">
+                                                        <span className="font-bold text-[#1a1a1a] dark:text-white group-hover:text-primary transition-colors text-base">
                                                             {entry.title}
                                                         </span>
                                                         <span className="text-xs text-gray-500">
@@ -89,7 +89,7 @@ export default function Leaderboard() {
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-8 text-right">
-                                                    <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-bold uppercase tracking-wider">
+                                                    <span className="px-3 py-1 bg-gray-100 text-gray-600 dark:text-gray-400 rounded-full text-xs font-bold uppercase tracking-wider">
                                                         {entry.category}
                                                     </span>
                                                 </td>
@@ -110,7 +110,7 @@ export default function Leaderboard() {
 
                 <button
                     onClick={() => navigate(-1)}
-                    className="px-12 py-3 bg-white border border-gray-200 text-gray-900 font-bold rounded-2xl hover:bg-gray-50 transition shadow-sm text-sm"
+                    className="px-12 py-3 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 font-bold rounded-2xl hover:bg-gray-50 dark:bg-[#1a1a1a] transition shadow-sm text-sm"
                 >
                     Back
                 </button>

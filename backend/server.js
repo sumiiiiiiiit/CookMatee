@@ -20,19 +20,19 @@ const server = http.createServer(app);
 // Socket.io setup with CORS
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,
   }
 });
 
 // Middleware
 app.use(cors({
-  origin: true,
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
 }));
 app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // ─── Socket.io Auth Middleware ───────────────────────────────────────────────
 io.use((socket, next) => {
@@ -143,6 +143,22 @@ app.use('/api/payment', require('./routes/payment'));
 app.use('/api/messages', require('./routes/messages'));
 app.use('/api/earnings', require('./routes/earnings'));
 
+// Serve Static Frontend Assets in Production
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, '../frontend/build');
+  app.use(express.static(buildPath));
+  
+  // Handlers for client-side routing
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+} else {
+  // Simple check for dev mode
+  app.get('/', (req, res) => {
+    res.json({ message: 'CookMate API is running!' });
+  });
+}
+
 // Global Error Handler
 app.use((err, req, res, next) => {
   console.error('SERVER ERROR:', err);
@@ -152,9 +168,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.json({ message: 'CookMate API is running!' });
-});
 
 app.get('/oauth2callback', require('./controllers/passwordController').handleOAuthCallback);
 

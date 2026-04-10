@@ -26,6 +26,9 @@ exports.likeRecipe = async (req, res) => {
 exports.commentOnRecipe = async (req, res) => {
     try {
         const { text } = req.body;
+        if (!text || !text.trim()) {
+            return res.status(400).json({ success: false, message: 'Comment text is required' });
+        }
         const recipe = await Recipe.findById(req.params.id);
         if (!recipe) return res.status(404).json({ success: false, message: 'Recipe not found' });
 
@@ -94,6 +97,31 @@ exports.purchaseRecipe = async (req, res) => {
 
         if (user.purchasedRecipes.some(id => id && id.toString() === recipeId)) {
             return res.status(200).json({ success: true, message: 'Already purchased' });
+        }
+
+        // Verify that a completed payment transaction exists for this user and recipe
+        const Transaction = require('../models/Transaction');
+        const recipe = await Recipe.findById(recipeId);
+
+        // Free recipes can be accessed without payment
+        if (recipe && !recipe.isPremium) {
+            user.purchasedRecipes.push(recipeId);
+            await user.save();
+            return res.status(200).json({ success: true, message: 'Free recipe unlocked' });
+        }
+
+        // For premium recipes, require a completed transaction
+        const completedTransaction = await Transaction.findOne({
+            user: req.user.id,
+            recipe: recipeId,
+            status: 'COMPLETE'
+        });
+
+        if (!completedTransaction) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'Payment required. Please complete payment through eSewa first.' 
+            });
         }
 
         user.purchasedRecipes.push(recipeId);

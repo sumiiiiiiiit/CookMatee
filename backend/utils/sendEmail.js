@@ -1,39 +1,25 @@
 const nodemailer = require('nodemailer');
-const oAuth2Client = require('./oauth');
 
 /**
  * Common transporter creator for both verification and general emails
  */
 const createTransporter = async () => {
   try {
-    // The oauth2Client already has credentials set at the global level in oauth.js
-    // We can get the current access token
-    const { token: accessToken } = await oAuth2Client.getAccessToken();
-
     const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      host: 'smtp-relay.brevo.com',
+      port: 587,
+      secure: false,
       auth: {
-        type: 'OAuth2',
-        user: process.env.GMAIL_USER,
-        clientId: process.env.GMAIL_CLIENT_ID,
-        clientSecret: process.env.GMAIL_CLIENT_SECRET,
-        refreshToken: process.env.GMAIL_REFRESH_TOKEN,
-        accessToken: accessToken,
+        user: process.env.BREVO_USER,
+        pass: process.env.BREVO_SMTP_KEY,
       },
-      debug: true, // Enable debug output
-      logger: true  // Log to console
+      debug: true,
+      logger: true
     });
-
 
     return transporter;
   } catch (error) {
     console.error('Error creating email transporter:', error.message);
-    if (error.message.includes('invalid_grant')) {
-      console.error('CRITICAL: Refresh token is invalid or expired.');
-      console.error('Please visit http://localhost:5001/api/auth/google-setup to re-authenticate.');
-    }
     throw error;
   }
 };
@@ -52,7 +38,7 @@ const sendVerificationEmail = async (user) => {
     const transporter = await createTransporter();
 
     const mailOptions = {
-      from: `CookMate <${process.env.GMAIL_USER}>`,
+      from: `CookMate <${process.env.BREVO_USER}>`,
       to: user.email,
       subject: 'Your CookMate Verification Code',
       text: `Welcome to CookMate!\r\n\r\nYour verification code is: ${otp}\r\nThis code expires in 10 minutes.\r\nIf you didn’t sign up, ignore this email.`,
@@ -72,7 +58,7 @@ const sendEmail = async ({ to, subject, body }) => {
     const transporter = await createTransporter();
 
     const mailOptions = {
-      from: `CookMate <${process.env.GMAIL_USER}>`,
+      from: `CookMate <${process.env.BREVO_USER}>`,
       to: to,
       subject: subject,
       text: body,

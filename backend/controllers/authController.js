@@ -7,7 +7,7 @@ const { sendVerificationEmail } = require('../utils/sendEmail');
 
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
 
     // Validation
     if (!name || !email || !password) {
@@ -57,7 +57,7 @@ exports.registerUser = async (req, res) => {
       email,
       password,
       isVerified: false,
-      role: role === 'admin' ? 'admin' : 'user',
+      role: 'user',
     });
 
     // Send verification email

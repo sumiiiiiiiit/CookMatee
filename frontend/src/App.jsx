@@ -1,29 +1,52 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import Login from './pages/auth/Login';
+import Signup from './pages/auth/Signup';
 import Dashboard from './pages/Dashboard';
-import VerifyEmail from './pages/VerifyEmail';
+import VerifyEmail from './pages/auth/VerifyEmail';
 import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
 import About from './pages/About';
 import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
 import SavedRecipes from './pages/SavedRecipes';
 import AdminDashboard from './pages/AdminDashboard';
 import Leaderboard from './pages/Leaderboard';
-import ProtectedRoute from './components/ProtectedRoute';
-import Navbar from './components/Navbar';
+import ProtectedRoute from './components/common/ProtectedRoute';
+import Navbar from './components/common/Navbar';
 import Chatbot from './pages/Chatbot';
 import Messages from './pages/Messages';
 import Earnings from './pages/Earnings';
 import PaymentSuccess from './pages/PaymentSuccess';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
+
+function ThemeManager() {
+    const location = useLocation();
+
+    // Listen to changes in location or when component mounts
+    useEffect(() => {
+        const isDark = localStorage.getItem('theme') === 'dark';
+        if (location.pathname.startsWith('/admin')) {
+            document.documentElement.classList.remove('dark');
+        } else {
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+    }, [location.pathname]);
+
+    return null;
+}
 
 function App() {
     return (
         <Router>
+            <ThemeManager />
             <Routes>
-                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/" element={<LandingPage />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/home" element={
@@ -73,7 +96,7 @@ function App() {
                         <PaymentSuccess />
                     </ProtectedRoute>
                 } />
-                <Route path="*" element={<Navigate to="/login" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Router>
     );

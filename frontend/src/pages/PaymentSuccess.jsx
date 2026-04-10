@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { paymentAPI } from 'lib/api';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/common/Navbar';
 
 export default function PaymentSuccess() {
     const [searchParams] = useSearchParams();
@@ -67,14 +67,14 @@ export default function PaymentSuccess() {
     }, [verify]);
 
     return (
-        <div className="min-h-screen bg-[#f8f9ff] flex flex-col">
+        <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#121212] flex flex-col">
             <Navbar activePage="recipes" />
             <main className="flex-grow flex items-center justify-center p-6">
-                <div className="bg-white p-10 rounded-[32px] shadow-xl max-w-md w-full text-center">
+                <div className="bg-white dark:bg-[#1a1a1a] p-10 rounded-[32px] shadow-xl max-w-md w-full text-center">
                     {status === 'verifying' && (
                         <div className="flex flex-col items-center">
                             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mb-6"></div>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Verifying Payment</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Verifying Payment</h2>
                             <p className="text-gray-500">Please wait while we confirm your transaction with Khalti...</p>
                         </div>
                     )}
@@ -86,7 +86,7 @@ export default function PaymentSuccess() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Payment Successful!</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Payment Successful!</h2>
                             <p className="text-gray-500 mb-8">Your recipe has been unlocked. Redirecting you now...</p>
                             <button
                                 onClick={() => navigate('/recipes')}
@@ -104,7 +104,7 @@ export default function PaymentSuccess() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </div>
-                            <h2 className="text-2xl font-bold text-gray-800 mb-2">Payment Failed</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Payment Failed</h2>
                             <p className="text-red-500 mb-8">{error}</p>
                             <button
                                 onClick={verify}
@@ -114,7 +114,7 @@ export default function PaymentSuccess() {
                             </button>
                             <button
                                 onClick={() => navigate('/recipes')}
-                                className="w-full py-2 text-gray-500 hover:text-gray-800 font-bold transition"
+                                className="w-full py-2 text-gray-500 hover:text-gray-800 dark:text-gray-200 font-bold transition"
                             >
                                 Back to Recipes
                             </button>

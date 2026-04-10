@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { authAPI } from 'lib/api';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/common/Navbar';
 import logo from '../assets/logo.png';
-import UploadRecipeModal from '../components/UploadRecipeModal';
+import UploadRecipeModal from '../components/recipe/UploadRecipeModal';
 
 export default function Home() {
     const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../lib/api';
 
 export default function ChatbotPopup({ isOpen, onClose, recipeTitle }) {
     const [messages, setMessages] = useState([
@@ -31,10 +31,8 @@ export default function ChatbotPopup({ isOpen, onClose, recipeTitle }) {
 
         try {
             const context = recipeTitle ? `I am looking at the recipe for ${recipeTitle}. ` : '';
-            const response = await axios.post(`${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/ai/chat`, {
+            const response = await api.post('/ai/chat', {
                 message: context + messageToSend
-            }, {
-                withCredentials: true
             });
 
             if (response.data.success) {

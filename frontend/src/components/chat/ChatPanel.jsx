@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { messageAPI } from 'lib/api';
+import { messageAPI } from '../../lib/api';
 
 export default function ChatPanel({ currentUser, activeChat, onClose, socket, messages, setMessages, onMessageUpdate }) {
     const partner = activeChat.partner;
@@ -121,18 +121,18 @@ export default function ChatPanel({ currentUser, activeChat, onClose, socket, me
     const formatTime = (ts) => new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     return (
-        <div className="flex flex-col h-full bg-[#f0f2f5]">
+        <div className="flex flex-col h-full bg-[#f0f2f5] dark:bg-[#121212]">
             {/* ── Chat Header ────────────────────────────────────────────── */}
-            <div className="bg-[#f0f2f5] border-b border-gray-200 px-5 py-3.5 flex items-center gap-4 flex-shrink-0">
+            <div className="bg-[#f0f2f5] dark:bg-[#1a1a1a] border-b border-gray-200 dark:border-gray-800 px-5 py-3.5 flex items-center gap-4 flex-shrink-0 transition-colors duration-300">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 text-white font-extrabold text-sm flex items-center justify-center flex-shrink-0">
                     {partner.name?.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-grow min-w-0 flex flex-col justify-center">
-                    <p className="font-bold text-gray-900 text-sm leading-tight">
+                    <p className="font-bold text-gray-900 dark:text-white text-sm leading-tight">
                         {prefix && <span className="text-violet-600 font-extrabold mr-1">{prefix}</span>}
                         {partner.name} 
                     </p>
-                    {recipe && <p className="text-sm font-medium text-slate-500 mt-0.5 tracking-tight leading-none">{recipe.title}</p>}
+                    {recipe && <p className="text-sm font-medium text-slate-500 dark:text-gray-400 mt-0.5 tracking-tight leading-none">{recipe.title}</p>}
                     {isTyping && (
                         <p className="text-xs text-emerald-500 font-medium mt-1 animate-pulse leading-none">typing…</p>
                     )}
@@ -140,7 +140,7 @@ export default function ChatPanel({ currentUser, activeChat, onClose, socket, me
                 <button
                     onClick={onClose}
                     title="Close chat"
-                    className="w-9 h-9 rounded-full hover:bg-gray-200 flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors flex-shrink-0"
+                    className="w-9 h-9 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 flex items-center justify-center text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors flex-shrink-0"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
@@ -164,7 +164,7 @@ export default function ChatPanel({ currentUser, activeChat, onClose, socket, me
                         <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
-                        <p className="text-sm text-gray-500 font-medium">No messages yet — say hello!</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">No messages yet — say hello!</p>
                     </div>
                 )}
 
@@ -176,13 +176,13 @@ export default function ChatPanel({ currentUser, activeChat, onClose, socket, me
                                 <div
                                     className={`px-4 py-2.5 text-sm leading-relaxed break-words shadow-sm rounded-2xl
                                         ${mine
-                                            ? 'bg-[#d9fdd3] text-gray-900 rounded-br-sm'
-                                            : 'bg-white text-gray-900 rounded-bl-sm border border-gray-100'
+                                            ? 'bg-[#d9fdd3] dark:bg-primary/20 text-gray-900 dark:text-white rounded-br-sm'
+                                            : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-bl-sm border border-gray-100 dark:border-gray-700'
                                         }`}
                                 >
                                     {msg.message}
                                 </div>
-                                <p className={`text-[10px] mt-1 font-medium text-gray-400 ${mine ? 'text-right' : 'text-left'}`}>
+                                <p className={`text-[10px] mt-1 font-medium text-gray-400 dark:text-gray-500 ${mine ? 'text-right' : 'text-left'}`}>
                                     {formatTime(msg.timestamp)}
                                 </p>
                             </div>
@@ -193,10 +193,10 @@ export default function ChatPanel({ currentUser, activeChat, onClose, socket, me
                 {/* Typing bubble */}
                 {isTyping && (
                     <div className="flex justify-start">
-                        <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center shadow-sm">
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0ms]" />
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:150ms]" />
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:300ms]" />
+                        <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center shadow-sm">
+                            <span className="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce [animation-delay:0ms]" />
+                            <span className="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce [animation-delay:150ms]" />
+                            <span className="w-1.5 h-1.5 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce [animation-delay:300ms]" />
                         </div>
                     </div>
                 )}
@@ -204,14 +204,14 @@ export default function ChatPanel({ currentUser, activeChat, onClose, socket, me
             </div>
 
             {/* ── Input Bar ──────────────────────────────────────────────── */}
-            <div className="bg-[#f0f2f5] border-t border-gray-200 px-4 py-3 flex-shrink-0">
+            <div className="bg-[#f0f2f5] dark:bg-[#1a1a1a] border-t border-gray-200 dark:border-gray-800 px-4 py-3 flex-shrink-0 transition-colors duration-300">
                 <form onSubmit={handleSend} className="flex items-center gap-3">
                     <input
                         type="text"
                         value={input}
                         onChange={handleInputChange}
                         placeholder="Type a message…"
-                        className="flex-grow px-5 py-3 bg-white rounded-full text-sm focus:outline-none border border-gray-200 focus:border-violet-300 transition-all font-medium placeholder-gray-400"
+                        className="flex-grow px-5 py-3 bg-white dark:bg-gray-800 rounded-full text-sm focus:outline-none border border-gray-200 dark:border-gray-700 focus:border-violet-300 dark:focus:border-primary transition-all font-medium placeholder-gray-400 text-gray-900 dark:text-white"
                         autoFocus
                     />
                     <button

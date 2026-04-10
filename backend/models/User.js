@@ -42,10 +42,15 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Recipe',
     }],
+    earnings: {
+      type: Number,
+      default: 0,
+    },
     allergies: [{
       type: String,
       trim: true
     }],
+
   },
   {
     timestamps: true,

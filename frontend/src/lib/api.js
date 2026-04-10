@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:5001/api';
-const BASE_URL = 'http://localhost:5001';
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5001';
+const API_URL = `${BASE_URL}/api`;
 
 export const getImageUrl = (path) => {
     if (!path) return null;
