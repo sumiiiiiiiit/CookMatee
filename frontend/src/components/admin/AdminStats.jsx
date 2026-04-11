@@ -1,5 +1,6 @@
 import React from 'react';
 import { BookOpen, Star, ChefHat, TrendingUp } from 'lucide-react';
+import UserGrowthChart from './UserGrowthChart';
 
 const AdminStats = ({ activeTab, users, recipes }) => {
     const totalRecipes   = recipes.length;
@@ -12,19 +13,25 @@ const AdminStats = ({ activeTab, users, recipes }) => {
 
     if (activeTab === 'recipes') {
         return (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <StatBox label="Total Recipes" value={totalRecipes} icon={<BookOpen size={20}/>} color="indigo" trend={8} />
-                <StatBox label="Normal Recipes" value={normalRecipes} icon={<ChefHat size={20}/>} color="emerald" trend={12} />
-                <StatBox label="Premium Recipes" value={premiumRecipes} icon={<Star size={20}/>} color="amber" trend={5} />
+            <div className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <StatBox label="Total Recipes" value={totalRecipes} icon={<BookOpen size={20}/>} color="indigo" trend={8} />
+                    <StatBox label="Normal Recipes" value={normalRecipes} icon={<ChefHat size={20}/>} color="emerald" trend={12} />
+                    <StatBox label="Premium Recipes" value={premiumRecipes} icon={<Star size={20}/>} color="amber" trend={5} />
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <StatBox label="Total Users" value={totalUsers} icon={<BookOpen size={20}/>} color="blue" trend={15} />
-            <StatBox label="Standard Users" value={standardUsers} icon={<ChefHat size={20}/>} color="violet" trend={10} />
-            <StatBox label="Administrators" value={adminUsers} icon={<Star size={20}/>} color="indigo" trend={0} />
+        <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <StatBox label="Total Users" value={totalUsers} icon={<BookOpen size={20}/>} color="blue" trend={15} />
+                <StatBox label="Standard Users" value={standardUsers} icon={<ChefHat size={20}/>} color="violet" trend={10} />
+                <StatBox label="Administrators" value={adminUsers} icon={<Star size={20}/>} color="indigo" trend={0} />
+            </div>
+            
+            <UserGrowthChart users={users} />
         </div>
     );
 };

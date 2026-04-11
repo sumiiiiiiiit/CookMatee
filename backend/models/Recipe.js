@@ -48,8 +48,8 @@ const recipeSchema = new mongoose.Schema(
             required: true,
         },
         cookingMethod: {
-            type: String,
-            default: 'frying', // Defaulting so old recipes don't crash
+            type: [String],
+            default: ['frying'], // Defaulting so old recipes don't crash
         },
         calories: {
             type: Number,

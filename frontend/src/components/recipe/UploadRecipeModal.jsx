@@ -15,7 +15,7 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
         steps: '',
         difficulty: 3,
         cookingTime: '',
-        cookingMethod: 'frying',
+        cookingMethod: [],
         isPremium: false,
         price: '',
     });
@@ -82,12 +82,28 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
             steps: recipe.steps,
             difficulty: recipe.difficulty,
             cookingTime: recipe.cookingTime,
-            cookingMethod: recipe.cookingMethod || 'frying',
+            cookingMethod: Array.isArray(recipe.cookingMethod) ? recipe.cookingMethod : (recipe.cookingMethod ? [recipe.cookingMethod] : []),
             isPremium: recipe.isPremium || false,
             price: recipe.price || '',
         });
         setImagePreview(recipe.image);
         setView('form');
+    };
+
+    const handleDelete = async () => {
+        if (!window.confirm('Are you sure you want to delete this recipe? This action cannot be undone.')) return;
+        
+        setLoading(true);
+        setError('');
+        try {
+            await recipeAPI.delete(formData._id);
+            onSuccess();
+            onClose();
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to delete recipe');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -100,7 +116,7 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
             data.append('title', formData.title);
             data.append('category', formData.category);
             data.append('cookingTime', formData.cookingTime);
-            data.append('cookingMethod', formData.cookingMethod);
+            data.append('cookingMethod', JSON.stringify(formData.cookingMethod || []));
             data.append('difficulty', formData.difficulty);
             data.append('steps', formData.steps);
             data.append('isPremium', formData.isPremium);
@@ -213,6 +229,7 @@ export default function UploadRecipeModal({ onClose, onSuccess, initialData = nu
                             setImageFile={setImageFile}
                             setImagePreview={setImagePreview}
                             onSubmit={handleSubmit}
+                            onDelete={handleDelete}
                             onBack={!initialData && !formData._id ? () => setView('select') : null}
                             loading={loading}
                             error={error}

@@ -81,6 +81,14 @@ exports.createRecipe = async (req, res) => {
             }).filter(i => i && i.name);
         }
 
+        if (typeof cookingMethod === 'string') {
+            try {
+                cookingMethod = JSON.parse(cookingMethod);
+            } catch (e) {
+                cookingMethod = [cookingMethod];
+            }
+        }
+
         const nutrition = calculateRecipeCalories(ingredients, cookingMethod || 'frying');
         const calories = nutrition.calories;
         const protein = nutrition.protein;
@@ -147,6 +155,14 @@ exports.updateRecipe = async (req, res) => {
             }).filter(i => i && i.name);
         }
 
+        if (typeof cookingMethod === 'string') {
+            try {
+                cookingMethod = JSON.parse(cookingMethod);
+            } catch (e) {
+                cookingMethod = cookingMethod ? [cookingMethod] : undefined;
+            }
+        }
+
         const nutrition = calculateRecipeCalories(ingredients || recipe.ingredients, cookingMethod || recipe.cookingMethod || 'frying');
         const calories = nutrition.calories;
         const protein = nutrition.protein;
@@ -179,6 +195,29 @@ exports.updateRecipe = async (req, res) => {
         res.status(200).json({ success: true, recipe });
     } catch (error) {
         console.error('Update recipe error:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+exports.deleteRecipe = async (req, res) => {
+    try {
+        const recipe = await Recipe.findById(req.params.id);
+
+        if (!recipe) {
+            return res.status(404).json({ success: false, message: 'Recipe not found' });
+        }
+
+        if (recipe.user.toString() !== req.user.id && req.user.role !== 'admin') {
+            return res.status(401).json({ success: false, message: 'User not authorized' });
+        }
+
+        if (recipe.isPremium) {
+            return res.status(403).json({ success: false, message: 'Premium recipes cannot be deleted' });
+        }
+
+        await Recipe.findByIdAndDelete(req.params.id);
+        res.status(200).json({ success: true, message: 'Recipe deleted successfully' });
+    } catch (error) {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };

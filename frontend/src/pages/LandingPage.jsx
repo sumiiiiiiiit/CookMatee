@@ -84,11 +84,11 @@ export default function LandingPage() {
                         <Bot className="h-5 w-5 text-primary" />
                         <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">Meet your AI Cooking Assistant</span>
                     </div>
-                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6 md:mb-8 leading-[1.1]">
                         Cook Smarter, Not <br className="hidden md:block"/> 
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Harder</span>
                     </h1>
-                    <p className="max-w-2xl mx-auto text-xl text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">
+                    <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-8 md:mb-10 leading-relaxed px-4">
                         Discover new recipes, track calories, identify allergens, and get step-by-step cooking guidance from our intelligent AI chatbot.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">

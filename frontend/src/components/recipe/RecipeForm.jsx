@@ -2,7 +2,7 @@ import { recipeAPI, getImageUrl } from 'lib/api';
 
 const UNITS = ['g', 'kg', 'ml', 'L', 'tsp', 'tbsp', 'cup'];
 
-export default function RecipeForm({ formData, setFormData, imagePreview, imageFile, setImageFile, setImagePreview, onSubmit, onBack, loading, error, initialData }) {
+export default function RecipeForm({ formData, setFormData, imagePreview, imageFile, setImageFile, setImagePreview, onSubmit, onBack, onDelete, loading, error, initialData }) {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -79,19 +79,28 @@ export default function RecipeForm({ formData, setFormData, imagePreview, imageF
                             'baking', 'roasting', 'grilling', 'pressure_cooking', 'simmering',
                             'boiling', 'steaming', 'raw', 'marinating',
                             'braising', 'stewing', 'slow_cooking'
-                        ].map((method) => (
-                            <label key={method} className={`flex items-center p-3 rounded-xl border cursor-pointer transition-all ${formData.cookingMethod === method ? 'border-primary bg-primary/5 dark:bg-primary/10' : 'border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 bg-white dark:bg-[#1a1a1a]'}`}>
-                                <input
-                                    type="checkbox"
-                                    checked={formData.cookingMethod === method}
-                                    onChange={() => setFormData({ ...formData, cookingMethod: method })}
-                                    className="w-5 h-5 text-primary border-gray-300 dark:border-gray-700 rounded focus:ring-primary dark:bg-gray-800"
-                                />
-                                <span className={`ml-3 text-sm font-semibold capitalize ${formData.cookingMethod === method ? 'text-primary' : 'text-gray-600 dark:text-gray-400'}`}>
-                                    {method.replace('_', ' ')}
-                                </span>
-                            </label>
-                        ))}
+                        ].map((method) => {
+                            const isSelected = Array.isArray(formData.cookingMethod) && formData.cookingMethod.includes(method);
+                            return (
+                                <label key={method} className={`flex items-center p-3 rounded-xl border cursor-pointer transition-all ${isSelected ? 'border-primary bg-primary/5 dark:bg-primary/10' : 'border-gray-100 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700 bg-white dark:bg-[#1a1a1a]'}`}>
+                                    <input
+                                        type="checkbox"
+                                        checked={isSelected}
+                                        onChange={() => {
+                                            const currentMethods = Array.isArray(formData.cookingMethod) ? formData.cookingMethod : [];
+                                            const newMethods = isSelected
+                                                ? currentMethods.filter(m => m !== method)
+                                                : [...currentMethods, method];
+                                            setFormData({ ...formData, cookingMethod: newMethods });
+                                        }}
+                                        className="w-5 h-5 text-primary border-gray-300 dark:border-gray-700 rounded focus:ring-primary dark:bg-gray-800"
+                                    />
+                                    <span className={`ml-3 text-sm font-semibold capitalize ${isSelected ? 'text-primary' : 'text-gray-600 dark:text-gray-400'}`}>
+                                        {method.replace('_', ' ')}
+                                    </span>
+                                </label>
+                            );
+                        })}
                     </div>
                 </div>
 
@@ -170,6 +179,16 @@ export default function RecipeForm({ formData, setFormData, imagePreview, imageF
                         <span>{formData._id ? 'Update Recipe' : 'Publish Recipe'}</span>
                     )}
                 </button>
+                {formData._id && !formData.isPremium && (
+                    <button 
+                        type="button" 
+                        onClick={onDelete}
+                        disabled={loading}
+                        className="flex-1 py-5 bg-red-500 hover:bg-red-600 text-white rounded-[24px] font-bold shadow-xl shadow-red-100 dark:shadow-none transition-all flex items-center justify-center disabled:opacity-50"
+                    >
+                        Delete
+                    </button>
+                )}
             </div>
         </form>
     );

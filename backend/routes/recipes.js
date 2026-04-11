@@ -9,6 +9,7 @@ const {
     getRecipeById,
     createRecipe,
     updateRecipe,
+    deleteRecipe,
 } = require('../controllers/recipeController');
 const {
     getLeaderboard,
@@ -41,5 +42,6 @@ router.post('/:id/like', protect, likeRecipe);
 router.post('/:id/comment', protect, commentOnRecipe);
 router.post('/:id/save', protect, saveRecipe);
 router.post('/:id/purchase', protect, purchaseRecipe);
+router.delete('/:id', protect, deleteRecipe);
 
 module.exports = router;

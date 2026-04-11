@@ -168,8 +168,18 @@ const calculateRecipeCalories = (ingredients, cookingMethod) => {
     });
     
     // Apply cooking method multiplier
-    const rawMethod = (cookingMethod || '').toLowerCase().replace(' ', '_');
-    const multiplier = cookingMethodMultipliers[rawMethod] || 1.0;
+    let multiplier = 1.0;
+    if (Array.isArray(cookingMethod)) {
+        // If multiple methods, use the highest multiplier (e.g. frying > baking)
+        const multipliers = cookingMethod.map(m => {
+            const raw = m.toLowerCase().replace(' ', '_');
+            return cookingMethodMultipliers[raw] || 1.0;
+        });
+        multiplier = Math.max(...multipliers, 1.0);
+    } else {
+        const rawMethod = (cookingMethod || '').toLowerCase().replace(' ', '_');
+        multiplier = cookingMethodMultipliers[rawMethod] || 1.0;
+    }
     
     return {
         calories: Math.round(total.calories * multiplier),

@@ -43,12 +43,12 @@ export default function Home() {
             <Navbar activePage="home" user={user} />
 
             {/* Hero Section */}
-            <main className="flex-grow flex flex-col items-center justify-center text-center px-4 -mt-20">
-                <h1 className="text-6xl md:text-7xl font-extrabold text-[#1a1a1a] dark:text-white mb-8 leading-tight transition-colors">
-                    Discover, Cook & <br /> Share Amazing <br /> Recipes
+            <main className="flex-grow flex flex-col items-center justify-center text-center px-6 -mt-10 md:-mt-20">
+                <h1 className="text-[2.5rem] sm:text-6xl md:text-7xl font-extrabold text-[#1a1a1a] dark:text-white mb-6 md:mb-8 leading-[1.1] transition-colors max-w-4xl">
+                    Discover, Cook & <br className="hidden sm:block" /> Share Amazing <br className="hidden sm:block" /> Recipes
                 </h1>
 
-                <div className="flex space-x-4">
+                <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-10 sm:px-0">
                     <button
                         onClick={() => navigate('/recipes')}
                         className="bg-primary hover:bg-secondary text-white px-10 py-4 rounded-xl text-lg font-semibold shadow-lg shadow-indigo-100 dark:shadow-none transition-all transform hover:scale-105"

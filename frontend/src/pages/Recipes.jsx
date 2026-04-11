@@ -11,6 +11,8 @@ const QUICK_FILTERS = [
     { id: 'veg', label: 'Vegetarian' },
     { id: 'highProtein', label: 'High Protein' },
     { id: 'lowCalorie', label: 'Low Calorie' },
+    { id: 'free', label: 'Free' },
+    { id: 'premium', label: 'Premium' },
 ];
 
 export default function Recipes() {
@@ -66,6 +68,10 @@ export default function Recipes() {
             matchesQuick = (r.protein || 0) >= 20;
         } else if (quickFilter === 'lowCalorie') {
             matchesQuick = (r.calories || 0) > 0 && (r.calories || 0) <= 400;
+        } else if (quickFilter === 'free') {
+            matchesQuick = !r.isPremium;
+        } else if (quickFilter === 'premium') {
+            matchesQuick = r.isPremium;
         }
         return matchesCategory && matchesSearch && matchesQuick;
     });
@@ -88,7 +94,7 @@ export default function Recipes() {
     };
 
     const Sidebar = () => (
-        <aside className="w-60 flex-shrink-0">
+        <aside className="w-full lg:w-60 flex-shrink-0">
             <div className="bg-[#f8f9fa] dark:bg-[#1e1e1e] p-7 rounded-[2.5rem] flex flex-col gap-5 border border-gray-100 dark:border-gray-800/50 sticky top-10">
                 <h3 className="font-black text-gray-900 dark:text-gray-100 text-xl px-2">Categories</h3>
                 <div className="flex flex-col gap-2">
@@ -117,7 +123,7 @@ export default function Recipes() {
                     <button onClick={() => navigate('/saved-recipes')} className="w-full py-4 px-6 bg-white dark:bg-[#252525] border border-gray-100 dark:border-gray-700 rounded-2xl text-gray-900 dark:text-gray-200 font-black text-xs hover:shadow-2xl transition-all active:scale-95 uppercase tracking-widest">
                         Saved
                     </button>
-                    <button onClick={() => navigate('/leaderboard')} className="w-full py-4 px-6 bg-white dark:bg-[#252525] border border-gray-100 dark:border-gray-700 rounded-2xl text-gray-900 dark:text-gray-200 font-black text-xs hover:shadow-2xl transition-all active:scale-95 uppercase tracking-widest">
+                    <button onClick={() => navigate('/recipes/leaderboard')} className="w-full py-4 px-6 bg-white dark:bg-[#252525] border border-gray-100 dark:border-gray-700 rounded-2xl text-gray-900 dark:text-gray-200 font-black text-xs hover:shadow-2xl transition-all active:scale-95 uppercase tracking-widest">
                         Leaderboard
                     </button>
                 </div>
@@ -225,14 +231,14 @@ export default function Recipes() {
     return (
         <div className="min-h-screen bg-[#FDFCFB] dark:bg-[#121212] flex flex-col transition-colors">
             <Navbar activePage="recipes" user={user} />
-            <div className="flex gap-12 px-10 py-12 max-w-[1700px] mx-auto w-full items-start">
+            <div className="flex flex-col lg:flex-row gap-12 px-6 sm:px-10 py-12 max-w-[1700px] mx-auto w-full items-start">
                 <Sidebar />
                 <div className="flex-grow flex flex-col gap-16 min-w-0">
                     {/* LATEST SECTION */}
                     <div className="flex flex-col gap-8">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Latest Recipes</h2>
-                            <div className="w-[450px]">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <h2 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white tracking-tight">Latest Recipes</h2>
+                            <div className="w-full md:w-[450px]">
                                 <RecipeSearchBar onSearchComplete={(val) => { if (val) setSearchTerm(val); }} />
                             </div>
                         </div>

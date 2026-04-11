@@ -38,10 +38,10 @@ const sendVerificationEmail = async (user) => {
     const transporter = await createTransporter();
 
     const mailOptions = {
-      from: `CookMate <${process.env.BREVO_USER}>`,
+      from: 'CookMate <adhikarisumit777@gmail.com>',
       to: user.email,
       subject: 'Your CookMate Verification Code',
-      text: `Welcome to CookMate!\r\n\r\nYour verification code is: ${otp}\r\nThis code expires in 10 minutes.\r\nIf you didn’t sign up, ignore this email.`,
+      text: `Welcome to CookMate!\r\n\r\nYour verification code is: ${otp}\r\nThis code expires in 10 minutes.`,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -58,7 +58,7 @@ const sendEmail = async ({ to, subject, body }) => {
     const transporter = await createTransporter();
 
     const mailOptions = {
-      from: `CookMate <${process.env.BREVO_USER}>`,
+      from: 'CookMate <adhikarisumit777@gmail.com>',
       to: to,
       subject: subject,
       text: body,

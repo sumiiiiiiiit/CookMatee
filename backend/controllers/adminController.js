@@ -76,6 +76,13 @@ exports.notifyUser = async (req, res) => {
 
 exports.deleteRecipeAdmin = async (req, res) => {
     try {
+        const recipe = await Recipe.findById(req.params.id);
+        if (!recipe) return res.status(404).json({ success: false, message: 'Recipe not found' });
+
+        if (recipe.isPremium) {
+            return res.status(403).json({ success: false, message: 'Premium recipes cannot be deleted even by Admin' });
+        }
+
         await Recipe.findByIdAndDelete(req.params.id);
         res.status(200).json({ success: true, message: 'Recipe deleted' });
     } catch (error) {

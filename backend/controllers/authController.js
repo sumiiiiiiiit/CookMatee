@@ -141,7 +141,7 @@ exports.loginUser = async (req, res) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Invalid email' });
     }
 
     if (!user.isVerified) {
@@ -154,7 +154,7 @@ exports.loginUser = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res.status(401).json({ success: false, message: 'Incorrect password' });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

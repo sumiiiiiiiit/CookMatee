@@ -58,6 +58,7 @@ export const recipeAPI = {
     save: (id) => api.post(`/recipes/${id}/save`),
     getSaved: () => api.get('/recipes/saved'),
     purchase: (id) => api.post(`/recipes/${id}/purchase`),
+    delete: (id) => api.delete(`/recipes/${id}`),
     getLeaderboard: () => api.get('/recipes/leaderboard'),
     getAllergens: (id) => api.get(`/recipes/${id}/allergens`),
     getRelated: (id) => api.get(`/recipes/${id}/related`),
