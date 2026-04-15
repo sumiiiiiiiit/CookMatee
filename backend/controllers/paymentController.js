@@ -30,7 +30,7 @@ exports.initiatePayment = async (req, res) => {
         }
 
         const rawAmount = recipe.price || 1;
-        const amount = parseFloat(rawAmount).toFixed(1); // Use one decimal as per recent v2 reports
+        const amount = rawAmount.toString();
         const transactionUuid = `${recipeId.slice(-6)}-${Date.now()}`;
         const productCode = process.env.ESEWA_MERCHANT_CODE || 'EPAYTEST';
         const secretKey = process.env.ESEWA_SECRET_KEY || '8gBm/:&EnhH.1/q';
@@ -52,12 +52,12 @@ exports.initiatePayment = async (req, res) => {
             payment_method: 'esewa',
             formData: {
                 amount: amount,
-                tax_amount: "0.0",
+                tax_amount: "0",
                 total_amount: amount,
                 transaction_uuid: transactionUuid,
                 product_code: productCode,
-                product_service_charge: "0.0",
-                product_delivery_charge: "0.0",
+                product_service_charge: "0",
+                product_delivery_charge: "0",
                 success_url: `${process.env.FRONTEND_URL}/payment-success?id=${recipeId}`,
                 failure_url: `${process.env.FRONTEND_URL}/recipes/${recipeId}`,
                 signed_field_names: "total_amount,transaction_uuid,product_code",
@@ -109,26 +109,31 @@ exports.verifyPayment = async (req, res) => {
              return res.status(400).json({ success: false, message: 'Security verification failed: Signature mismatch' });
         }
 
-        const recipeId = recipeIdFallback;
-        if (!recipeId) {
-             return res.status(400).json({ success: false, message: 'Recipe context lost.' });
+        // 1. Fetch exact transaction to completely bypass frontend URL contamination
+        const transaction = await Transaction.findOne({
+            transactionUuid: paymentData.transaction_uuid,
+            user: req.user.id
+        });
+
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Transaction not found or unauthorized' });
         }
 
-        // 1. Give access to user
+        const recipeId = transaction.recipe;
+
+        // 2. Give access to user
         await User.findByIdAndUpdate(
             req.user.id,
-            { $addToSet: { purchasedRecipes: new mongoose.Types.ObjectId(recipeId) } }
+            { $addToSet: { purchasedRecipes: recipeId } }
         );
 
         const recipe = await Recipe.findById(recipeId);
         if (recipe) {
             const amountPaid = parseFloat(paymentData.total_amount.replace(/,/g, ''));
 
-            // 2. Atomically update the Transaction record to COMPLETE.
-            // By requiring status: 'PENDING' in the query, we guarantee this specific transaction
-            // can only be resolved once, eliminating double-payout race conditions from rapid concurrent clicks.
+            // 3. Atomically update the Transaction record to COMPLETE.
             const updatedTransaction = await Transaction.findOneAndUpdate(
-                { transactionUuid: paymentData.transaction_uuid, status: 'PENDING', user: req.user.id },
+                { _id: transaction._id, status: 'PENDING' },
                 { 
                     status: 'COMPLETE',
                     esewaData: paymentData
@@ -136,14 +141,12 @@ exports.verifyPayment = async (req, res) => {
                 { new: true }
             );
 
-            // 3. Only reward the chef if the transaction was strictly successfully updated from PENDING right now.
+            // 4. Only reward the chef if the transaction was strictly successfully updated right now.
             if (updatedTransaction) {
-                // Update Chef (Recipe Owner) earnings
                 await User.findByIdAndUpdate(recipe.user, {
                     $inc: { earnings: amountPaid }
                 });
 
-                // Update Recipe's individual performance tracking
                 await Recipe.findByIdAndUpdate(recipeId, {
                     $inc: { totalEarnings: amountPaid }
                 });

@@ -83,6 +83,7 @@ export default function useRecipeDetail(id, navigate) {
     const handlePurchase = async () => {
         if (!user) return navigate('/login');
         try {
+            localStorage.setItem('esewa_recipeId', id);
             const res = await paymentAPI.initiate(id);
             if (res.data.success && res.data.formData) {
                 const { formData, gateway_url } = res.data;
@@ -97,14 +98,6 @@ export default function useRecipeDetail(id, navigate) {
         } catch (error) { alert(error.response?.data?.message || 'Payment failed'); }
     };
 
-    const handleWalletPurchase = async () => {
-        if (!user) return navigate('/login');
-        if (!window.confirm(`Spend Rs. ${recipe.price} from Wallet?`)) return;
-        try {
-            const res = await paymentAPI.wallet(id);
-            if (res.data.success) { alert('Recipe unlocked!'); window.location.reload(); }
-        } catch (error) { alert(error.response?.data?.message || 'Wallet payment failed'); }
-    };
 
     const handleExportPDF = async () => {
         try { await exportRecipeToPDF(recipe, allergens); } 
@@ -122,6 +115,6 @@ export default function useRecipeDetail(id, navigate) {
     return {
         recipe, user, loading, isLiked, isSaved, isChatOpen, setIsChatOpen,
         allergens, allergensLoading, relatedRecipes,
-        handleLike, handleSave, handlePurchase, handleWalletPurchase, handleExportPDF, handleChatWithChef, setRecipe
+        handleLike, handleSave, handlePurchase, handleExportPDF, handleChatWithChef, setRecipe
     };
 }

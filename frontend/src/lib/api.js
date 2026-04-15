@@ -77,7 +77,8 @@ export const adminAPI = {
 
 export const paymentAPI = {
     initiate: (recipeId) => api.post('/payment/initiate', { recipeId }),
-    verify: (pidx, recipeId) => api.post('/payment/verify', { pidx, recipeId }),
+    verify: (params) => api.post('/payment/verify', params),
+    wallet: (recipeId) => api.post('/payment/wallet', { recipeId }),
 };
 
 export const messageAPI = {

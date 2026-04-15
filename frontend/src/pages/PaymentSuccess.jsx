@@ -13,36 +13,35 @@ export default function PaymentSuccess() {
         setStatus('verifying');
         setError('');
 
-        let pidx = searchParams.get('pidx');
+        const urlSearch = window.location.search;
+        let data = searchParams.get('data');
+        let recipeIdFromUrl = searchParams.get('id');
 
-        if (!pidx || searchParams.get('idx')) {
-            const savedPidx = localStorage.getItem('khalti_pidx');
-            if (savedPidx) pidx = savedPidx;
+        if (!data) {
+            const dataMatch = urlSearch.match(/[?&]data=([^&]+)/);
+            if (dataMatch) data = dataMatch[1];
         }
 
-        const khaltiStatus = searchParams.get('status');
-        const recipeIdFromUrl = searchParams.get('id') || localStorage.getItem('khalti_recipeId');
+        if (!recipeIdFromUrl) {
+            const idMatch = urlSearch.match(/[?&]id=([^&?]+)/);
+            if (idMatch) recipeIdFromUrl = idMatch[1];
+        }
 
-        if (!pidx) {
+        recipeIdFromUrl = recipeIdFromUrl || localStorage.getItem('esewa_recipeId');
+
+        if (!data) {
             setStatus('error');
             setError('No payment identifier found. Please try unlocking again.');
             return;
         }
 
-        if (khaltiStatus && khaltiStatus !== 'Completed' && khaltiStatus !== 'Success') {
-            setStatus('error');
-            setError(`Payment status: ${khaltiStatus}`);
-            return;
-        }
-
         try {
-            const response = await paymentAPI.verify(pidx, recipeIdFromUrl);
+            const response = await paymentAPI.verify({ data, recipeId: recipeIdFromUrl });
             if (response.data.success) {
                 setStatus('success');
-                localStorage.removeItem('khalti_pidx');
-                localStorage.removeItem('khalti_recipeId');
+                localStorage.removeItem('esewa_recipeId');
 
-                const recipeId = response.data.data?.purchase_order_id || recipeIdFromUrl;
+                const recipeId = recipeIdFromUrl;
 
                 setTimeout(() => {
                     if (recipeId) {
@@ -75,7 +74,7 @@ export default function PaymentSuccess() {
                         <div className="flex flex-col items-center">
                             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mb-6"></div>
                             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-2">Verifying Payment</h2>
-                            <p className="text-gray-500">Please wait while we confirm your transaction with Khalti...</p>
+                            <p className="text-gray-500">Please wait while we confirm your transaction with eSewa...</p>
                         </div>
                     )}
 

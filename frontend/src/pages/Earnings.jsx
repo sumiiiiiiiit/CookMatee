@@ -247,14 +247,14 @@ export default function Earnings() {
                                 const colors = ['#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#ec4899', '#6366f1'];
                                 return (
                                     <div key={recipe._id} className="flex flex-col items-center space-y-4 group relative h-full justify-end" style={{width: `${100 / 8}%`}}>
-                                        <div className="relative w-full flex justify-center">
+                                        <div className="relative w-full flex-1 flex justify-center items-end pb-2">
                                             {/* Tooltip */}
-                                            <div className="absolute -top-12 bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 font-bold">
+                                            <div className="absolute -top-10 bg-gray-900 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 font-bold">
                                                 Rs. {recipe.revenue.toLocaleString()}
                                             </div>
                                             {/* Bar */}
                                             <div 
-                                                className="w-8 sm:w-12 rounded-t-xl transition-all duration-1000 group-hover:brightness-110 shadow-lg relative overflow-hidden" 
+                                                className="w-8 sm:w-12 rounded-t-xl transition-all duration-1000 group-hover:brightness-110 shadow-lg relative overflow-hidden z-10" 
                                                 style={{ 
                                                     height: `${height}%`, 
                                                     backgroundColor: colors[i % colors.length],
