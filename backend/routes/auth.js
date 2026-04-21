@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const { protect } = require('../middleware/auth');
 const {
   registerUser,
   loginUser,
@@ -9,20 +9,16 @@ const {
   updateProfile,
   verifyEmail,
 } = require('../controllers/authController');
-const { forgotPassword, resetPassword, handleOAuthCallback } = require('../controllers/passwordController');
-const { protect } = require('../middleware/auth');
+const { forgotPassword, resetPassword } = require('../controllers/passwordController');
 
-// Public routes
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.get('/logout', logoutUser);
+router.post('/verify-email', verifyEmail);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
-// Email verification route
-router.post('/verify-email', verifyEmail);
-router.get('/logout', logoutUser);
-// Protected routes (require authentication)
+
 router.get('/me', protect, getProfile);
 router.put('/profile', protect, updateProfile);
-
 
 module.exports = router;

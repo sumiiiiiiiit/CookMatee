@@ -56,13 +56,11 @@ export default function Navbar({ activePage, user: propUser }) {
 
     return (
         <nav className="bg-white dark:bg-[#1a1a1a] px-4 md:px-8 py-4 flex justify-between items-center shadow-sm relative z-[100] border-b border-gray-100 dark:border-gray-800 transition-colors duration-300">
-            {/* Logo */}
             <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/home')}>
                 <img src={logo} alt="CookMate Logo" className="h-10 md:h-12 w-auto" />
                 <span className="font-bold text-base md:text-lg tracking-tight text-gray-800 dark:text-white uppercase transition-colors">COOKMATE</span>
             </div>
 
-            {/* Desktop Nav links + actions */}
             <div className="hidden lg:flex items-center space-x-8 text-sm font-medium text-gray-700 dark:text-gray-300">
                 {navItems.map((item) => (
                     <button
@@ -79,7 +77,6 @@ export default function Navbar({ activePage, user: propUser }) {
             </div>
 
             <div className="flex items-center space-x-2 md:space-x-4">
-                {/* Theme Toggle */}
                 <button
                     onClick={() => setDarkMode(!darkMode)}
                     className="w-10 h-10 flex items-center justify-center rounded-2xl bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-primary transition-all shadow-sm"
@@ -92,7 +89,6 @@ export default function Navbar({ activePage, user: propUser }) {
                     )}
                 </button>
 
-                {/* Chat icon */}
                 {user && (
                     <button
                         onClick={() => navigate('/messages')}
@@ -103,7 +99,6 @@ export default function Navbar({ activePage, user: propUser }) {
                     </button>
                 )}
 
-                {/* Profile menu */}
                 {user ? (
                     <div className="relative" ref={menuRef}>
                         <button
@@ -151,7 +146,6 @@ export default function Navbar({ activePage, user: propUser }) {
                     <button onClick={() => navigate('/login')} className="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-xl font-bold transition shadow-md">Log in</button>
                 )}
 
-                {/* Mobile Menu Button */}
                 <button
                     onClick={() => setShowMobileMenu(!showMobileMenu)}
                     className="lg:hidden w-10 h-10 flex items-center justify-center rounded-2xl bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:text-primary transition-all"
@@ -166,7 +160,6 @@ export default function Navbar({ activePage, user: propUser }) {
                 </button>
             </div>
 
-            {/* Mobile Sidebar Overlay */}
             {showMobileMenu && (
                 <div className="lg:hidden fixed inset-0 z-[200] animate-in fade-in duration-300">
                     <div className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm" onClick={() => setShowMobileMenu(false)} />

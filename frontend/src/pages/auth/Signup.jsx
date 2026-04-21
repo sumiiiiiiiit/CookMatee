@@ -44,16 +44,11 @@ export default function Signup() {
         }
 
         try {
-            const response = await authAPI.register(formData);
-
-            // Redirect to OTP verification page
+            await authAPI.register(formData);
             navigate('/verify-email', { state: { email: formData.email } });
-
         } catch (err) {
             const message = err.response?.data?.message;
-
             if (message?.includes('already exists') && message?.includes('resent')) {
-                // Redirect to OTP page
                 navigate('/verify-email', { state: { email: formData.email } });
             } else {
                 setError(message || 'Registration failed. Please try again.');
@@ -141,8 +136,6 @@ export default function Signup() {
                             </button>
                         </div>
                     </div>
-
-
 
                     <div className="flex justify-center mt-8 w-full">
                         <button

@@ -42,7 +42,6 @@ export default function Home() {
         <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#121212] flex flex-col transition-colors duration-300">
             <Navbar activePage="home" user={user} />
 
-            {/* Hero Section */}
             <main className="flex-grow flex flex-col items-center justify-center text-center px-6 -mt-10 md:-mt-20">
                 <h1 className="text-[2.5rem] sm:text-6xl md:text-7xl font-extrabold text-[#1a1a1a] dark:text-white mb-6 md:mb-8 leading-[1.1] transition-colors max-w-4xl">
                     Discover, Cook & <br className="hidden sm:block" /> Share Amazing <br className="hidden sm:block" /> Recipes
@@ -64,7 +63,6 @@ export default function Home() {
                 </div>
             </main>
 
-            {/* Upload Modal */}
             {isUploadModalOpen && (
                 <UploadRecipeModal
                     onClose={() => setIsUploadModalOpen(false)}

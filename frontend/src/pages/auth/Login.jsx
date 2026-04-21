@@ -50,26 +50,24 @@ export default function Login() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-[#1a1a1a] flex items-center justify-center px-4">
             <div className="card max-w-md w-full p-8 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg">
-                {/* Logo */}
+
                 <div className="flex justify-center mb-6">
                     <img src={logo} alt="CookMate Logo" className="w-24 h-auto" />
                 </div>
 
-                {/* Title */}
+
                 <h2 className="text-center text-gray-700 dark:text-gray-300 mb-6 text-xl font-medium">
                     Enter your details to sign in to your account.
                 </h2>
 
-                {/* Error Message */}
+
                 {error && (
                     <div className="bg-red-50 text-red-500 p-3 rounded-lg mb-4 text-sm border border-red-100">
                         {error}
                     </div>
                 )}
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Email */}
                     <div>
                         <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Email</label>
                         <input
@@ -83,7 +81,7 @@ export default function Login() {
                         />
                     </div>
 
-                    {/* Password */}
+
                     <div>
                         <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Password</label>
                         <input
@@ -97,14 +95,14 @@ export default function Login() {
                         />
                     </div>
 
-                    {/* Forgot Password */}
+
                     <div className="text-left">
                         <Link to="/forgot-password" size="sm" className="text-primary text-sm hover:underline">
                             Forgot Password?
                         </Link>
                     </div>
 
-                    {/* Submit Button */}
+
                     <div className="flex justify-center mt-6 w-full">
                         <button
                             type="submit"
@@ -115,7 +113,7 @@ export default function Login() {
                         </button>
                     </div>
 
-                    {/* Sign Up Link */}
+
                     <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
                         Don't have an account?{' '}
                         <Link to="/signup" className="text-primary hover:underline font-semibold">

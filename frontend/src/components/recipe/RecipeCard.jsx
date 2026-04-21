@@ -42,7 +42,6 @@ export default function RecipeCard({ recipe, navigate, user }) {
                 </div>
             )}
             
-            {/* Badges */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80" />
             
             <div className="absolute top-5 left-5 right-5 flex justify-between items-start z-10">
@@ -59,7 +58,7 @@ export default function RecipeCard({ recipe, navigate, user }) {
                 <span className="bg-black/30 backdrop-blur-md text-white/90 text-[10px] font-black px-4 py-1.5 rounded-full border border-white/10 uppercase tracking-wider">{recipe.category}</span>
             </div>
 
-            {/* Content */}
+    
             <div className="absolute bottom-0 left-0 right-0 p-7 z-10 transition-transform duration-500 group-hover:-translate-y-2">
                 <h4 className="text-xl font-black text-white leading-tight mb-2 transition-colors">{recipe.title}</h4>
                 <div className="flex items-center justify-between">

@@ -31,18 +31,15 @@ export default function ForgotPassword() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center px-4">
             <div className="card max-w-md w-full p-10 bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-xl border border-white/20 backdrop-blur-sm">
-                {/* Logo */}
                 <div className="flex justify-center mb-8">
                     <img src={logo} alt="CookMate Logo" className="w-24 h-auto" />
                 </div>
 
-                {/* Title */}
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-2">Forgot Password?</h2>
                     <p className="text-gray-500 font-medium">Enter your email and we'll send you a link to reset your password.</p>
                 </div>
 
-                {/* Status Messages */}
                 {message && (
                     <div className="bg-emerald-50 text-emerald-600 p-4 rounded-2xl mb-6 text-sm border border-emerald-100 font-bold flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" /></svg>
@@ -56,7 +53,6 @@ export default function ForgotPassword() {
                     </div>
                 )}
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-gray-700 dark:text-gray-300 font-bold mb-2 uppercase tracking-wider text-xs ml-1">Email Address</label>
@@ -83,7 +79,6 @@ export default function ForgotPassword() {
                         ) : 'Send Reset Link'}
                     </button>
 
-                    {/* Back to Login */}
                     <div className="text-center pt-2">
                         <Link to="/login" className="text-primary hover:text-secondary font-bold text-sm transition-colors flex items-center justify-center gap-2 group">
                             <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>

@@ -2,23 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { protect, admin } = require('../middleware/auth');
 const {
-    getAllUsers,
-    deleteUser,
-    getAllRecipesAdmin,
-    updateRecipeStatus,
-    deleteRecipeAdmin,
-    notifyUser
+  getAllUsers,
+  deleteUser,
+  getAllRecipesAdmin,
+  updateRecipeStatus,
+  deleteRecipeAdmin,
+  notifyUser,
 } = require('../controllers/adminController');
 
-// Apply protection to all admin routes
-router.use(protect);
-router.use(admin);
+router.use(protect, admin);
 
-// User management
 router.get('/users', getAllUsers);
 router.delete('/users/:id', deleteUser);
 
-// Recipe management
 router.get('/recipes', getAllRecipesAdmin);
 router.put('/recipes/:id/status', updateRecipeStatus);
 router.post('/recipes/notify-user', notifyUser);

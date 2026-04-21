@@ -14,7 +14,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
     const messagesEndRef = useRef(null);
     const typingTimerRef = useRef(null);
 
-    // ── Auto-scroll ────────────────────────────────────────────────────────
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -23,7 +22,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
         scrollToBottom();
     }, [messages, isTyping]);
 
-    // ── Socket setup ───────────────────────────────────────────────────────
     useEffect(() => {
         if (!isOpen || !currentUser?._id) return;
 
@@ -81,7 +79,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
         };
     }, [isOpen, currentUser, recipientId]);
 
-    // ── Load history ───────────────────────────────────────────────────────
     useEffect(() => {
         if (!isOpen || !recipientId) return;
         setMessages([]);
@@ -95,7 +92,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
             .finally(() => setLoading(false));
     }, [isOpen, recipientId]);
 
-    // ── Send message ───────────────────────────────────────────────────────
     const handleSend = useCallback(
         (e) => {
             e.preventDefault();
@@ -129,7 +125,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
         [input, recipientId, currentUser]
     );
 
-    // ── Typing indicator ───────────────────────────────────────────────────
     const handleInputChange = (e) => {
         setInput(e.target.value);
         if (!socketRef.current?.connected) return;
@@ -140,7 +135,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
         }, 1500);
     };
 
-    // ── Helpers ────────────────────────────────────────────────────────────
     const formatTime = (ts) => {
         return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
@@ -155,7 +149,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
     return (
         <div className="fixed bottom-6 right-6 w-[380px] h-[600px] bg-white rounded-[32px] shadow-[0_20px_60px_-10px_rgba(0,0,0,0.2)] overflow-hidden flex flex-col z-[1001] border border-gray-100/60 backdrop-blur-sm transition-all duration-300 animate-slideUp">
 
-            {/* ── Header ────────────────────────────────────────────────── */}
             <div className="px-6 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white flex items-center justify-between flex-shrink-0">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center font-extrabold text-base">
@@ -183,7 +176,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
                 </button>
             </div>
 
-            {/* ── Messages ──────────────────────────────────────────────── */}
             <div
                 className="flex-grow overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-slate-50 to-white"
                 style={{ scrollbarWidth: 'thin', scrollbarColor: '#e2e8f0 transparent' }}
@@ -251,7 +243,6 @@ export default function ChatWindow({ isOpen, onClose, currentUser, recipientId, 
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* ── Input ─────────────────────────────────────────────────── */}
             <div className="p-4 bg-white border-t border-gray-100 flex-shrink-0">
                 <form onSubmit={handleSend} className="flex gap-2 items-center">
                     <input
